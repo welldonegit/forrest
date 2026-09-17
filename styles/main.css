@@ -13,6 +13,7 @@
 @import "./components/hero.css";
 @import "./components/statsrow.css";
 @import "./components/three-worlds.css";
+@import "./components/news.css";
 @import "./components/site-footer.css";
 
 /* Library components (used on styleguide.html; harmless on index.html) */

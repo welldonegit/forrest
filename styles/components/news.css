@@ -1,0 +1,19 @@
+/* News (Новини) — a plain-background insights grid (ref: alethia.earth "Insights that Move the
+   Market"), rebuilt in the system. Heading + "Усі новини" link, then three identical cards:
+   photo, item title (type/h4), excerpt (type/body, secondary), "Читати більше" text link.
+   No borders, no shadows (DESIGN.md §5.4); photos keep sharp corners (--radius-media). */
+.news{padding-block:var(--section-padding-y);background:var(--bg-page)}
+.news__inner{width:min(100% - 2 * var(--page-padding), var(--container));margin-inline:auto}
+
+.news__head{display:flex;align-items:baseline;justify-content:space-between;gap:var(--space-24);margin-bottom:var(--gap-title-content)}
+
+.news__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap-items)}
+.news__card{display:flex;flex-direction:column;gap:var(--space-16)}
+.news__image{width:100%;aspect-ratio:3 / 2;object-fit:cover;border-radius:var(--radius-media)}
+.news__card-title{font-family:var(--font-text);font-size:var(--type-h4-size);line-height:var(--type-h4-lh);font-weight:var(--type-h4-weight);color:var(--text-primary);text-wrap:pretty}
+.news__excerpt{font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--text-secondary);text-wrap:pretty}
+/* Sits on the card's bottom baseline so the links align across cards of unequal length. */
+.news__more{align-self:flex-start;margin-top:auto}
+
+@media (max-width:1023px){.news__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:767px){.news__grid{grid-template-columns:minmax(0,1fr)}}
