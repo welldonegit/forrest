@@ -1,5 +1,5 @@
 /* Site footer — photo variant (DESIGN.md §7). A dark photograph filled by one flat 78% spruce
-   veil that turns it into a ground. Four tiers in the 1280 container: a centred CTA (the one
+   veil that turns it into a ground. Four tiers in the --container column: a centred CTA (the one
    §5.2 exception, max 6 columns), the FORREST wordmark across the full width, the link grid,
    and the legal row under one hairline. Three colours: the veil, white-sand, sea-fog.
    The wordmark and the welldone credit mark were mask-image spans; they are now inline <svg>

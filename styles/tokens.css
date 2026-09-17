@@ -83,7 +83,7 @@
   --space-128:128px;
 
   /* Semantic layout spacing (DESIGN.md §5). */
-  --container:1280px;
+  --container:1360px;
   --grid-gutter:var(--space-24);        /* 24px column gutter */
   --page-padding:var(--space-32);       /* 32 desktop / 20 mobile */
   --section-padding-y:var(--space-128); /* 128 desktop / 64 mobile — identical rhythm every section */
