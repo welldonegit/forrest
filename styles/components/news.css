@@ -11,7 +11,8 @@
 .news__card{display:flex;flex-direction:column;gap:var(--space-16)}
 .news__image{width:100%;aspect-ratio:3 / 2;object-fit:cover;border-radius:var(--radius-media)}
 .news__card-title{font-family:var(--font-text);font-size:var(--type-h4-size);line-height:var(--type-h4-lh);font-weight:var(--type-h4-weight);color:var(--text-primary);text-wrap:pretty}
-.news__excerpt{font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--text-primary);text-wrap:pretty}
+/* Excerpt clamped to 3 lines with an ellipsis; full text stays in the DOM. */
+.news__excerpt{font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--text-primary);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}
 /* Sits on the card's bottom baseline so the links align across cards of unequal length. */
 .news__more{align-self:flex-start;margin-top:auto}
 
