@@ -34,6 +34,7 @@ body{font-family:var(--font-text);font-size:var(--type-body-size);line-height:va
 /* ---------- Role classes (DESIGN.md §4.1) ---------- */
 .type-display{font-family:var(--font-display);font-size:var(--type-display-size);line-height:var(--type-display-lh);letter-spacing:var(--type-display-ls);font-weight:var(--type-display-weight)}
 .type-h2{font-family:var(--font-display);font-size:var(--type-h2-size);line-height:var(--type-h2-lh);letter-spacing:var(--type-h2-ls);font-weight:var(--type-h2-weight)}
+.type-h2-lg{font-family:var(--font-display);font-size:var(--type-h2-lg-size);line-height:var(--type-h2-lg-lh);letter-spacing:var(--type-h2-ls);font-weight:var(--type-h2-weight)}
 .type-h3{font-family:var(--font-display);font-size:var(--type-h3-size);line-height:var(--type-h3-lh);font-weight:var(--type-h3-weight)}
 .type-h4{font-family:var(--font-text);font-size:var(--type-h4-size);line-height:var(--type-h4-lh);font-weight:var(--type-h4-weight)}
 .type-stat{font-family:var(--font-display);font-size:var(--type-stat-size);line-height:var(--type-stat-lh);letter-spacing:var(--type-stat-ls);font-weight:var(--type-stat-weight);font-variant-numeric:lining-nums tabular-nums}

@@ -146,6 +146,7 @@
 
   --type-display-size:64px;--type-display-lh:72px;--type-display-ls:-.02em;--type-display-weight:500;
   --type-h2-size:40px;--type-h2-lh:48px;--type-h2-ls:-.01em;--type-h2-weight:500;
+  --type-h2-lg-size:48px;--type-h2-lg-lh:54px; /* large section title (Три світи / FORREST у цифрах) */
   --type-h3-size:24px;--type-h3-lh:32px;--type-h3-ls:0;--type-h3-weight:400;
   --type-h4-size:18px;--type-h4-lh:26px;--type-h4-weight:700;
   --type-stat-size:56px;--type-stat-lh:60px;--type-stat-ls:-.02em;--type-stat-weight:400;
@@ -174,7 +175,7 @@
   --panel-padding:var(--space-24);
 
   --type-display-size:40px;--type-display-lh:46px;
-  --type-h2-size:28px;--type-h2-lh:34px;
+  --type-h2-size:28px;--type-h2-lh:34px;--type-h2-lg-size:40px;--type-h2-lg-lh:44px;
   --type-h3-size:20px;--type-h3-lh:28px;
   --type-h4-size:17px;--type-h4-lh:24px;
   --type-stat-size:36px;--type-stat-lh:40px;
@@ -194,7 +195,7 @@
   --panel-padding:var(--space-24);
 
   --type-display-size:40px;--type-display-lh:46px;
-  --type-h2-size:28px;--type-h2-lh:34px;
+  --type-h2-size:28px;--type-h2-lh:34px;--type-h2-lg-size:40px;--type-h2-lg-lh:44px;
   --type-h3-size:20px;--type-h3-lh:28px;
   --type-h4-size:17px;--type-h4-lh:24px;
   --type-stat-size:36px;--type-stat-lh:40px;
