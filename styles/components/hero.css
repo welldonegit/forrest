@@ -1,0 +1,22 @@
+/* Hero — full-bleed render under a flat spruce scrim at the §3.4 40% ceiling.
+   Headline top-left directly under the header; lead (5 columns) and the inverted primary CTA
+   share one baseline at the bottom. One WIND outline (1px sea-fog) sits mid-right.
+   Below 768px it stacks to one column, the CTA goes full-width and the shape is hidden. */
+.hero{position:relative;min-height:100vh;display:flex;background:var(--spruce);overflow:hidden}
+.hero__media{position:absolute;inset:0}
+.hero__media img{width:100%;height:100%;object-fit:cover;border-radius:var(--radius-media)}
+.hero__scrim{position:absolute;inset:0;background:var(--scrim-spruce-40)}
+.hero__shape{position:absolute;top:50%;right:calc(6% - var(--space-32));width:26%;height:44%;transform:translateY(-50%);fill:none;stroke:var(--sea-fog);stroke-width:var(--border-1);vector-effect:non-scaling-stroke;pointer-events:none}
+.hero__inner{position:relative;z-index:1;width:100%;max-width:var(--container);margin-inline:auto;padding:calc(var(--header-h) + var(--space-48)) var(--page-padding) var(--space-64);display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--grid-gutter);grid-template-rows:auto 1fr auto;align-content:space-between}
+.hero__title{grid-column:1 / span 11;grid-row:1;font-family:var(--font-display);font-size:var(--type-display-size);line-height:var(--type-display-lh);letter-spacing:var(--type-display-ls);font-weight:var(--type-display-weight);color:var(--white-sand)}
+.hero__lead{grid-column:1 / span 5;grid-row:3;align-self:end;font-family:var(--font-text);font-size:var(--type-lead-size);line-height:var(--type-lead-lh);color:var(--white-sand);text-wrap:pretty}
+.hero__cta{grid-column:9 / span 4;grid-row:3;align-self:end;justify-self:end}
+
+@media (max-width:767px){
+  .hero__inner{padding:calc(var(--header-h-scrolled) + var(--space-32)) var(--page-padding) var(--space-64);grid-template-columns:minmax(0,1fr);grid-template-rows:auto 1fr auto auto}
+  .hero__title,.hero__lead,.hero__cta{grid-column:1}
+  .hero__lead{grid-row:3;margin-bottom:var(--space-24)}
+  .hero__cta{grid-row:4;justify-self:stretch}
+  .hero__cta .btn{width:100%}
+  .hero__shape{display:none}
+}
