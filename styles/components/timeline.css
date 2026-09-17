@@ -1,0 +1,16 @@
+/* Timeline — project phases, a true sequence (DESIGN.md §7). Horizontal on desktop, vertical
+   on mobile, one 1px border-strong line; year in type/h3, world name in type/world small (32). */
+.timeline{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);border-top:var(--border-width) solid var(--border-strong)}
+.timeline__item{padding:var(--space-32) var(--space-24) 0 0;display:flex;flex-direction:column;gap:var(--space-12)}
+.timeline__year{font-family:var(--font-display);font-size:var(--type-h3-size);line-height:var(--type-h3-lh);font-weight:var(--type-h3-weight);color:var(--text-primary)}
+.timeline__world{font-family:var(--font-display);font-size:32px;line-height:1;font-weight:500;letter-spacing:-.02em;text-transform:uppercase;color:var(--accent-deep)}
+.timeline__text{font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--text-secondary);text-wrap:pretty}
+@media (max-width:767px){
+  .timeline{grid-auto-flow:row;grid-auto-columns:auto;border-top:none;border-left:var(--border-width) solid var(--border-strong)}
+  .timeline__item{padding:0 0 var(--space-32) var(--space-24)}
+  .timeline__item:last-child{padding-bottom:0}
+}
+.on-inverse .timeline{border-color:var(--border-on-inverse)}
+.on-inverse .timeline__year{color:var(--text-on-inverse)}
+.on-inverse .timeline__world{color:var(--accent)}
+.on-inverse .timeline__text{color:var(--text-on-inverse-2)}

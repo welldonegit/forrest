@@ -1,0 +1,98 @@
+/* Styleguide page chrome. Presentation-only, all classes prefixed .sg- so nothing here leaks
+   into the product system. Imports the full system entry, then lays out the specimens. */
+@import "./main.css";
+
+.sg{background:var(--bg-page);color:var(--text-primary)}
+.sg__head{padding:var(--space-64) var(--page-padding) var(--space-48)}
+.sg__head-inner{max-width:var(--container);margin-inline:auto}
+.sg__kicker{font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);color:var(--text-secondary);margin-bottom:var(--space-16)}
+.sg__lead{font-family:var(--font-text);font-size:var(--type-lead-size);line-height:var(--type-lead-lh);color:var(--text-secondary);margin-top:var(--space-16);max-width:var(--measure-text)}
+
+.sg-section{padding:var(--space-64) var(--page-padding);border-top:var(--border-width) solid var(--border-hairline)}
+.sg-section__inner{max-width:var(--container);margin-inline:auto}
+.sg-section__title{margin-bottom:var(--space-8)}
+.sg-section__note{font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);color:var(--text-secondary);margin-bottom:var(--space-48);max-width:var(--measure-text)}
+.sg-block{margin-top:var(--space-48)}
+.sg-block__label{font-family:var(--font-text);font-size:var(--type-label-size);line-height:var(--type-label-lh);font-weight:var(--type-label-weight);color:var(--text-secondary);margin-bottom:var(--space-24)}
+
+/* Colour swatches */
+.sg-swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:var(--space-24)}
+.sg-swatch{display:flex;flex-direction:column;gap:var(--space-8)}
+.sg-swatch__chip{height:var(--space-80);border-radius:var(--radius-4);border:var(--border-width) solid var(--border-hairline)}
+.sg-swatch__name{font-family:var(--font-text);font-size:var(--type-label-size);font-weight:var(--type-label-weight);color:var(--text-primary)}
+.sg-swatch__hex{font-family:var(--font-text);font-size:var(--type-small-size);color:var(--text-secondary)}
+.sg-swatch__chip--bark{background:var(--bark)}
+.sg-swatch__chip--spruce{background:var(--spruce)}
+.sg-swatch__chip--forest{background:var(--forest)}
+.sg-swatch__chip--stone{background:var(--stone)}
+.sg-swatch__chip--path-sand{background:var(--path-sand)}
+.sg-swatch__chip--white-sand{background:var(--white-sand)}
+.sg-swatch__chip--sea-wave{background:var(--sea-wave)}
+.sg-swatch__chip--sea-fog{background:var(--sea-fog)}
+.sg-swatch__chip--air{background:var(--air)}
+.sg-swatch__chip--night-bark{background:var(--night-bark)}
+
+/* Typography specimens */
+.sg-type{display:flex;flex-direction:column;gap:var(--space-32)}
+.sg-type__row{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:var(--space-24);align-items:baseline;padding-bottom:var(--space-24);border-bottom:var(--border-width) solid var(--border-hairline)}
+.sg-type__meta{font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);color:var(--text-secondary)}
+
+/* Spacing bars */
+.sg-space{display:flex;flex-direction:column;gap:var(--space-16)}
+.sg-space__row{display:grid;grid-template-columns:120px minmax(0,1fr);gap:var(--space-24);align-items:center}
+.sg-space__meta{font-family:var(--font-text);font-size:var(--type-small-size);color:var(--text-secondary)}
+.sg-space__bar{height:var(--space-24);background:var(--accent);border-radius:var(--radius-2)}
+.sg-space__bar--2{width:var(--space-2)}
+.sg-space__bar--4{width:var(--space-4)}
+.sg-space__bar--8{width:var(--space-8)}
+.sg-space__bar--12{width:var(--space-12)}
+.sg-space__bar--16{width:var(--space-16)}
+.sg-space__bar--24{width:var(--space-24)}
+.sg-space__bar--32{width:var(--space-32)}
+.sg-space__bar--40{width:var(--space-40)}
+.sg-space__bar--48{width:var(--space-48)}
+.sg-space__bar--64{width:var(--space-64)}
+.sg-space__bar--80{width:var(--space-80)}
+.sg-space__bar--96{width:var(--space-96)}
+.sg-space__bar--128{width:var(--space-128)}
+
+/* Radius / border chips */
+.sg-chips{display:flex;flex-wrap:wrap;gap:var(--space-24)}
+.sg-chip{display:flex;flex-direction:column;gap:var(--space-8);align-items:flex-start}
+.sg-chip__box{width:var(--space-96);height:var(--space-64);background:var(--bg-surface-mist);border:var(--border-width) solid var(--border-strong)}
+.sg-chip__box--r2{border-radius:var(--radius-2)}
+.sg-chip__box--r4{border-radius:var(--radius-4)}
+.sg-chip__box--r8{border-radius:var(--radius-8)}
+.sg-chip__box--r12{border-radius:var(--radius-12)}
+.sg-chip__box--r16{border-radius:var(--radius-16)}
+.sg-chip__box--r24{border-radius:var(--radius-24)}
+.sg-chip__box--panel{border-radius:var(--radius-panel)}
+.sg-chip__box--b1{border-width:var(--border-1)}
+.sg-chip__box--b2{border-width:var(--border-2)}
+.sg-chip__meta{font-family:var(--font-text);font-size:var(--type-small-size);color:var(--text-secondary)}
+
+/* Component specimen frames */
+.sg-specs{display:flex;flex-wrap:wrap;gap:var(--space-32);align-items:flex-start}
+.sg-spec{display:flex;flex-direction:column;gap:var(--space-16);padding:var(--space-32);border:var(--border-width) solid var(--border-hairline);border-radius:var(--radius-panel);background:var(--air)}
+.sg-spec--inverse{background:var(--bg-inverse)}
+.sg-spec--wide{width:100%}
+.sg-spec__label{font-family:var(--font-text);font-size:var(--type-label-size);font-weight:var(--type-label-weight);color:var(--text-secondary)}
+.sg-spec--inverse .sg-spec__label{color:var(--text-on-inverse-2)}
+.sg-spec__row{display:flex;flex-wrap:wrap;gap:var(--space-16);align-items:center}
+
+/* Icon grid */
+.sg-icons{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:var(--space-24)}
+.sg-icon{display:flex;flex-direction:column;gap:var(--space-8);align-items:center;color:var(--text-primary)}
+.sg-icon__label{font-family:var(--font-text);font-size:var(--type-small-size);color:var(--text-secondary)}
+
+/* Logo specimens */
+.sg-logo{display:block}
+.sg-logo--spruce{color:var(--spruce)}
+.sg-logo--white{color:var(--white-sand)}
+.sg-logo--primary .logo{width:220px}
+.sg-logo--wordmark .logo{width:100%}
+
+/* Brand shape fills */
+.sg-shapes{display:flex;flex-wrap:wrap;gap:var(--space-32)}
+.sg-shape{width:200px;height:200px;display:flex;align-items:center;justify-content:center;padding:var(--space-32)}
+.sg-shape .shape{width:100%;height:auto}

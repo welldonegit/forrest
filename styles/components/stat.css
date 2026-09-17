@@ -1,0 +1,16 @@
+/* Stat — number in Unbounded, label in Mulish underneath, never a caption above (DESIGN.md §7).
+   No boxes: StatGrid separates columns with hairlines. */
+.stat{display:flex;flex-direction:column;gap:var(--space-12)}
+.stat__value{font-family:var(--font-display);font-size:var(--type-stat-size);line-height:var(--type-stat-lh);letter-spacing:var(--type-stat-ls);font-weight:var(--type-stat-weight);color:var(--text-primary);font-variant-numeric:lining-nums tabular-nums}
+.stat__label{font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);color:var(--text-secondary)}
+.on-inverse .stat__value{color:var(--text-on-inverse)}
+.on-inverse .stat__label{color:var(--text-on-inverse-2)}
+
+.stat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.stat-grid>*{padding:0 var(--space-24);border-left:var(--border-width) solid var(--border-hairline)}
+.stat-grid>*:first-child{padding-left:0;border-left:none}
+.on-inverse .stat-grid>*{border-left-color:var(--border-on-inverse)}
+@media (max-width:767px){
+  .stat-grid{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:var(--space-32)}
+  .stat-grid>*:nth-child(odd){padding-left:0;border-left:none}
+}

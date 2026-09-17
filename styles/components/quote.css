@@ -1,0 +1,11 @@
+/* Quote / ambassador (DESIGN.md §7). Photo with sharp corners at 4:5, name in type/h4,
+   role in type/small, quote in type/body. No decorative quotation marks. */
+.quote{--_photo-w:260px;display:grid;grid-template-columns:minmax(0,var(--_photo-w)) minmax(0,1fr);gap:var(--space-48);align-items:start}
+.quote__photo{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:var(--radius-media);display:block}
+.quote__body{display:flex;flex-direction:column;gap:var(--space-24)}
+.quote__text{font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--text-primary);max-width:var(--measure-text);text-wrap:pretty}
+.quote__name{font-family:var(--font-text);font-size:var(--type-h4-size);line-height:var(--type-h4-lh);font-weight:var(--type-h4-weight);color:var(--text-primary)}
+.quote__role{font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);color:var(--text-secondary);margin-top:var(--space-4)}
+.on-inverse .quote__text,.on-inverse .quote__name{color:var(--text-on-inverse)}
+.on-inverse .quote__role{color:var(--text-on-inverse-2)}
+@media (max-width:767px){.quote{grid-template-columns:minmax(0,1fr);gap:var(--space-24)}}

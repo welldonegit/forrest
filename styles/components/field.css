@@ -1,0 +1,19 @@
+/* Input / Select (DESIGN.md §7). 48px high, air bg, 1px border-strong, radius 4, label above
+   in type/label. Placeholder is an example, not a restatement of the label. Static state
+   duplicates (.is-*) exist so the styleguide can show hover/focus/error/disabled in export. */
+.field{display:flex;flex-direction:column;gap:var(--space-8)}
+.field__label{font-family:var(--font-text);font-size:var(--type-label-size);line-height:var(--type-label-lh);font-weight:var(--type-label-weight);color:var(--text-secondary)}
+.control{height:var(--control-height);width:100%;background:var(--air);color:var(--text-primary);border:var(--border-width) solid var(--border-strong);border-radius:var(--radius-control);padding:0 var(--space-16);font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);transition:border-color var(--motion-hover) var(--ease-out)}
+.control::placeholder{color:var(--stone)}
+.control:hover:not(:disabled),.control.is-hover{border-color:var(--text-secondary)}
+.control:focus,.control.is-focus{outline:var(--border-width-focus) solid var(--accent-deep);outline-offset:calc(-1 * var(--border-width-focus));border-color:var(--accent-deep)}
+.control[aria-invalid="true"],.control.is-error{border-color:var(--bark)}
+.control:disabled,.control.is-disabled{background:var(--bg-surface-sand);color:var(--stone);border-color:var(--stone);cursor:not-allowed}
+.field__error{font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);color:var(--bark)}
+.field__hint{font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);color:var(--text-secondary)}
+
+.select{position:relative;display:block}
+.select select{appearance:none;padding-right:var(--space-96)}
+.select__chevron{position:absolute;right:var(--space-16);top:50%;transform:translateY(-50%);pointer-events:none;color:var(--text-secondary);display:flex}
+
+.textarea{--_min-h:120px;height:auto;min-height:var(--_min-h);padding:var(--space-12) var(--space-16);resize:vertical}
