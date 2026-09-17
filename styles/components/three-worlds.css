@@ -29,10 +29,7 @@
 .worlds__texts{grid-column:1 / span 6;display:grid}
 .worlds__text{grid-area:1 / 1;opacity:0;transition:opacity 300ms var(--ease-out);pointer-events:none}
 .worlds__text.is-active{opacity:1;pointer-events:auto}
-.worlds__name{font-family:var(--font-display);font-size:48px;line-height:1;font-weight:500;letter-spacing:-.02em;text-transform:uppercase}
-.worlds__text--wind .worlds__name{color:var(--sea-wave)}
-.worlds__text--rock .worlds__name{color:var(--stone)}
-.worlds__text--sun .worlds__name{color:var(--white-sand)}
+.worlds__name{font-family:var(--font-display);font-size:48px;line-height:1;font-weight:500;letter-spacing:-.02em;text-transform:uppercase;color:var(--white-sand)}
 .worlds__tagline{font-family:var(--font-display);font-size:var(--type-h3-size);line-height:var(--type-h3-lh);font-weight:var(--type-h3-weight);color:var(--white-sand);margin-top:var(--space-8)}
 .worlds__desc{font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--sea-fog);margin-top:var(--space-16);max-width:calc((var(--container) - 11 * var(--grid-gutter)) / 12 * 5 + 4 * var(--grid-gutter));text-wrap:pretty}
 

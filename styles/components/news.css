@@ -2,14 +2,20 @@
    Market"), rebuilt in the system. Heading + "Усі новини" link, then three identical cards:
    photo, item title (type/h4), excerpt (type/body, secondary), "Читати більше" text link.
    No borders, no shadows (DESIGN.md §5.4); photos keep sharp corners (--radius-media). */
-.news{padding-block:var(--section-padding-y);background:var(--bg-page)}
+.news{padding-top:var(--section-padding-y);background:var(--bg-page)}
 .news__inner{width:min(100% - 2 * var(--page-padding), var(--container));margin-inline:auto}
 
 .news__head{display:flex;align-items:baseline;justify-content:space-between;gap:var(--space-24);margin-bottom:var(--gap-title-content)}
 
 .news__grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap-items)}
 .news__card{display:flex;flex-direction:column;gap:var(--space-16)}
+.news__media{position:relative}
 .news__image{width:100%;aspect-ratio:3 / 2;object-fit:cover;border-radius:var(--radius-media)}
+/* Category badge, top-left over the photo (a legit overlay). */
+.news__badge{position:absolute;top:var(--space-16);left:var(--space-16);padding:var(--space-8) var(--space-12);font-family:var(--font-text);font-size:var(--type-label-size);line-height:var(--type-label-lh);font-weight:var(--type-label-weight);border-radius:var(--radius-control)}
+.news__badge--progress{background:var(--accent);color:var(--spruce)}
+.news__badge--useful{background:var(--white-sand);color:var(--spruce)}
+.news__date{font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);color:var(--text-secondary)}
 .news__card-title{font-family:var(--font-text);font-size:var(--type-h4-size);line-height:var(--type-h4-lh);font-weight:var(--type-h4-weight);color:var(--text-primary);text-wrap:pretty}
 /* Excerpt clamped to 3 lines with an ellipsis; full text stays in the DOM. */
 .news__excerpt{font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--text-primary);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;line-clamp:3;overflow:hidden}

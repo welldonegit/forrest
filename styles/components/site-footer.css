@@ -27,9 +27,9 @@
 a.site-footer__contact-line{text-decoration:none;transition:color var(--motion-hover) var(--ease-out)}
 a.site-footer__contact-line:hover{color:var(--sea-fog)}
 .site-footer__groups{grid-column:6 / span 7;display:grid;grid-template-columns:repeat(4,max-content);justify-content:space-between;gap:var(--grid-gutter)}
-/* Doubles as a <summary>: a plain title on desktop, an accordion trigger on mobile. */
-.site-footer__group-title{display:flex;align-items:center;justify-content:space-between;gap:var(--space-16);font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);font-weight:var(--type-small-weight);letter-spacing:0;color:var(--sea-fog);margin-bottom:var(--space-16);list-style:none;cursor:default}
-.site-footer__group-title::-webkit-details-marker{display:none}
+/* Plain group title on desktop; an accordion trigger on mobile (JS adds button semantics). */
+.site-footer__group-title{display:flex;align-items:center;justify-content:space-between;gap:var(--space-16);font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);font-weight:var(--type-small-weight);letter-spacing:0;color:var(--sea-fog);margin-bottom:var(--space-16)}
+.site-footer__group-title:focus-visible{outline:var(--border-width-focus) solid var(--accent);outline-offset:var(--focus-offset)}
 .site-footer__chevron{display:none;flex:none;color:var(--sea-fog)}
 .site-footer__list{display:flex;flex-direction:column;gap:var(--space-8)}
 .site-footer__link{font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--white-sand);text-decoration:none;transition:color var(--motion-hover) var(--ease-out)}
@@ -54,14 +54,16 @@ a.site-footer__contact-line:hover{color:var(--sea-fog)}
   .site-footer__wordmark{margin-top:var(--space-64)}
   .site-footer__grid{margin-top:var(--space-64);grid-template-columns:minmax(0,1fr);gap:var(--space-64)}
   .site-footer__contact{grid-column:1}
-  /* Accordion: each group collapses; desktop columns become tap-to-expand rows. */
+  /* Accordion (mobile only): grid-template-rows 0fr->1fr animates the panel height smoothly,
+     so the footer grows gradually and the background photo pans instead of jumping. */
   .site-footer__groups{grid-column:1;grid-template-columns:minmax(0,1fr);gap:0;border-top:var(--border-width) solid var(--border-on-inverse)}
   .site-footer__group{border-bottom:var(--border-width) solid var(--border-on-inverse)}
   .site-footer__group-title{margin-bottom:0;padding-block:var(--space-16);min-height:var(--tap-target);cursor:pointer}
   .site-footer__chevron{display:block;transition:transform var(--motion-accordion) var(--ease-out)}
-  .site-footer__group[open] .site-footer__chevron{transform:rotate(180deg)}
-  .site-footer__group:not([open]) .site-footer__list{display:none}
-  .site-footer__group[open] .site-footer__list{padding-bottom:var(--space-16)}
+  .site-footer__group[data-open] .site-footer__chevron{transform:rotate(180deg)}
+  .site-footer__panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows var(--motion-accordion) var(--ease-out)}
+  .site-footer__group[data-open] .site-footer__panel{grid-template-rows:1fr;padding-bottom:var(--space-16)}
+  .site-footer__panel > .site-footer__list{overflow:hidden;min-height:0}
   .site-footer__bottom{grid-template-columns:minmax(0,1fr);gap:var(--space-12);justify-items:start}
   .site-footer__legal{justify-self:start;flex-direction:column;gap:var(--space-12)}
   .site-footer__credit{justify-self:start}
