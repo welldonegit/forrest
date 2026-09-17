@@ -1,0 +1,6 @@
+/* Logo — the brand SVG inlined (previously a mask-image on a <span>, which html.to.design
+   would export as an empty rectangle). Inlined so it lands in Figma as real vector and still
+   recolours through currentColor to a palette token. Proportions are never altered (DESIGN.md §6).
+   Width is set by the placement; the viewBox keeps the aspect ratio. */
+.logo{display:block;height:auto;fill:currentColor}
+.logo path{fill:currentColor}

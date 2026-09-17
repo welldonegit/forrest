@@ -1,0 +1,47 @@
+/* Site header (DESIGN.md §7). Part of the hero composition, not a plate over it:
+   transparent over the hero render, three zones on the 12-column grid, 96px tall.
+   The original turns opaque spruce and drops to 72px on scroll via JS — that scroll state is
+   an interaction, not part of this static page. The exported top-of-page state is the
+   transparent overlay (white-sand ink over the hero photo). Below 1024px the row collapses to
+   a burger that opens a full-screen menu through :target — same behaviour, no JavaScript. */
+.site-header{position:absolute;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;height:var(--header-h);padding-inline:var(--space-32);color:var(--white-sand)}
+.site-header__grid{width:100%;max-width:var(--container);margin-inline:auto;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:var(--grid-gutter);align-items:center}
+
+.site-header__logo{justify-self:start;display:flex;color:currentColor}
+.site-header__logo .logo{width:160px}
+
+.site-header__nav{justify-self:center;min-width:0;display:flex;align-items:center;gap:var(--space-24);white-space:nowrap}
+.site-header__link,.site-header__phone{font-family:var(--font-text);font-size:var(--type-button-size);line-height:var(--type-button-lh);font-weight:var(--type-button-weight);color:inherit;text-decoration:none;display:flex;align-items:center;min-height:var(--tap-target);transition:color var(--motion-hover) var(--ease-out)}
+.site-header__link{padding-block:var(--space-12)}
+.site-header__phone{white-space:nowrap}
+.site-header__link:hover,.site-header__phone:hover{color:var(--accent)}
+.site-header__link:focus-visible,.site-header__phone:focus-visible{outline:var(--border-width-focus) solid var(--accent);outline-offset:var(--focus-offset)}
+
+.site-header__right{justify-self:end;display:flex;align-items:center;gap:var(--space-24)}
+.site-header__right .btn{white-space:nowrap}
+
+/* Burger + phone-icon: only used once the row collapses. */
+.site-header__actions{justify-self:end;display:none;align-items:center;gap:var(--space-8)}
+.site-header__iconlink{color:inherit;text-decoration:none;min-width:var(--tap-target);min-height:var(--tap-target);display:flex;align-items:center;justify-content:center}
+.site-header__iconlink:focus-visible{outline:var(--border-width-focus) solid currentColor;outline-offset:var(--focus-offset)}
+
+@media (max-width:1023px){
+  .site-header{height:var(--header-h-scrolled)}
+  .site-header__nav,.site-header__right{display:none}
+  .site-header__actions{display:flex}
+  .site-header__logo .logo{width:120px}
+}
+
+/* ---------- Full-screen mobile menu (opened via :target) ---------- */
+.site-menu{position:fixed;inset:0;z-index:60;background:var(--bg-inverse);color:var(--text-on-inverse);display:none;flex-direction:column;padding:var(--space-24) var(--page-padding) var(--space-64)}
+.site-menu:target{display:flex}
+.site-menu__top{display:flex;align-items:center;justify-content:space-between;min-height:var(--tap-target)}
+.site-menu__top .logo{width:120px;color:var(--white-sand)}
+.site-menu__close{color:inherit;text-decoration:none;min-width:var(--tap-target);min-height:var(--tap-target);display:flex;align-items:center;justify-content:center}
+.site-menu__worlds{display:flex;flex-direction:column;gap:var(--space-24);margin-top:var(--space-64);padding-bottom:var(--space-32);border-bottom:var(--border-width) solid var(--border-on-inverse)}
+.site-menu__world{font-family:var(--font-display);font-size:var(--type-h3-size);line-height:var(--type-h3-lh);font-weight:var(--type-h3-weight);letter-spacing:-.02em;text-transform:uppercase;color:var(--text-on-inverse);text-decoration:none;min-height:var(--tap-target);display:flex;align-items:center}
+.site-menu__list{display:flex;flex-direction:column;gap:var(--space-16);margin-top:var(--space-32)}
+.site-menu__item{font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--text-on-inverse-2);text-decoration:none;min-height:var(--tap-target);display:flex;align-items:center}
+.site-menu__world:hover,.site-menu__item:hover{color:var(--accent)}
+.site-menu__foot{margin-top:auto;display:flex;flex-direction:column;gap:var(--space-24)}
+.site-menu__phone{font-family:var(--font-text);font-weight:600;color:var(--text-on-inverse);text-decoration:none;min-height:var(--tap-target);display:flex;align-items:center}
