@@ -11,6 +11,10 @@
 .btn--text{padding:var(--space-12) 0;background:none;border:none;color:var(--accent-deep);text-decoration:underline;text-decoration-thickness:var(--border-1);text-underline-offset:var(--space-4)}
 .btn--text:hover:not(:disabled){color:var(--text-primary)}
 
+/* Small — a compact action (e.g. header "Забронювати огляд"), shorter than the main CTA.
+   Fixed 40px from the control-height scale; tighter horizontal padding. */
+.btn--sm{min-height:0;height:var(--control-h-40);padding-block:0;padding-inline:var(--space-16)}
+
 .btn:disabled,.btn[aria-disabled="true"]{cursor:not-allowed}
 .btn--primary:disabled,.btn--primary[aria-disabled="true"]{background:var(--bg-surface-sand);color:var(--stone)}
 .btn--secondary:disabled,.btn--secondary[aria-disabled="true"]{border-color:var(--stone);color:var(--stone)}
