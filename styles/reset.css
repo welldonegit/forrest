@@ -1,0 +1,24 @@
+/* FORREST Trinity Resort — reset.
+   Minimal, structural only. It normalises the box model and strips UA margins so the
+   DOM that html.to.design reads maps cleanly to Figma frames; it changes no visuals. */
+
+*,*::before,*::after{box-sizing:border-box}
+
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+
+body{margin:0;min-height:100vh}
+
+/* Strip UA margins — spacing comes from tokens / flex-gap, never from element defaults. */
+h1,h2,h3,h4,h5,h6,p,figure,blockquote,ul,ol,dl,dd{margin:0}
+ul,ol{padding:0;list-style:none}
+
+/* Media as blocks, never overflowing their box (Figma reads these as image layers). */
+img,svg,video,canvas{display:block;max-width:100%}
+img,video{height:auto}
+
+/* Forms inherit typography instead of UA fonts. */
+button,input,select,textarea{font:inherit;color:inherit}
+button{background:none;border:none;padding:0;cursor:pointer}
+
+/* A predictable focus baseline; components define their own visible rings. */
+:focus-visible{outline:var(--border-width-focus) solid var(--accent-deep);outline-offset:var(--focus-offset)}
