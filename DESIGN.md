@@ -221,6 +221,7 @@ Every component uses the tokens above; states are listed so they are never impro
 - Interaction feedback only: accordion open/close 200 ms, button hover 150 ms, menu 250 ms. `prefers-reduced-motion` disables all of it.
 - No hover zoom on photos, no cursor effects, no marquee logos.
 - **Single exception — rotating stat.** A `type/stat-hero` number may cycle through a fixed list of values every 4 s: outgoing value fades out and moves up 12 px, incoming fades in from 12 px below, 500 ms ease‑in‑out, no digit counting or ticking. Pauses on hover/focus and on tab blur; with `prefers-reduced-motion` the rotation stops and all values are shown as a static grid. Used in at most one section per page.
+- **Second exception — scroll‑scrubbed video ("Три світи").** One pinned section may map scroll progress to `video.currentTime` and switch a text overlay in three steps. This is scroll‑driven, not time‑driven: nothing moves unless the user scrolls. Text switches by crossfade 300 ms, no slide, no parallax. With `prefers-reduced-motion`, on devices that cannot seek smoothly, or when the video fails to load, the section degrades to a static poster frame with the three text blocks stacked. All three texts are always present in the DOM for assistive tech.
 
 ---
 
