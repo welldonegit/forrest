@@ -4,7 +4,7 @@
    an interaction, not part of this static page. The exported top-of-page state is the
    transparent overlay (white-sand ink over the hero photo). Below 1024px the row collapses to
    a burger that opens a full-screen menu through :target — same behaviour, no JavaScript. */
-.site-header{position:absolute;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;height:var(--header-h);padding-inline:var(--space-32);color:var(--white-sand)}
+.site-header{position:absolute;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;height:var(--header-h);padding-inline:var(--page-padding);color:var(--white-sand)}
 .site-header__grid{width:100%;max-width:var(--container);margin-inline:auto;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:var(--grid-gutter);align-items:center}
 
 .site-header__logo{justify-self:start;display:flex;color:currentColor}

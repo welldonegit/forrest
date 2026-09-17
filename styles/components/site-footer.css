@@ -8,7 +8,7 @@
 .site-footer__media{position:absolute;inset:0}
 .site-footer__media img{width:100%;height:100%;object-fit:cover;object-position:50% 60%;border-radius:var(--radius-media)}
 .site-footer__veil{position:absolute;inset:0;background:var(--veil-spruce-78)}
-.site-footer__inner{position:relative;z-index:1;max-width:var(--container);margin-inline:auto;padding:var(--space-128) var(--page-padding) var(--space-48)}
+.site-footer__inner{position:relative;z-index:1;width:min(100% - 2 * var(--page-padding), var(--container));margin-inline:auto;padding-block:var(--space-128) var(--space-48)}
 
 /* Tier 1 — centred CTA, six columns derived from the grid (not half the container). */
 .site-footer__cta{max-width:calc((var(--container) - 2 * var(--space-32) - 11 * var(--grid-gutter)) / 12 * 6 + 5 * var(--grid-gutter));margin-inline:auto;text-align:center}
@@ -45,7 +45,7 @@ a.site-footer__contact-line:hover{color:var(--sea-fog)}
 .site-footer__credit-mark path{fill:currentColor}
 
 @media (max-width:767px){
-  .site-footer__inner{padding:var(--space-64) var(--page-padding)}
+  .site-footer__inner{padding-block:var(--space-64)}
   .site-footer__cta{max-width:none}
   .site-footer__cta-btn .btn{width:100%}
   .site-footer__wordmark{margin-top:var(--space-64)}
