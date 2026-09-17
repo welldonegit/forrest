@@ -36,10 +36,12 @@ function init(section) {
     progs.forEach((p, i) => p.classList.toggle('is-active', i === idx));
   }
 
+  let watchdog = 0;
   function goStatic() {
     if (staticMode) return;
     staticMode = true;
     scrub = false;
+    clearTimeout(watchdog);
     if (raf) { cancelAnimationFrame(raf); raf = 0; }
     section.classList.add('worlds--static');
     // Reveal all three texts as a stacked, readable list.
@@ -69,14 +71,20 @@ function init(section) {
   const start = () => { if (!raf && !staticMode) raf = requestAnimationFrame(frame); };
   const stop = () => { if (raf) { cancelAnimationFrame(raf); raf = 0; } };
 
-  // Lazy: only bump to full preload + start the loop when the scene is within ~100vh.
+  // Lazy: only bump to full preload the first time the scene is within ~100vh. A watchdog
+  // guarantees the static fallback if no decodable frame arrives (blocked/failed video),
+  // since a <video> with <source media> children doesn't reliably fire its own error event.
+  let loadArmed = false;
+  function armLoad() {
+    if (loadArmed) return;
+    loadArmed = true;
+    if (video.preload !== 'auto') { video.preload = 'auto'; try { video.load(); } catch (e) {} }
+    watchdog = setTimeout(() => { if (!scrub && !staticMode) goStatic(); }, 8000);
+  }
   const io = new IntersectionObserver((entries) => {
     for (const e of entries) {
       visible = e.isIntersecting;
-      if (e.isIntersecting) {
-        if (video.preload !== 'auto') { video.preload = 'auto'; try { video.load(); } catch (e) {} }
-        start();
-      } else stop();
+      if (e.isIntersecting) { armLoad(); start(); } else stop();
     }
   }, { rootMargin: '100% 0px 100% 0px', threshold: 0 });
   io.observe(scene);
@@ -86,13 +94,17 @@ function init(section) {
     if (video.duration && isFinite(video.duration)) duration = video.duration;
   });
   // Probe once a frame is decodable: 5 near-start seeks measure decode cost, not network.
-  video.addEventListener('loadeddata', probe, { once: true });
+  video.addEventListener('loadeddata', () => { clearTimeout(watchdog); probe(); }, { once: true });
 
   // Static only if every one of the first 5 seeks is slow (a single cold-start spike is
-  // tolerated) — matches the spec's "first 5 seeks take > 80 ms each".
+  // tolerated) — matches the spec's "first 5 seeks take > 80 ms each". Seeks stay inside the
+  // already-buffered head so we measure decode cost (the iOS/weak-device signal), not network.
   function probe() {
     if (staticMode || scrub) return;
-    const pts = [0.4, 0.8, 1.2, 1.6, 2.0].map((s) => Math.min(s, duration - 0.1));
+    let end = 0;
+    try { if (video.buffered.length) end = video.buffered.end(video.buffered.length - 1); } catch (e) {}
+    end = Math.min(Math.max(end, 0.25), 3);
+    const pts = [0.2, 0.4, 0.6, 0.8, 1.0].map((f) => Math.min(f * end, duration - 0.05));
     let i = 0, slow = 0;
     function step() {
       if (i >= pts.length) { if (slow >= pts.length) goStatic(); else scrub = true; return; }
