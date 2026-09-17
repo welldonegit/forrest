@@ -2,7 +2,10 @@
    Market"), rebuilt in the system. Heading + "Усі новини" link, then three identical cards:
    photo, item title (type/h4), excerpt (type/body, secondary), "Читати більше" text link.
    No borders, no shadows (DESIGN.md §5.4); photos keep sharp corners (--radius-media). */
-.news{padding-top:var(--section-padding-y);background:var(--bg-page)}
+/* Top gap from the previous block + a bottom gap of light space before the dark full-bleed
+   footer (whose own top padding sits inside the dark photo, so it can't provide the breathing
+   room). Keeps the light gap between every block a consistent --section-padding-y. */
+.news{padding-block:var(--section-padding-y);background:var(--bg-page)}
 .news__inner{width:min(100% - 2 * var(--page-padding), var(--container));margin-inline:auto}
 
 .news__head{display:flex;align-items:baseline;justify-content:space-between;gap:var(--space-24);margin-bottom:var(--gap-title-content)}
