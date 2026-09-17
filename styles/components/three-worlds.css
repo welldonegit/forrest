@@ -1,0 +1,71 @@
+/* Three worlds — pinned scroll-scrubbed video scene (DESIGN.md §8 new exception for this
+   section only). An intro in normal flow, then a 400vh (300vh mobile) scene whose inner pin is
+   sticky at 100vh: a full-bleed <video> scrubbed by scroll progress, a local spruce gradient
+   bottom-left, three cross-fading world texts (cols 1-6) and a WIND/ROCK/SUN progress indicator
+   bottom-right. If prefers-reduced-motion, slow seeks, or a failed video → .worlds--static:
+   the wrapper collapses to normal height, the poster shows and the three texts stack (gap 48). */
+
+.worlds{background:var(--bg-page)}
+
+/* ---------- Intro (normal flow, 128/64 rhythm) ---------- */
+.worlds__intro{padding-block:var(--section-padding-y)}
+.worlds__intro-inner{width:min(100% - 2 * var(--page-padding), var(--container));margin-inline:auto}
+.worlds__heading{color:var(--text-primary)}          /* type/display, caps (2nd h1, sanctioned) */
+.worlds__lead{font-family:var(--font-text);font-size:var(--type-lead-size);line-height:var(--type-lead-lh);font-weight:var(--type-lead-weight);color:var(--text-secondary);margin-top:var(--space-24);max-width:calc((var(--container) - 11 * var(--grid-gutter)) / 12 * 7 + 6 * var(--grid-gutter));text-wrap:pretty}
+
+/* ---------- Scene + pin ---------- */
+.worlds__scene{position:relative;height:400vh}
+.worlds__pin{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--spruce)}
+.worlds__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.worlds__grad{position:absolute;inset:0;pointer-events:none;background:radial-gradient(65% 62% at 6% 100%,var(--scrim-spruce-local-60) 0%,var(--scrim-spruce-local-50) 30%,var(--scrim-spruce-30) 56%,var(--scrim-spruce-18) 78%,var(--scrim-spruce-0) 100%)}
+
+/* ---------- Overlay (bottom, 12-col grid) ---------- */
+.worlds__overlay{position:absolute;inset:0;z-index:1;display:flex;align-items:flex-end}
+.worlds__overlay-inner{width:min(100% - 2 * var(--page-padding), var(--container));margin-inline:auto;padding-bottom:var(--space-96);display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--grid-gutter);align-items:end}
+
+.worlds__texts{grid-column:1 / span 6;display:grid}
+.worlds__text{grid-area:1 / 1;opacity:0;transition:opacity 300ms var(--ease-out);pointer-events:none}
+.worlds__text.is-active{opacity:1;pointer-events:auto}
+.worlds__name{font-family:var(--font-display);font-size:48px;line-height:1;font-weight:500;letter-spacing:-.02em;text-transform:uppercase}
+.worlds__text--wind .worlds__name{color:var(--sea-wave)}
+.worlds__text--rock .worlds__name{color:var(--stone)}
+.worlds__text--sun .worlds__name{color:var(--white-sand)}
+.worlds__tagline{font-family:var(--font-display);font-size:var(--type-h3-size);line-height:var(--type-h3-lh);font-weight:var(--type-h3-weight);color:var(--white-sand);margin-top:var(--space-8)}
+.worlds__desc{font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--sea-fog);margin-top:var(--space-16);max-width:calc((var(--container) - 11 * var(--grid-gutter)) / 12 * 5 + 4 * var(--grid-gutter));text-wrap:pretty}
+
+/* Progress indicator — bottom-right, same baseline, no dots/lines/digits. */
+.worlds__progress{grid-column:10 / span 3;justify-self:end;align-self:end;display:flex;gap:var(--space-16)}
+.worlds__prog{font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);color:var(--sea-fog);text-transform:uppercase;letter-spacing:.02em;transition:color 300ms var(--ease-out)}
+.worlds__prog.is-active{color:var(--white-sand)}
+
+/* ---------- 768–1279: text cols 1-8, world 40, indicator under text left ---------- */
+@media (max-width:1279px){
+  .worlds__overlay-inner{display:flex;flex-direction:column;align-items:flex-start;gap:var(--space-24)}
+  .worlds__texts{grid-column:auto;width:100%;max-width:calc((var(--container) - 11 * var(--grid-gutter)) / 12 * 8 + 7 * var(--grid-gutter))}
+  .worlds__name{font-size:40px}
+  .worlds__progress{grid-column:auto;justify-self:start;align-self:auto}
+}
+
+/* ---------- <768: full width, world 32, small desc, no indicator, video 60% ---------- */
+@media (max-width:767px){
+  .worlds__scene{height:300vh}
+  .worlds__overlay-inner{padding-bottom:var(--space-48)}
+  .worlds__texts{max-width:none}
+  .worlds__name{font-size:32px}
+  .worlds__desc{font-size:var(--type-small-size);line-height:var(--type-small-lh);max-width:none}
+  .worlds__video{object-position:60% center}
+  .worlds__progress{display:none}
+}
+
+/* ---------- Static fallback (reduced-motion / slow seek / no video) ---------- */
+.worlds--static .worlds__scene{height:auto}
+.worlds--static .worlds__pin{position:static;height:auto;min-height:100vh}
+.worlds--static .worlds__overlay{position:relative;inset:auto}
+.worlds--static .worlds__overlay-inner{display:flex;flex-direction:column;align-items:flex-start;padding-block:var(--space-96)}
+.worlds--static .worlds__texts{grid-column:auto;display:flex;flex-direction:column;gap:var(--space-48);width:100%;max-width:none}
+.worlds--static .worlds__text{grid-area:auto;opacity:1;pointer-events:auto}
+.worlds--static .worlds__progress{display:none}
+@media (max-width:767px){
+  .worlds--static .worlds__pin{min-height:auto}
+  .worlds--static .worlds__overlay-inner{padding-block:var(--space-64)}
+}

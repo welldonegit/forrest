@@ -50,6 +50,7 @@
   /* Scrims — spruce is the only ink permitted over photography (DESIGN.md §3.4). */
   --scrim-spruce-40:rgba(24,40,32,.4);
   --scrim-spruce-24:rgba(24,40,32,.24);
+  --scrim-spruce-local-60:rgba(24,40,32,.6);  /* three-worlds scene overlay (§8 exception) */
   --scrim-spruce-local-55:rgba(24,40,32,.55);
   --scrim-spruce-local-52:rgba(24,40,32,.52);
   --scrim-spruce-local-50:rgba(24,40,32,.5);

@@ -85,6 +85,50 @@
       </div>
     </section>
 
+    <section class="worlds" id="tri-svity" aria-label="Три світи" data-worlds>
+      <div class="worlds__intro">
+        <div class="worlds__intro-inner">
+          <h1 class="worlds__heading type-display">ТРИ СВІТИ.<br>ОДИН КУРОРТ.</h1>
+          <p class="worlds__lead">WIND, ROCK і SUN — не просто три корпуси. Кожен із них створений під окрему аудиторію, окремий сценарій перебування та власні причини приїхати у FORREST. Разом вони формують єдину курортну екосистему.</p>
+        </div>
+      </div>
+      <div class="worlds__scene" data-worlds-scene>
+        <div class="worlds__pin">
+          <video class="worlds__video" data-worlds-video muted playsinline preload="metadata" poster="/video/fly-poster.jpg">
+            <source src="/video/fly-scrub-720.mp4" type="video/mp4" media="(max-width:1024px)">
+            <source src="/video/fly-scrub-1080.mp4" type="video/mp4">
+          </video>
+          <div class="worlds__grad" aria-hidden="true"></div>
+          <div class="worlds__overlay">
+            <div class="worlds__overlay-inner">
+              <div class="worlds__texts">
+                <article class="worlds__text worlds__text--wind is-active" data-world="wind">
+                  <h3 class="worlds__name">WIND</h3>
+                  <p class="worlds__tagline">Світ тиші та відновлення</p>
+                  <p class="worlds__desc">WIND створений для соло-гостей, пар, підприємців, топменеджерів та гостей, які цінують приватність, якісний сон, wellness і можливість швидко повернути ресурс.</p>
+                </article>
+                <article class="worlds__text worlds__text--rock" data-world="rock" aria-hidden="true">
+                  <h3 class="worlds__name">ROCK</h3>
+                  <p class="worlds__tagline">Простір рішень і масштабування</p>
+                  <p class="worlds__desc">ROCK створений для власників бізнесу, C-level керівників, інвесторів, корпоративних команд, бізнес-спільнот та організаторів подій.</p>
+                </article>
+                <article class="worlds__text worlds__text--sun" data-world="sun" aria-hidden="true">
+                  <h3 class="worlds__name">SUN</h3>
+                  <p class="worlds__tagline">Світ дому та родинного тяжіння</p>
+                  <p class="worlds__desc">SUN створений для сімей із дітьми, великих родин та multi-generation подорожей, де діти, батьки й старші члени сім’ї отримують власний сценарій відпочинку.</p>
+                </article>
+              </div>
+              <div class="worlds__progress" aria-hidden="true">
+                <span class="worlds__prog is-active" data-prog>WIND</span>
+                <span class="worlds__prog" data-prog>ROCK</span>
+                <span class="worlds__prog" data-prog>SUN</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <footer class="site-footer" id="kontakty">
@@ -117,7 +161,7 @@
           <div class="site-footer__group">
             <h3 class="site-footer__group-title">Проєкт</h3>
             <ul class="site-footer__list">
-              <li><a class="site-footer__link" href="#">Три світи</a></li>
+              <li><a class="site-footer__link" href="#tri-svity">Три світи</a></li>
               <li><a class="site-footer__link" href="#">Переваги</a></li>
               <li><a class="site-footer__link" href="#">Хід будівництва</a></li>
               <li><a class="site-footer__link" href="#">Новини</a></li>
@@ -191,5 +235,6 @@
   </div>
 
 </div>
+<script type="module" src="/scripts/three-worlds.js"></script>
 </body>
 </html>
