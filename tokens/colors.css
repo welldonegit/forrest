@@ -1,0 +1,61 @@
+/* §3 Color. Primitives are exact brand-book values and are never adjusted.
+   Nothing outside this file exists: no #111, no #F5F5F5, no greys beyond stone, no gradients. */
+:root{
+/* 3.1 Primitives */
+--bark:#322512;        /* Black 4C — ROCK deep tone, inverse sections */
+--spruce:#182820;      /* Смерековий шепіт — primary dark; SUN deep tone */
+--forest:#5B756A;      /* Лісова тиша — secondary text, SUN mid tone */
+--stone:#928C8E;       /* Мокрий камінь — ROCK mid tone, hairlines */
+--path-sand:#E1D4CB;   /* Пісок стежини — ROCK light surface */
+--white-sand:#F2EAD8;  /* Білий пісок — warm light surface */
+--sea-wave:#7ABFB2;    /* Морська хвиля — WIND accent */
+--sea-fog:#DDEBE6;     /* Морський туман — WIND light surface */
+--air:#FFFFFF;         /* Гірське повітря — page background */
+--night-bark:#0C0C0C;  /* Нічна кора — logo on pure white only */
+
+/* 3.2 Semantic — light theme is the only theme */
+--bg-page:var(--air);
+--bg-surface-warm:var(--white-sand);
+--bg-surface-mist:var(--sea-fog);
+--bg-surface-sand:var(--path-sand);
+--bg-inverse:var(--spruce);
+--bg-inverse-warm:var(--bark);
+
+--text-primary:var(--spruce);
+--text-secondary:var(--forest);
+--text-on-inverse:var(--white-sand);
+--text-on-inverse-2:var(--sea-fog);
+
+--accent:var(--sea-wave);
+--accent-deep:var(--forest);
+--accent-earth:var(--stone);
+
+--border-hairline:var(--path-sand);
+--border-strong:var(--stone);
+--border-on-inverse:rgba(242,234,216,.24);
+
+/* Scrim. Spruce is the only ink permitted over photography.
+   A scrim covering the whole frame is capped at 40% (§3.4) — use -40 or -24.
+   The -local- pair is the one carve-out: a radial gradient anchored in one corner, reaching at
+   most 45% of the width, or a linear one covering one half of the frame — in both cases the
+   opposite part of the image is left untouched. Because it never flattens the whole image it
+   is allowed to run to 50-55% at its core, and its falloff stops are the -47 / -38 / -30 /
+   -18 / -10 / -0 values below. Nothing else may exceed 40%. */
+--scrim-spruce-40:rgba(24,40,32,.4);
+--scrim-spruce-24:rgba(24,40,32,.24);
+--scrim-spruce-local-55:rgba(24,40,32,.55);
+--scrim-spruce-local-52:rgba(24,40,32,.52);
+--scrim-spruce-local-50:rgba(24,40,32,.5);
+--scrim-spruce-47:rgba(24,40,32,.47);
+--scrim-spruce-38:rgba(24,40,32,.38);
+--scrim-spruce-30:rgba(24,40,32,.3);
+--scrim-spruce-18:rgba(24,40,32,.18);
+--scrim-spruce-10:rgba(24,40,32,.1);
+--scrim-spruce-0:rgba(24,40,32,0);
+
+/* Veil. Not a scrim: a scrim keeps a photograph readable as an image, a veil turns it into a
+   ground. Only for a photograph used as a section background with no image detail to preserve
+   (the photo footer). Against pure white — the worst case any photograph can present — sea-fog
+   over this veil is 6.13:1 and white-sand 6.29:1. Uniform, never a gradient. */
+--veil-spruce-78:rgba(24,40,32,.78);
+}

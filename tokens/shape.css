@@ -1,0 +1,29 @@
+/* §5.3–5.4 Shape, elevation. §8 Motion. Nothing is rounder than 6px; there are no shadows. */
+:root{
+--radius-control:4px; /* buttons, inputs, tags */
+--radius-panel:6px;   /* cards, panels, accordion items */
+--radius-media:0px;   /* photos, video, brand-shape masks — always sharp */
+
+--border-width:1px;
+--border-width-focus:2px;
+--focus-offset:2px;
+--stroke-brand-shape:1.5px; /* outline stroke of a brand shape over a photo */
+--stroke-icon:1.5px;
+--icon-size:20px;
+--icon-size-lg:24px;
+
+/* Depth comes from background changes and hairlines only. */
+--shadow-none:none;
+
+--motion-hover:150ms; /* @kind other */
+--motion-accordion:200ms; /* @kind other */
+--motion-menu:250ms; /* @kind other */
+--motion-entrance:400ms; /* @kind other */
+--ease-out:cubic-bezier(.2,.6,.3,1); /* @kind other */
+}
+@media (prefers-reduced-motion:reduce){:root{
+--motion-hover:0ms; /* @kind other */
+--motion-accordion:0ms; /* @kind other */
+--motion-menu:0ms; /* @kind other */
+--motion-entrance:0ms; /* @kind other */
+}}

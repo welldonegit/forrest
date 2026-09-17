@@ -1,0 +1,10 @@
+/* §3.3 World palettes. Each world has a fixed trio; use it whenever that world is the subject. */
+:root{
+--wind-surface:var(--sea-fog);   --wind-accent:var(--sea-wave); --wind-dark:var(--spruce);
+--sun-surface:var(--white-sand); --sun-accent:var(--forest);    --sun-dark:var(--spruce);
+--rock-surface:var(--path-sand); --rock-accent:var(--stone);     --rock-dark:var(--bark);
+}
+/* Scope helpers: set data-world on any container to bind the trio to generic names. */
+[data-world="wind"]{--world-surface:var(--wind-surface);--world-accent:var(--wind-accent);--world-dark:var(--wind-dark)}
+[data-world="sun"]{--world-surface:var(--sun-surface);--world-accent:var(--sun-accent);--world-dark:var(--sun-dark)}
+[data-world="rock"]{--world-surface:var(--rock-surface);--world-accent:var(--rock-accent);--world-dark:var(--rock-dark)}

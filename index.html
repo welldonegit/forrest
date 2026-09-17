@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FORREST Trinity Resort — інвестиційні апартаменти у Буковелі</title>
+<meta name="description" content="FORREST Trinity Resort — інвестиційні апартаменти у першому в Карпатах курортному комплексі формату Trinity Resort.">
+<link rel="stylesheet" href="styles.css">
+<link rel="preload" href="assets/fonts/unbounded-500-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/mulish-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/photos/hero.jpg" as="image" fetchpriority="high">
+<style>html,body{margin:0;padding:0;background:var(--bg-page);color:var(--text-primary);font-family:var(--font-text)}#root{min-height:100vh}</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="_ds_bundle.js"></script>
+<script>
+(function(){
+var NS = window.FORRESTTrinityResortDesignSystem_0f01f7;
+var h = React.createElement;
+var SiteHeader = NS.SiteHeader, Hero = NS.Hero, StatsRow = NS.StatsRow, FooterPhoto = NS.FooterPhoto;
+
+function Page(){
+  var mq = "(max-width: 1159px)";
+  var state = React.useState(window.matchMedia(mq).matches);
+  var isMobile = state[0], setMobile = state[1];
+  React.useEffect(function(){
+    var m = window.matchMedia(mq);
+    var on = function(){ setMobile(m.matches); };
+    m.addEventListener("change", on);
+    return function(){ m.removeEventListener("change", on); };
+  }, []);
+  return h("div", { style: { background: "#FFFFFF" } },
+    h("div", { style: { position: "sticky", top: 0, zIndex: 50, height: 0 } },
+      h(SiteHeader, {
+        nav: "sections",
+        active: "Черги",
+        mobile: isMobile,
+        phone: "+380 67 000 00 00",
+        cta: "Забронювати огляд",
+        assetBase: "assets"
+      })
+    ),
+    h(Hero, {
+      title: ["ТРИ СВІТИ.", "ОДИН АКТИВ У БУКОВЕЛІ"],
+      lead: "FORREST Trinity Resort — інвестиційні апартаменти у першому в Карпатах курортному комплексі формату Trinity Resort.",
+      cta: "Отримати пропозицію",
+      shape: true,
+      mobile: isMobile,
+      photo: "assets/photos/hero.jpg",
+      alt: "Курортний комплекс FORREST Trinity Resort серед карпатського лісу"
+    }),
+    h(StatsRow, { cta: "", mobile: isMobile }),
+    h(FooterPhoto, {
+      mobile: isMobile,
+      copyright: "© 2026 FORREST Trinity Resort",
+      photo: "assets/photos/footer-bridge.jpg",
+      assetBase: "assets"
+    })
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(h(Page));
+})();
+</script>
+</body>
+</html>

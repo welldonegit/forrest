@@ -1,0 +1,68 @@
+/* §4 Typography. Two families, separated by role. One role, one token, everywhere.
+   Google Sans (brand book, third family) is excluded on web for licensing; Mulish covers its role. */
+:root{
+--font-display:"Unbounded","Arial Black",sans-serif;
+--font-text:"Mulish","Segoe UI",Arial,sans-serif;
+
+/* Desktop values. Mobile overrides below, switching at 768px (§11). */
+--type-display-size:64px;--type-display-lh:72px;--type-display-ls:-.02em;--type-display-weight:500;
+--type-h2-size:40px;--type-h2-lh:48px;--type-h2-ls:-.01em;--type-h2-weight:500;
+--type-h3-size:24px;--type-h3-lh:32px;--type-h3-ls:0;--type-h3-weight:400;
+--type-h4-size:18px;--type-h4-lh:26px;--type-h4-weight:700;
+--type-stat-size:56px;--type-stat-lh:60px;--type-stat-ls:-.02em;--type-stat-weight:400;
+--type-stat-lg-size:72px;--type-stat-lg-lh:76px;--type-stat-lg-ls:-.02em;--type-stat-lg-weight:400; /* one step above type/stat, for a stat row that carries a section on its own */
+--type-stat-hero-size:112px;--type-stat-hero-lh:104px;--type-stat-hero-ls:-.03em;--type-stat-hero-weight:500;
+--type-lead-size:20px;--type-lead-lh:30px;--type-lead-weight:400;
+--type-body-size:17px;--type-body-lh:27px;--type-body-weight:400;
+--type-small-size:14px;--type-small-lh:20px;--type-small-weight:400;
+--type-label-size:13px;--type-label-lh:18px;--type-label-weight:600;
+--type-button-size:16px;--type-button-lh:20px;--type-button-weight:600;
+--type-world-size:64px;--type-world-lh:1;--type-world-weight:500;
+--measure-text:640px; /* body columns never wider — 55–75 characters */
+}
+@media (max-width:767px){:root{
+--type-display-size:40px;--type-display-lh:46px;
+--type-h2-size:28px;--type-h2-lh:34px;
+--type-h3-size:20px;--type-h3-lh:28px;
+--type-h4-size:17px;--type-h4-lh:24px;
+--type-stat-size:36px;--type-stat-lh:40px;
+--type-stat-lg-size:48px;--type-stat-lg-lh:52px;
+--type-stat-hero-size:56px;--type-stat-hero-lh:56px;
+--type-lead-size:18px;--type-lead-lh:28px;
+--type-body-size:16px;--type-body-lh:26px;
+--type-world-size:40px;
+}}
+
+/* Force the mobile scale on a subtree regardless of window width — used by specimen cards
+   and by any component rendering its mobile layout inside a wide page. */
+[data-viewport="mobile"]{
+--type-display-size:40px;--type-display-lh:46px;
+--type-h2-size:28px;--type-h2-lh:34px;
+--type-h3-size:20px;--type-h3-lh:28px;
+--type-h4-size:17px;--type-h4-lh:24px;
+--type-stat-size:36px;--type-stat-lh:40px;
+--type-stat-lg-size:48px;--type-stat-lg-lh:52px;
+--type-stat-hero-size:56px;--type-stat-hero-lh:56px;
+--type-lead-size:18px;--type-lead-lh:28px;
+--type-body-size:16px;--type-body-lh:26px;
+--type-world-size:40px;
+}
+
+/* Role classes. Use these instead of ad-hoc sizes — an off-scale heading is a bug (§10). */
+.type-display{font-family:var(--font-display);font-size:var(--type-display-size);line-height:var(--type-display-lh);letter-spacing:var(--type-display-ls);font-weight:var(--type-display-weight);margin:0}
+.type-h2{font-family:var(--font-display);font-size:var(--type-h2-size);line-height:var(--type-h2-lh);letter-spacing:var(--type-h2-ls);font-weight:var(--type-h2-weight);margin:0}
+.type-h3{font-family:var(--font-display);font-size:var(--type-h3-size);line-height:var(--type-h3-lh);font-weight:var(--type-h3-weight);margin:0}
+.type-h4{font-family:var(--font-text);font-size:var(--type-h4-size);line-height:var(--type-h4-lh);font-weight:var(--type-h4-weight);margin:0}
+.type-stat{font-family:var(--font-display);font-size:var(--type-stat-size);line-height:var(--type-stat-lh);letter-spacing:var(--type-stat-ls);font-weight:var(--type-stat-weight);margin:0;font-variant-numeric:lining-nums tabular-nums}
+.type-stat-lg{font-family:var(--font-display);font-size:var(--type-stat-lg-size);line-height:var(--type-stat-lg-lh);letter-spacing:var(--type-stat-lg-ls);font-weight:var(--type-stat-lg-weight);margin:0;font-variant-numeric:lining-nums tabular-nums}
+.type-stat-hero{font-family:var(--font-display);font-size:var(--type-stat-hero-size);line-height:var(--type-stat-hero-lh);letter-spacing:var(--type-stat-hero-ls);font-weight:var(--type-stat-hero-weight);margin:0;font-variant-numeric:lining-nums tabular-nums}
+.type-lead{font-family:var(--font-text);font-size:var(--type-lead-size);line-height:var(--type-lead-lh);font-weight:var(--type-lead-weight);margin:0;max-width:var(--measure-text);text-wrap:pretty}
+.type-body{font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);font-weight:var(--type-body-weight);margin:0;max-width:var(--measure-text);text-wrap:pretty}
+.type-small{font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);font-weight:var(--type-small-weight);margin:0}
+.type-label{font-family:var(--font-text);font-size:var(--type-label-size);line-height:var(--type-label-lh);font-weight:var(--type-label-weight);letter-spacing:0;margin:0}
+.type-button{font-family:var(--font-text);font-size:var(--type-button-size);line-height:var(--type-button-lh);font-weight:var(--type-button-weight)}
+.type-world{font-family:var(--font-display);font-size:var(--type-world-size);line-height:var(--type-world-lh);font-weight:var(--type-world-weight);letter-spacing:-.02em;text-transform:uppercase;margin:0}
+
+/* Links. Default to the text-button treatment (§7). */
+a{color:var(--accent-deep);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+a:hover{color:var(--text-primary)}
