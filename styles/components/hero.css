@@ -1,23 +1,39 @@
-/* Hero — full-bleed render under a flat spruce scrim at the §3.4 40% ceiling.
-   Headline top-left directly under the header; lead (5 columns) and the inverted primary CTA
-   share one baseline at the bottom. One WIND outline (1px sea-fog) sits mid-right.
-   Below 768px it stacks to one column, the CTA goes full-width and the shape is hidden. */
+/* Hero — sky render, nothing layered over it (no scrim/gradient/blur/plate). Legibility is
+   carried by ink colour and position alone: the spruce headline sits top-left in the bright sky,
+   the white-sand lead sits in the dark forest shadow bottom-left, the filled primary CTA bottom-
+   right. Headline starts 128px from the top and never exceeds 8 columns; on 1440×900 the two
+   lines end above 28% of the viewport (the size shrinks toward the mobile scale if the height is
+   too short, rather than wrapping to a third line). Below 768px it stacks to one column. */
 .hero{position:relative;min-height:100vh;display:flex;background:var(--spruce);overflow:hidden}
 .hero__media{position:absolute;inset:0}
 .hero__media picture{display:block;width:100%;height:100%}
 .hero__media img{width:100%;height:100%;object-fit:cover;border-radius:var(--radius-media)}
-.hero__scrim{position:absolute;inset:0;background:var(--scrim-spruce-40)}
-.hero__shape{position:absolute;top:50%;right:calc(6% - var(--space-32));width:26%;height:44%;transform:translateY(-50%);fill:none;stroke:var(--sea-fog);stroke-width:var(--border-1);vector-effect:non-scaling-stroke;pointer-events:none}
-.hero__inner{position:relative;z-index:1;width:min(100% - 2 * var(--page-padding), var(--container));margin-inline:auto;padding-block:calc(var(--header-h) + var(--space-48)) var(--space-64);display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--grid-gutter);grid-template-rows:auto 1fr auto;align-content:space-between}
-.hero__title{grid-column:1 / span 11;grid-row:1;font-family:var(--font-display);font-size:var(--type-display-size);line-height:var(--type-display-lh);letter-spacing:var(--type-display-ls);font-weight:var(--type-display-weight);color:var(--white-sand)}
-.hero__lead{grid-column:1 / span 5;grid-row:3;align-self:end;font-family:var(--font-text);font-size:var(--type-lead-size);line-height:var(--type-lead-lh);color:var(--white-sand);text-wrap:pretty}
-.hero__cta{grid-column:9 / span 4;grid-row:3;align-self:end;justify-self:end}
+/* Brand-dark (bark, not spruce/green) 5% wash over the render. */
+.hero__media::after{content:"";position:absolute;inset:0;background:color-mix(in srgb,var(--bark) 5%,transparent);border-radius:var(--radius-media);pointer-events:none}
+.hero__inner{position:relative;z-index:1;width:min(100% - 2 * var(--page-padding), var(--container));margin-inline:auto;padding-block:var(--space-128) var(--space-64);display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--grid-gutter);grid-template-rows:auto 1fr auto;align-content:space-between}
+.hero__title{grid-column:1 / span 8;grid-row:1;font-family:var(--font-display);font-size:var(--type-display-size);line-height:var(--type-display-lh);letter-spacing:var(--type-display-ls);font-weight:var(--type-display-weight);text-transform:uppercase;color:var(--spruce)}
+.hero__title-a,.hero__title-b{display:block}
+.hero__title-b{color:var(--air)}
+/* Staircase indent: an invisible copy of the line-1 prefix reserves the exact width so line 2
+   starts under the "т" of "світи". Desktop only — hidden (flush) on mobile. */
+.hero__title-ghost{display:none}
+/* Bottom panel: lead text with the CTA under it, one light-blur plate pinned bottom-left. */
+.hero__panel{grid-column:1 / span 5;grid-row:3;align-self:end;width:fit-content;max-width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:var(--space-16);padding:var(--space-8) var(--space-12);padding-bottom:calc(var(--space-8) + (var(--type-lead-lh) - var(--type-lead-size)) / 2);margin-inline:calc(-1 * var(--space-12));backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+.hero__lead{font-family:var(--font-text);font-size:var(--type-lead-size);line-height:var(--type-lead-lh);color:var(--white-sand);text-wrap:pretty}
+
+/* Desktop: fixed 72px/700 headline as a staircase (see .hero__title-ghost). nowrap keeps each
+   line intact — the indented line 2 otherwise wraps when the type is this large. */
+@media (min-width:768px){
+  .hero__title{font-size:72px;line-height:1.1;font-weight:700}
+  .hero__title-a,.hero__title-b{white-space:nowrap}
+  .hero__title-ghost{display:inline;visibility:hidden}
+  /* Pin the panel flush to the bottom of the screen. */
+  .hero__inner{padding-bottom:0}
+}
 
 @media (max-width:767px){
-  .hero__inner{padding-block:calc(var(--header-h-scrolled) + var(--space-32)) var(--space-64);grid-template-columns:minmax(0,1fr);grid-template-rows:auto 1fr auto auto}
-  .hero__title,.hero__lead,.hero__cta{grid-column:1}
-  .hero__lead{grid-row:3;margin-bottom:var(--space-24)}
-  .hero__cta{grid-row:4;justify-self:stretch}
+  .hero__inner{padding-block:calc(var(--header-h-scrolled) + var(--space-32)) var(--space-64);grid-template-columns:minmax(0,1fr);grid-template-rows:auto 1fr auto}
+  .hero__title,.hero__panel{grid-column:1}
+  .hero__panel{width:auto;align-items:stretch}
   .hero__cta .btn{width:100%}
-  .hero__shape{display:none}
 }

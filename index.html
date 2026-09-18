@@ -8,8 +8,8 @@
 <link rel="stylesheet" href="styles/main.css">
 <link rel="preload" href="assets/fonts/unbounded-500-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/mulish-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/hero-new.jpg" as="image" media="(min-width:768px)" fetchpriority="high">
-  <link rel="preload" href="assets/hero-mob.jpg" as="image" media="(max-width:767px)" fetchpriority="high">
+<link rel="preload" href="assets/sky-desktop.jpg" as="image" media="(min-width:768px)" fetchpriority="high">
+  <link rel="preload" href="assets/new-hero-mob.jpg" as="image" media="(max-width:767px)" fetchpriority="high">
 </head>
 <body>
 <div class="page" id="top">
@@ -27,7 +27,7 @@
       </nav>
 
       <div class="site-header__right">
-        <a class="btn btn--secondary btn--sm on-inverse" href="#kontakty">Забронювати огляд</a>
+        <a class="btn btn--secondary btn--sm" href="#kontakty">Забронювати огляд</a>
       </div>
 
       <a class="site-header__iconlink site-header__burger" href="#site-menu" aria-label="Меню">
@@ -44,16 +44,16 @@
     <section class="hero" aria-label="FORREST Trinity Resort">
       <div class="hero__media">
         <picture>
-          <source srcset="assets/hero-mob.jpg" media="(max-width:767px)">
-          <img src="assets/hero-new.jpg" alt="Курортний комплекс FORREST Trinity Resort серед карпатського лісу" fetchpriority="high" decoding="sync">
+          <source srcset="assets/new-hero-mob.jpg" media="(max-width:767px)">
+          <img src="assets/sky-desktop.jpg" alt="Курортний комплекс FORREST Trinity Resort серед карпатського лісу" fetchpriority="high" decoding="sync">
         </picture>
       </div>
-      <div class="hero__scrim" aria-hidden="true"></div>
-      <svg class="hero__shape" viewBox="496.76 383 258.16 278.69" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path d="M754.92 661.69L648.11 528.71L705.13 516.49L705.13 383L559.96 468.95C546.92 476.67 536.2 487.83 528.97 501.18L496.76 560.59L497.41 560.98L642.77 649.53C655.83 657.5 670.86 661.71 686.17 661.71L754.92 661.69Z"/></svg>
       <div class="hero__inner">
-        <h1 class="hero__title">ІНВЕСТИЦІЙНІ АПАРТАМЕНТИ У БУКОВЕЛІ</h1>
-        <p class="hero__lead">FORREST Trinity Resort — інвестиційні апартаменти у першому в Карпатах курортному комплексі формату Trinity Resort.</p>
-        <div class="hero__cta"><a class="btn btn--primary on-inverse" href="#kontakty">Отримати пропозицію</a></div>
+        <h1 class="hero__title"><span class="hero__title-a">Три світи —</span><span class="hero__title-b"><span class="hero__title-ghost" aria-hidden="true">Три сві</span>Один актив</span></h1>
+        <div class="hero__panel">
+          <p class="hero__lead">Інвестиційні апартаменти у першому в Карпатах курортному комплексі формату Trinity Resort.</p>
+          <div class="hero__cta"><a class="btn btn--primary on-inverse" href="#kontakty">Отримати пропозицію</a></div>
+        </div>
       </div>
     </section>
 
@@ -285,6 +285,7 @@
   </div>
 
 </div>
+<script type="module" src="/scripts/header-scroll.js"></script>
 <script type="module" src="/scripts/three-worlds.js"></script>
 <script type="module" src="/scripts/footer-accordion.js"></script>
 </body>
