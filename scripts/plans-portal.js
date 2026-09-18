@@ -2,6 +2,10 @@
    lands in the room render (assets/photo.jpg). The zoom is anchored to where you clicked (the
    card centre), driven by CSS keyframes toggled with .is-open. Progressive enhancement; the
    room image is loaded lazily on first open; prefers-reduced-motion is handled in CSS. */
+// Resolve the room render through Vite so it is emitted into the build with a hashed name.
+// A bare string ('assets/photo.jpg') is invisible to the bundler and 404s in production.
+const roomSrc = new URL('../assets/photo.jpg', import.meta.url).href;
+
 const portal = document.querySelector('[data-portal]');
 const cards = Array.from(document.querySelectorAll('.plans__card'));
 
@@ -20,7 +24,7 @@ if (portal && cards.length) {
     portal.style.setProperty('--px', ((r.left + r.width / 2) / window.innerWidth * 100).toFixed(2) + '%');
     portal.style.setProperty('--py', ((r.top + r.height / 2) / window.innerHeight * 100).toFixed(2) + '%');
     planImg.src = img.currentSrc || img.src;
-    if (!roomImg.src) roomImg.src = 'assets/photo.jpg';
+    if (!roomImg.src) roomImg.src = roomSrc;
     caption.textContent = label;
     lastFocus = trigger || null;
 
