@@ -47,14 +47,19 @@
   .worlds__progress{grid-column:auto;justify-self:start;align-self:auto}
 }
 
-/* ---------- <768: full width, world 32, small desc, no indicator, video 60% ---------- */
+/* ---------- <768: video in a 16:9 frame (as on desktop), cross-fading text below it ----------
+   The pin stays full-height spruce; the video and the text stack, vertically centred, so the
+   white text keeps its dark backdrop instead of overlaying the footage. */
 @media (max-width:767px){
   .worlds__scene{height:300vh}
-  .worlds__overlay-inner{padding-bottom:var(--space-48)}
-  .worlds__texts{max-width:none}
+  .worlds__pin{height:auto;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:var(--space-32);padding:var(--space-32) var(--page-padding)}
+  .worlds__video{position:static;inset:auto;width:100%;height:auto;aspect-ratio:16 / 9;object-fit:cover;border-radius:var(--radius-media)}
+  .worlds__grad{display:none}
+  .worlds__overlay{position:static;inset:auto;z-index:auto;display:block}
+  .worlds__overlay-inner{width:100%;padding:0;display:block}
+  .worlds__texts{grid-column:auto;max-width:none}
   .worlds__name{font-size:32px}
   .worlds__desc{font-size:var(--type-small-size);line-height:var(--type-small-lh);max-width:none}
-  .worlds__video{object-position:60% center}
   .worlds__progress{display:none}
 }
 

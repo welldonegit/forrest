@@ -4,6 +4,7 @@
    Below 768px it stacks to one column, the CTA goes full-width and the shape is hidden. */
 .hero{position:relative;min-height:100vh;display:flex;background:var(--spruce);overflow:hidden}
 .hero__media{position:absolute;inset:0}
+.hero__media picture{display:block;width:100%;height:100%}
 .hero__media img{width:100%;height:100%;object-fit:cover;border-radius:var(--radius-media)}
 .hero__scrim{position:absolute;inset:0;background:var(--scrim-spruce-40)}
 .hero__shape{position:absolute;top:50%;right:calc(6% - var(--space-32));width:26%;height:44%;transform:translateY(-50%);fill:none;stroke:var(--sea-fog);stroke-width:var(--border-1);vector-effect:non-scaling-stroke;pointer-events:none}

@@ -20,20 +20,20 @@
 .site-header__right{justify-self:end;display:flex;align-items:center;gap:var(--space-24)}
 .site-header__right .btn{white-space:nowrap}
 
-/* Burger + phone-icon: only used once the row collapses. */
-/* Force the 3rd grid column: with nav + right hidden on mobile, auto-placement would drop
-   actions into the middle (1fr) column, leaving a gutter before the container's right edge. */
-/* margin pulls the trailing icon optically flush to the container edge (the 44px tap target
-   would otherwise inset the 24px glyph), matching the flush logo on the left. */
-.site-header__actions{grid-column:3;justify-self:end;display:none;align-items:center;gap:var(--space-8);margin-inline-end:calc((var(--icon-size-lg) - var(--tap-target)) / 2)}
-.site-header__iconlink{color:inherit;text-decoration:none;min-width:var(--tap-target);min-height:var(--tap-target);display:flex;align-items:center;justify-content:center}
+/* Burger + phone-icon: only used once the row collapses. Explicit grid columns so the burger
+   sits left (col 1), the logo centres (col 2) and the phone sits right (col 3). The negative
+   margins pull each glyph optically flush to the container edge (the 44px tap target would
+   otherwise inset the ~24px glyph). */
+.site-header__iconlink{color:inherit;text-decoration:none;min-width:var(--tap-target);min-height:var(--tap-target);display:none;align-items:center;justify-content:center}
 .site-header__iconlink:focus-visible{outline:var(--border-width-focus) solid currentColor;outline-offset:var(--focus-offset)}
 
 @media (max-width:1023px){
   .site-header{height:var(--header-h-scrolled)}
   .site-header__nav,.site-header__right{display:none}
-  .site-header__actions{display:flex}
-  .site-header__logo .logo{width:120px}
+  .site-header__logo{grid-column:2;grid-row:1;justify-self:center}
+  .site-header__logo .logo{width:144px}
+  .site-header__burger{grid-column:1;grid-row:1;justify-self:start;display:flex;margin-inline-start:calc((var(--icon-size-lg) - var(--tap-target)) / 2)}
+  .site-header__phone-ic{grid-column:3;grid-row:1;justify-self:end;display:flex;margin-inline-end:calc((var(--icon-size-lg) - var(--tap-target)) / 2)}
 }
 
 /* ---------- Full-screen mobile menu (opened via :target) ---------- */

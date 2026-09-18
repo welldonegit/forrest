@@ -8,7 +8,8 @@
 <link rel="stylesheet" href="styles/main.css">
 <link rel="preload" href="assets/fonts/unbounded-500-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/mulish-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/photos/hero.jpg" as="image" fetchpriority="high">
+<link rel="preload" href="assets/hero-new.jpg" as="image" media="(min-width:768px)" fetchpriority="high">
+  <link rel="preload" href="assets/hero-mob.jpg" as="image" media="(max-width:767px)" fetchpriority="high">
 </head>
 <body>
 <div class="page" id="top">
@@ -29,14 +30,12 @@
         <a class="btn btn--secondary btn--sm on-inverse" href="#kontakty">Забронювати огляд</a>
       </div>
 
-      <div class="site-header__actions">
-        <a class="site-header__iconlink" href="tel:+380670000000" aria-label="Телефон +380 67 000 00 00">
-          <svg class="icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg>
-        </a>
-        <a class="site-header__iconlink" href="#site-menu" aria-label="Меню">
-          <svg class="icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>
-        </a>
-      </div>
+      <a class="site-header__iconlink site-header__burger" href="#site-menu" aria-label="Меню">
+        <svg class="icon" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>
+      </a>
+      <a class="site-header__iconlink site-header__phone-ic" href="tel:+380670000000" aria-label="Телефон +380 67 000 00 00">
+        <svg class="icon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"/></svg>
+      </a>
     </div>
   </header>
 
@@ -44,12 +43,15 @@
 
     <section class="hero" aria-label="FORREST Trinity Resort">
       <div class="hero__media">
-        <img src="assets/photos/hero.jpg" alt="Курортний комплекс FORREST Trinity Resort серед карпатського лісу" fetchpriority="high" decoding="sync">
+        <picture>
+          <source srcset="assets/hero-mob.jpg" media="(max-width:767px)">
+          <img src="assets/hero-new.jpg" alt="Курортний комплекс FORREST Trinity Resort серед карпатського лісу" fetchpriority="high" decoding="sync">
+        </picture>
       </div>
       <div class="hero__scrim" aria-hidden="true"></div>
       <svg class="hero__shape" viewBox="496.76 383 258.16 278.69" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path d="M754.92 661.69L648.11 528.71L705.13 516.49L705.13 383L559.96 468.95C546.92 476.67 536.2 487.83 528.97 501.18L496.76 560.59L497.41 560.98L642.77 649.53C655.83 657.5 670.86 661.71 686.17 661.71L754.92 661.69Z"/></svg>
       <div class="hero__inner">
-        <h1 class="hero__title">ТРИ СВІТИ.<br>ОДИН АКТИВ У БУКОВЕЛІ</h1>
+        <h1 class="hero__title">ІНВЕСТИЦІЙНІ АПАРТАМЕНТИ У БУКОВЕЛІ</h1>
         <p class="hero__lead">FORREST Trinity Resort — інвестиційні апартаменти у першому в Карпатах курортному комплексі формату Trinity Resort.</p>
         <div class="hero__cta"><a class="btn btn--primary on-inverse" href="#kontakty">Отримати пропозицію</a></div>
       </div>
@@ -59,7 +61,7 @@
       <div class="statsrow__inner">
         <div class="statsrow__head">
           <h2 class="statsrow__title type-h2-lg">
-            <span class="statsrow__line1">FORREST у цифрах.</span>
+            <span class="statsrow__line1">FORREST <span class="statsrow__line1-tail">у&nbsp;цифрах.</span></span>
             <span class="statsrow__line2">Актив, що примножує капітал.</span>
           </h2>
         </div>
@@ -88,7 +90,7 @@
       <div class="worlds__intro">
         <div class="worlds__intro-inner">
           <h2 class="worlds__heading type-h2-lg"><span class="worlds__heading-line1">ТРИ СВІТИ.</span><span class="worlds__heading-line2">ОДИН КУРОРТ.</span></h2>
-          <p class="worlds__lead">WIND, ROCK і SUN — не просто три корпуси. Кожен із них створений під окрему аудиторію, окремий сценарій перебування та власні причини приїхати у FORREST. Разом вони формують єдину курортну екосистему.</p>
+          <p class="worlds__lead">WIND, ROCK і SUN — три корпуси для різних форматів відпочинку. Кожен має свою атмосферу й аудиторію, а разом вони формують FORREST як цілісний курорт.</p>
         </div>
       </div>
       <div class="worlds__scene" data-worlds-scene>

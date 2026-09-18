@@ -170,7 +170,7 @@
 /* Mobile scale — switches at 768px (DESIGN.md §11). */
 @media (max-width:767px){:root{
   --page-padding:20px;
-  --section-padding-y:var(--space-64);
+  --section-padding-y:72px;
   --gap-items:var(--space-24);
   --panel-padding:var(--space-24);
 
@@ -190,7 +190,7 @@
    and any component rendering its mobile layout inside a wide page (e.g. styleguide). */
 [data-viewport="mobile"]{
   --page-padding:20px;
-  --section-padding-y:var(--space-64);
+  --section-padding-y:72px;
   --gap-items:var(--space-24);
   --panel-padding:var(--space-24);
 
