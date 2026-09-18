@@ -1,0 +1,5 @@
+/* Partner row (DESIGN.md §7). Monochrome stone marks, 40px high, equal spacing, hairline above
+   and below. Rendered here as stone text labels (no partner SVGs ship in this repo). */
+.partners{display:flex;align-items:center;justify-content:space-between;gap:var(--space-48);flex-wrap:wrap;padding:var(--space-32) 0;border-top:var(--border-width) solid var(--border-hairline);border-bottom:var(--border-width) solid var(--border-hairline)}
+.partners__item{font-family:var(--font-text);font-size:var(--type-h4-size);line-height:var(--type-h4-lh);font-weight:var(--type-h4-weight);color:var(--accent-earth);height:var(--icon-40);display:flex;align-items:center}
+.on-inverse .partners{border-color:var(--border-on-inverse)}

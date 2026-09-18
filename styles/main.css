@@ -1,0 +1,28 @@
+/* FORREST Trinity Resort — CSS entry.
+   Imports the whole system in cascade order: tokens → reset → typography → layout →
+   components. This is the single stylesheet the pages link. */
+@import "./tokens.css";
+@import "./reset.css";
+@import "./typography.css";
+@import "./layout.css";
+
+@import "./components/button.css";
+@import "./components/icon.css";
+@import "./components/logo.css";
+@import "./components/header.css";
+@import "./components/hero.css";
+@import "./components/statsrow.css";
+@import "./components/three-worlds.css";
+@import "./components/plans.css";
+@import "./components/news.css";
+@import "./components/site-footer.css";
+
+/* Library components (used on styleguide.html; harmless on index.html) */
+@import "./components/field.css";
+@import "./components/panel.css";
+@import "./components/stat.css";
+@import "./components/accordion.css";
+@import "./components/timeline.css";
+@import "./components/quote.css";
+@import "./components/partners.css";
+@import "./components/world.css";

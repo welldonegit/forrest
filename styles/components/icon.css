@@ -1,0 +1,3 @@
+/* Icon — inline <svg>, functional only (DESIGN.md §6): phone, social, chevron, close…
+   currentColor, 1.5px stroke, 20 or 24px. No icon fonts, no background-image. */
+.icon{display:inline-flex;flex:none;fill:none;stroke:currentColor;stroke-width:var(--stroke-icon);stroke-linecap:round;stroke-linejoin:round}

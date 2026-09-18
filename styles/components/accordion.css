@@ -1,0 +1,14 @@
+/* Accordion — advantages / FAQ (DESIGN.md §7). Full-width rows separated by 1px hairlines,
+   question in type/h4 with 24px vertical padding, a single chevron rotating 180deg on open.
+   Open adds the answer; the background never changes. Static: one item carries data-open. */
+.accordion{border-top:var(--border-width) solid var(--border-hairline)}
+.accordion__item{border-bottom:var(--border-width) solid var(--border-hairline)}
+.accordion__trigger{width:100%;display:flex;align-items:center;justify-content:space-between;gap:var(--space-24);padding:var(--space-24) 0;background:none;border:none;cursor:pointer;text-align:left;color:var(--text-primary);font-family:var(--font-text);font-size:var(--type-h4-size);line-height:var(--type-h4-lh);font-weight:var(--type-h4-weight);min-height:var(--tap-target)}
+.accordion__trigger:focus-visible{outline:var(--border-width-focus) solid var(--accent-deep);outline-offset:var(--focus-offset)}
+.accordion__trigger:hover,.accordion__trigger.is-hover{color:var(--accent-deep)}
+.accordion__chevron{flex:none;display:flex;color:var(--text-secondary);transition:transform var(--motion-accordion) var(--ease-out)}
+.accordion__item[data-open="true"] .accordion__chevron{transform:rotate(180deg)}
+.accordion__panel{font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--text-secondary);max-width:var(--measure-text);padding:0 0 var(--space-24);text-wrap:pretty}
+.on-inverse .accordion,.on-inverse .accordion__item{border-color:var(--border-on-inverse)}
+.on-inverse .accordion__trigger{color:var(--text-on-inverse)}
+.on-inverse .accordion__panel{color:var(--text-on-inverse-2)}

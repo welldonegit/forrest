@@ -1,0 +1,56 @@
+/* FORREST Trinity Resort — typography.
+   Two self-hosted families (DESIGN.md §4): Unbounded for display/headings/numbers/world
+   names, Mulish for everything else. Weights are explicit numbers (400/500/600/700); no
+   system-font stacks stand in for the real faces. Both SIL OFL via Google Fonts.
+   Role classes (.type-*) are the only sanctioned text sizes — an off-scale heading is a bug. */
+
+/* ---------- @font-face: Unbounded (display) ---------- */
+@font-face{font-family:"Unbounded";font-style:normal;font-weight:400;font-display:swap;src:url("../assets/fonts/unbounded-400-cyrillic-ext.woff2") format("woff2");unicode-range:U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F}
+@font-face{font-family:"Unbounded";font-style:normal;font-weight:400;font-display:swap;src:url("../assets/fonts/unbounded-400-cyrillic.woff2") format("woff2");unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116}
+@font-face{font-family:"Unbounded";font-style:normal;font-weight:400;font-display:swap;src:url("../assets/fonts/unbounded-400-latin-ext.woff2") format("woff2");unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:"Unbounded";font-style:normal;font-weight:400;font-display:swap;src:url("../assets/fonts/unbounded-400-latin.woff2") format("woff2");unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:"Unbounded";font-style:normal;font-weight:500;font-display:swap;src:url("../assets/fonts/unbounded-500-cyrillic-ext.woff2") format("woff2");unicode-range:U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F}
+@font-face{font-family:"Unbounded";font-style:normal;font-weight:500;font-display:swap;src:url("../assets/fonts/unbounded-500-cyrillic.woff2") format("woff2");unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116}
+@font-face{font-family:"Unbounded";font-style:normal;font-weight:500;font-display:swap;src:url("../assets/fonts/unbounded-500-latin-ext.woff2") format("woff2");unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:"Unbounded";font-style:normal;font-weight:500;font-display:swap;src:url("../assets/fonts/unbounded-500-latin.woff2") format("woff2");unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:"Unbounded";font-style:normal;font-weight:700;font-display:swap;src:url("../assets/fonts/unbounded-700-cyrillic-ext.woff2") format("woff2");unicode-range:U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F}
+@font-face{font-family:"Unbounded";font-style:normal;font-weight:700;font-display:swap;src:url("../assets/fonts/unbounded-700-cyrillic.woff2") format("woff2");unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116}
+@font-face{font-family:"Unbounded";font-style:normal;font-weight:700;font-display:swap;src:url("../assets/fonts/unbounded-700-latin-ext.woff2") format("woff2");unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:"Unbounded";font-style:normal;font-weight:700;font-display:swap;src:url("../assets/fonts/unbounded-700-latin.woff2") format("woff2");unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+
+/* ---------- @font-face: Mulish (text) ---------- */
+@font-face{font-family:"Mulish";font-style:normal;font-weight:400;font-display:swap;src:url("../assets/fonts/mulish-400-cyrillic-ext.woff2") format("woff2");unicode-range:U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F}
+@font-face{font-family:"Mulish";font-style:normal;font-weight:400;font-display:swap;src:url("../assets/fonts/mulish-400-cyrillic.woff2") format("woff2");unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116}
+@font-face{font-family:"Mulish";font-style:normal;font-weight:400;font-display:swap;src:url("../assets/fonts/mulish-400-latin-ext.woff2") format("woff2");unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:"Mulish";font-style:normal;font-weight:400;font-display:swap;src:url("../assets/fonts/mulish-400-latin.woff2") format("woff2");unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:"Mulish";font-style:normal;font-weight:600;font-display:swap;src:url("../assets/fonts/mulish-600-cyrillic-ext.woff2") format("woff2");unicode-range:U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F}
+@font-face{font-family:"Mulish";font-style:normal;font-weight:600;font-display:swap;src:url("../assets/fonts/mulish-600-cyrillic.woff2") format("woff2");unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116}
+@font-face{font-family:"Mulish";font-style:normal;font-weight:600;font-display:swap;src:url("../assets/fonts/mulish-600-latin-ext.woff2") format("woff2");unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:"Mulish";font-style:normal;font-weight:600;font-display:swap;src:url("../assets/fonts/mulish-600-latin.woff2") format("woff2");unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+@font-face{font-family:"Mulish";font-style:normal;font-weight:700;font-display:swap;src:url("../assets/fonts/mulish-700-cyrillic-ext.woff2") format("woff2");unicode-range:U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F}
+@font-face{font-family:"Mulish";font-style:normal;font-weight:700;font-display:swap;src:url("../assets/fonts/mulish-700-cyrillic.woff2") format("woff2");unicode-range:U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116}
+@font-face{font-family:"Mulish";font-style:normal;font-weight:700;font-display:swap;src:url("../assets/fonts/mulish-700-latin-ext.woff2") format("woff2");unicode-range:U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF}
+@font-face{font-family:"Mulish";font-style:normal;font-weight:700;font-display:swap;src:url("../assets/fonts/mulish-700-latin.woff2") format("woff2");unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD}
+
+/* ---------- Base ---------- */
+body{font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--text-primary);background:var(--bg-page);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+
+/* ---------- Role classes (DESIGN.md §4.1) ---------- */
+.type-display{font-family:var(--font-display);font-size:var(--type-display-size);line-height:var(--type-display-lh);letter-spacing:var(--type-display-ls);font-weight:var(--type-display-weight)}
+.type-h2{font-family:var(--font-display);font-size:var(--type-h2-size);line-height:var(--type-h2-lh);letter-spacing:var(--type-h2-ls);font-weight:var(--type-h2-weight)}
+.type-h2-lg{font-family:var(--font-display);font-size:var(--type-h2-lg-size);line-height:var(--type-h2-lg-lh);letter-spacing:var(--type-h2-ls);font-weight:var(--type-h2-weight)}
+.type-h3{font-family:var(--font-display);font-size:var(--type-h3-size);line-height:var(--type-h3-lh);font-weight:var(--type-h3-weight)}
+.type-h4{font-family:var(--font-text);font-size:var(--type-h4-size);line-height:var(--type-h4-lh);font-weight:var(--type-h4-weight)}
+.type-stat{font-family:var(--font-display);font-size:var(--type-stat-size);line-height:var(--type-stat-lh);letter-spacing:var(--type-stat-ls);font-weight:var(--type-stat-weight);font-variant-numeric:lining-nums tabular-nums}
+.type-stat-lg{font-family:var(--font-display);font-size:var(--type-stat-lg-size);line-height:var(--type-stat-lg-lh);letter-spacing:var(--type-stat-lg-ls);font-weight:var(--type-stat-lg-weight);font-variant-numeric:lining-nums tabular-nums}
+.type-stat-hero{font-family:var(--font-display);font-size:var(--type-stat-hero-size);line-height:var(--type-stat-hero-lh);letter-spacing:var(--type-stat-hero-ls);font-weight:var(--type-stat-hero-weight);font-variant-numeric:lining-nums tabular-nums}
+.type-lead{font-family:var(--font-text);font-size:var(--type-lead-size);line-height:var(--type-lead-lh);font-weight:var(--type-lead-weight);max-width:var(--measure-text);text-wrap:pretty}
+.type-body{font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);font-weight:var(--type-body-weight);max-width:var(--measure-text);text-wrap:pretty}
+.type-small{font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);font-weight:var(--type-small-weight)}
+.type-label{font-family:var(--font-text);font-size:var(--type-label-size);line-height:var(--type-label-lh);font-weight:var(--type-label-weight);letter-spacing:0}
+.type-button{font-family:var(--font-text);font-size:var(--type-button-size);line-height:var(--type-button-lh);font-weight:var(--type-button-weight)}
+.type-world{font-family:var(--font-display);font-size:var(--type-world-size);line-height:var(--type-world-lh);font-weight:var(--type-world-weight);letter-spacing:-.02em;text-transform:uppercase}
+
+/* ---------- Links (default text-button treatment, DESIGN.md §7) ---------- */
+a{color:var(--accent-deep);text-decoration:underline;text-decoration-thickness:var(--border-1);text-underline-offset:var(--space-4)}
+a:hover{color:var(--text-primary)}

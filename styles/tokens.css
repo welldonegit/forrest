@@ -1,0 +1,219 @@
+/* FORREST Trinity Resort — design tokens.
+   Single source for the size/color system (refactor Stage 2).
+
+   Scales (from DESIGN.md + the agreed refactor):
+   - space   : 2 4 8 12 16 24 32 40 48 64 80 96 128   (4/8/16/32/64 based)
+   - radius  : 2 4 8 12 16 24 9999                     (+ panel 6 as a named exception)
+   - border  : 1 2
+   - icon    : 16 20 24 32 40
+   - control : 24 32 40 48 56                          (fixed heights, not content-driven)
+
+   Left intentionally as-is (per the brief): font-size / line-height / letter-spacing,
+   %, vh/vw, fr, minmax, auto, aspect-ratio, 1px borders, 1.5px strokes, motion durations.
+   Component styles must reference these tokens — no bare numbers in component rules. */
+
+:root{
+  /* ==================== Color ==================== */
+  /* Brand-book primitives — exact values, never adjusted (DESIGN.md §3.1). */
+  --bark:#322512;        /* Black 4C — ROCK deep tone, inverse sections */
+  --spruce:#182820;      /* Смерековий шепіт — primary dark; SUN deep tone */
+  --forest:#5B756A;      /* Лісова тиша — secondary text, SUN mid tone */
+  --stone:#928C8E;       /* Мокрий камінь — ROCK mid tone, hairlines */
+  --path-sand:#E1D4CB;   /* Пісок стежини — ROCK light surface */
+  --white-sand:#F2EAD8;  /* Білий пісок — warm light surface */
+  --sea-wave:#7ABFB2;    /* Морська хвиля — WIND accent */
+  --sea-fog:#DDEBE6;     /* Морський туман — WIND light surface */
+  --air:#FFFFFF;         /* Гірське повітря — page background */
+  --night-bark:#0C0C0C;  /* Нічна кора — logo on pure white only */
+
+  /* Semantic color — light theme is the only theme (DESIGN.md §3.2). */
+  --bg-page:var(--air);
+  --bg-surface-warm:var(--white-sand);
+  --bg-surface-mist:var(--sea-fog);
+  --bg-surface-sand:var(--path-sand);
+  --bg-inverse:var(--spruce);
+  --bg-inverse-warm:var(--bark);
+
+  --text-primary:var(--spruce);
+  --text-secondary:var(--forest);
+  --text-on-inverse:var(--white-sand);
+  --text-on-inverse-2:var(--sea-fog);
+
+  --accent:var(--sea-wave);
+  --accent-deep:var(--forest);
+  --accent-earth:var(--stone);
+
+  --border-hairline:var(--path-sand);
+  --border-strong:var(--stone);
+  --border-on-inverse:rgba(242,234,216,.24);
+
+  /* Scrims — spruce is the only ink permitted over photography (DESIGN.md §3.4). */
+  --scrim-spruce-40:rgba(24,40,32,.4);
+  --scrim-spruce-24:rgba(24,40,32,.24);
+  --scrim-spruce-local-60:rgba(24,40,32,.6);  /* three-worlds scene overlay (§8 exception) */
+  --scrim-spruce-local-55:rgba(24,40,32,.55);
+  --scrim-spruce-local-52:rgba(24,40,32,.52);
+  --scrim-spruce-local-50:rgba(24,40,32,.5);
+  --scrim-spruce-47:rgba(24,40,32,.47);
+  --scrim-spruce-38:rgba(24,40,32,.38);
+  --scrim-spruce-30:rgba(24,40,32,.3);
+  --scrim-spruce-18:rgba(24,40,32,.18);
+  --scrim-spruce-10:rgba(24,40,32,.1);
+  --scrim-spruce-0:rgba(24,40,32,0);
+  --veil-spruce-78:rgba(24,40,32,.78);
+
+  /* World palettes — fixed trio per world (DESIGN.md §3.3). */
+  --wind-surface:var(--sea-fog);   --wind-accent:var(--sea-wave); --wind-dark:var(--spruce);
+  --sun-surface:var(--white-sand); --sun-accent:var(--forest);    --sun-dark:var(--spruce);
+  --rock-surface:var(--path-sand); --rock-accent:var(--stone);    --rock-dark:var(--bark);
+
+  /* ==================== Spacing ==================== */
+  /* Base scale, value-named. 2px is for hairlines / micro-offsets only. */
+  --space-2:2px;
+  --space-4:4px;
+  --space-8:8px;
+  --space-12:12px;
+  --space-16:16px;
+  --space-24:24px;
+  --space-32:32px;
+  --space-40:40px;
+  --space-48:48px;
+  --space-64:64px;
+  --space-80:80px;
+  --space-96:96px;
+  --space-128:128px;
+
+  /* Semantic layout spacing (DESIGN.md §5). */
+  --container:1360px;
+  --grid-gutter:var(--space-24);        /* 24px column gutter */
+  --page-padding:var(--space-32);       /* 32 desktop / 20 mobile */
+  --section-padding-y:var(--space-128); /* 128 desktop / 64 mobile — identical rhythm every section */
+  --gap-title-content:var(--space-48);  /* h2 → content */
+  --gap-lead-content:var(--space-32);   /* lead → content */
+  --gap-items:var(--space-32);          /* grid/list items: 32 desktop / 24 mobile */
+  --panel-padding:var(--space-32);      /* inside a panel: 32 desktop / 24 mobile */
+  --measure-text:640px;                 /* body columns never wider — 55–75 characters */
+
+  /* ==================== Radius ==================== */
+  --radius-2:2px;
+  --radius-4:4px;
+  --radius-8:8px;
+  --radius-12:12px;
+  --radius-16:16px;
+  --radius-24:24px;
+  --radius-full:9999px;
+  /* Semantic */
+  --radius-control:var(--radius-4);  /* buttons, inputs, tags */
+  --radius-panel:6px;                /* cards, panels — DESIGN.md §5.3 mandates 6; kept off-scale by design */
+  --radius-media:0px;                /* photos, video, brand-shape masks — always sharp */
+
+  /* ==================== Border width ==================== */
+  --border-1:1px;
+  --border-2:2px;
+  --border-width:var(--border-1);        /* default hairline */
+  --border-width-focus:var(--border-2);  /* focus ring */
+  --focus-offset:var(--space-2);
+  --stroke-icon:1.5px;         /* icon stroke — a stroke, not a border (DESIGN.md §6) */
+  --stroke-brand-shape:1.5px;  /* brand-shape outline over a photo */
+
+  /* ==================== Icon sizes ==================== */
+  --icon-16:16px;
+  --icon-20:20px;
+  --icon-24:24px;
+  --icon-32:32px;
+  --icon-40:40px;
+  --icon-size:var(--icon-20);      /* functional default */
+  --icon-size-lg:var(--icon-24);
+
+  /* ==================== Control heights (fixed) ==================== */
+  --control-h-24:24px;
+  --control-h-32:32px;
+  --control-h-40:40px;
+  --control-h-48:48px;
+  --control-h-56:56px;
+  --control-height:var(--control-h-48);     /* inputs, buttons */
+  --control-height-lg:var(--control-h-56);  /* section-level submit */
+  --control-pad-x:var(--space-24);          /* button horizontal padding — was 28px, snapped to 24 (Stage 2 decision) */
+  --tap-target:44px;                        /* a11y minimum — a hit-area floor, not a styling height */
+
+  /* Header band heights (layout, on the 8-grid). */
+  --header-h:var(--space-96);   /* 96 over the hero */
+  --header-h-scrolled:72px;     /* 72 when scrolled / mobile / sand surface */
+
+  /* ==================== Typography (values unchanged — typography keeps its own rules) ==================== */
+  --font-display:"Unbounded","Arial Black",sans-serif;
+  --font-text:"Mulish","Segoe UI",Arial,sans-serif;
+
+  --type-display-size:64px;--type-display-lh:72px;--type-display-ls:-.02em;--type-display-weight:500;
+  --type-h2-size:40px;--type-h2-lh:48px;--type-h2-ls:-.01em;--type-h2-weight:500;
+  --type-h2-lg-size:48px;--type-h2-lg-lh:54px; /* large section title (Три світи / FORREST у цифрах) */
+  --type-h3-size:24px;--type-h3-lh:32px;--type-h3-ls:0;--type-h3-weight:400;
+  --type-h4-size:18px;--type-h4-lh:26px;--type-h4-weight:700;
+  --type-stat-size:56px;--type-stat-lh:60px;--type-stat-ls:-.02em;--type-stat-weight:400;
+  --type-stat-lg-size:72px;--type-stat-lg-lh:76px;--type-stat-lg-ls:-.02em;--type-stat-lg-weight:400;
+  --type-stat-hero-size:112px;--type-stat-hero-lh:104px;--type-stat-hero-ls:-.03em;--type-stat-hero-weight:500;
+  --type-lead-size:20px;--type-lead-lh:30px;--type-lead-weight:400;
+  --type-body-size:17px;--type-body-lh:27px;--type-body-weight:400;
+  --type-small-size:14px;--type-small-lh:20px;--type-small-weight:400;
+  --type-label-size:13px;--type-label-lh:18px;--type-label-weight:600;
+  --type-button-size:16px;--type-button-lh:20px;--type-button-weight:600;
+  --type-world-size:64px;--type-world-lh:1;--type-world-weight:500;
+
+  /* ==================== Motion (durations unchanged — DESIGN.md §8) ==================== */
+  --motion-hover:150ms;
+  --motion-accordion:200ms;
+  --motion-menu:250ms;
+  --motion-entrance:400ms;
+  --ease-out:cubic-bezier(.2,.6,.3,1);
+}
+
+/* Mobile scale — switches at 768px (DESIGN.md §11). */
+@media (max-width:767px){:root{
+  --page-padding:20px;
+  --section-padding-y:72px;
+  --gap-items:var(--space-24);
+  --panel-padding:var(--space-24);
+
+  --type-display-size:40px;--type-display-lh:46px;
+  --type-h2-size:28px;--type-h2-lh:34px;--type-h2-lg-size:40px;--type-h2-lg-lh:44px;
+  --type-h3-size:20px;--type-h3-lh:28px;
+  --type-h4-size:17px;--type-h4-lh:24px;
+  --type-stat-size:36px;--type-stat-lh:40px;
+  --type-stat-lg-size:48px;--type-stat-lg-lh:52px;
+  --type-stat-hero-size:56px;--type-stat-hero-lh:56px;
+  --type-lead-size:18px;--type-lead-lh:28px;
+  --type-body-size:16px;--type-body-lh:26px;
+  --type-world-size:40px;
+}}
+
+/* Force the mobile scale on a subtree regardless of window width — specimen cards
+   and any component rendering its mobile layout inside a wide page (e.g. styleguide). */
+[data-viewport="mobile"]{
+  --page-padding:20px;
+  --section-padding-y:72px;
+  --gap-items:var(--space-24);
+  --panel-padding:var(--space-24);
+
+  --type-display-size:40px;--type-display-lh:46px;
+  --type-h2-size:28px;--type-h2-lh:34px;--type-h2-lg-size:40px;--type-h2-lg-lh:44px;
+  --type-h3-size:20px;--type-h3-lh:28px;
+  --type-h4-size:17px;--type-h4-lh:24px;
+  --type-stat-size:36px;--type-stat-lh:40px;
+  --type-stat-lg-size:48px;--type-stat-lg-lh:52px;
+  --type-stat-hero-size:56px;--type-stat-hero-lh:56px;
+  --type-lead-size:18px;--type-lead-lh:28px;
+  --type-body-size:16px;--type-body-lh:26px;
+  --type-world-size:40px;
+}
+
+/* World scope helpers — bind a world's trio to generic names on any container. */
+[data-world="wind"]{--world-surface:var(--wind-surface);--world-accent:var(--wind-accent);--world-dark:var(--wind-dark)}
+[data-world="sun"]{--world-surface:var(--sun-surface);--world-accent:var(--sun-accent);--world-dark:var(--sun-dark)}
+[data-world="rock"]{--world-surface:var(--rock-surface);--world-accent:var(--rock-accent);--world-dark:var(--rock-dark)}
+
+@media (prefers-reduced-motion:reduce){:root{
+  --motion-hover:0ms;
+  --motion-accordion:0ms;
+  --motion-menu:0ms;
+  --motion-entrance:0ms;
+}}

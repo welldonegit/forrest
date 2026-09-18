@@ -1,0 +1,10 @@
+/* Panel — replaces "card" (DESIGN.md §7). A surface-token background, 32px padding, radius 6,
+   no border, no shadow. Panels in one row share height and internal structure. */
+.panel{padding:var(--panel-padding);border-radius:var(--radius-panel);background:var(--bg-surface-warm);color:var(--text-primary);border:none}
+.panel--warm{background:var(--bg-surface-warm)}
+.panel--mist{background:var(--bg-surface-mist)}
+.panel--sand{background:var(--bg-surface-sand)}
+.panel--inverse{background:var(--bg-inverse);color:var(--text-on-inverse)}
+.panel--inverse .panel__text{color:var(--text-on-inverse-2)}
+.panel__title{font-family:var(--font-text);font-size:var(--type-h4-size);line-height:var(--type-h4-lh);font-weight:var(--type-h4-weight)}
+.panel__text{font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);margin-top:var(--space-12);color:var(--text-secondary);text-wrap:pretty}
