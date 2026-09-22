@@ -17,16 +17,25 @@ if (portal && cards.length) {
   let isOpen = false;
   let lastFocus = null;
 
-  function open(card, label, trigger) {
+  // Warm the room render immediately (it's hidden behind a 0% iris, so nothing shows). Decoding it
+  // up-front is what makes the *first* dive smooth: otherwise photo.jpg decodes on the main thread
+  // mid-animation, drops frames, and the plan appears to lurch/"fly" at you. Cached from #2 on.
+  roomImg.src = roomSrc;
+
+  async function open(card, label, trigger) {
     const img = card.querySelector('.plans__image');
     if (!img) return;
     const r = img.getBoundingClientRect();
     portal.style.setProperty('--px', ((r.left + r.width / 2) / window.innerWidth * 100).toFixed(2) + '%');
     portal.style.setProperty('--py', ((r.top + r.height / 2) / window.innerHeight * 100).toFixed(2) + '%');
     planImg.src = img.currentSrc || img.src;
-    if (!roomImg.src) roomImg.src = roomSrc;
     caption.textContent = label;
     lastFocus = trigger || null;
+
+    // Both frames fully decoded before the dive starts → the first open animates as cleanly as the
+    // rest. decode() is best-effort; if it rejects (e.g. cache miss race) we open anyway.
+    try { await Promise.all([planImg.decode?.(), roomImg.decode?.()].filter(Boolean)); } catch (e) { /* open regardless */ }
+    if (isOpen) return;                // guard against a double-click landing mid-decode
 
     portal.hidden = false;
     document.documentElement.style.overflow = 'hidden';
