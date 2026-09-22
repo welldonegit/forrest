@@ -100,6 +100,30 @@
             <source src="/video/fly-scrub-1080.mp4" type="video/mp4">
           </video>
           <div class="worlds__grad" aria-hidden="true"></div>
+          <!-- Marker layer, in the video's own coordinate space (slice-cropped exactly like the
+               video's object-fit:cover), so the ring + pulsing dot stay glued to the building as
+               the fly-through drifts. Positions are driven per-frame by three-worlds.js. -->
+          <svg class="worlds__fx" viewBox="0 0 1620 1080" preserveAspectRatio="xMidYMid slice" aria-hidden="true" data-worlds-fx>
+            <g class="worlds__fxg" data-fx="0">
+              <polygon class="worlds__ring" pathLength="100"/>
+              <circle class="worlds__pulse"/><circle class="worlds__pulse worlds__pulse--2"/>
+              <circle class="worlds__dot"/>
+            </g>
+            <g class="worlds__fxg" data-fx="1">
+              <polygon class="worlds__ring" pathLength="100"/>
+              <circle class="worlds__pulse"/><circle class="worlds__pulse worlds__pulse--2"/>
+              <circle class="worlds__dot"/>
+            </g>
+            <g class="worlds__fxg" data-fx="2">
+              <polygon class="worlds__ring" pathLength="100"/>
+              <circle class="worlds__pulse"/><circle class="worlds__pulse worlds__pulse--2"/>
+              <circle class="worlds__dot"/>
+            </g>
+          </svg>
+          <!-- Connector, in screen space: links the active text label to the dot on the building. -->
+          <svg class="worlds__link" aria-hidden="true" data-worlds-link>
+            <line class="worlds__link-line"/><circle class="worlds__link-anchor"/>
+          </svg>
           <div class="worlds__overlay">
             <div class="worlds__overlay-inner">
               <div class="worlds__texts">
@@ -118,11 +142,6 @@
                   <p class="worlds__tagline">Світ дому та родинного тяжіння</p>
                   <p class="worlds__desc">SUN створений для сімей із дітьми, великих родин та multi-generation подорожей, де діти, батьки й старші члени сім’ї отримують власний сценарій відпочинку.</p>
                 </article>
-              </div>
-              <div class="worlds__progress" aria-hidden="true">
-                <span class="worlds__prog is-active" data-prog>WIND</span>
-                <span class="worlds__prog" data-prog>ROCK</span>
-                <span class="worlds__prog" data-prog>SUN</span>
               </div>
             </div>
           </div>
