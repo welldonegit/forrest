@@ -37,6 +37,11 @@
 .worlds__fx,.worlds__link{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
 .worlds__fx{filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))}
 
+/* Spotlight: dim the whole frame; the mask (built in JS) punches a soft-edged hole in the shape
+   of the active building, so the dom reads as lit by contrast — replaces the old ring outline. */
+.worlds__spot{fill:var(--spruce);fill-opacity:.6}
+.worlds__ring{display:none}
+
 .worlds__fxg{opacity:0;transition:opacity 340ms var(--ease-out)}
 .worlds__fxg.is-active{opacity:1}
 /* Ring: non-scaling stroke stays a crisp hairline whatever the slice scale; pathLength=100 lets
@@ -105,7 +110,7 @@
 /* ---------- <768: video in a 16:9 frame, cross-fading text below it (back to normal flow) ----- */
 @media (max-width:767px){
   .worlds__scene{height:300vh}
-  .worlds__pin{height:auto;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:var(--space-32);padding:var(--space-32) var(--page-padding)}
+  .worlds__pin{height:auto;min-height:100vh;display:flex;flex-direction:column;justify-content:center;gap:var(--space-32);padding:var(--space-32) var(--page-padding)}
   .worlds__video{position:static;inset:auto;width:100%;height:auto;aspect-ratio:16 / 9;object-fit:cover;border-radius:var(--radius-media)}
   .worlds__grad{display:none}
   .worlds__fx,.worlds__link{display:none}

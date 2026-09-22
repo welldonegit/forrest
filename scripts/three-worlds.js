@@ -70,14 +70,54 @@ function init(section) {
     name.dataset.split = '1';
   }
 
+  // Spotlight scrim: a full-frame dim overlay with a soft-edged hole cut in the shape of the
+  // active building, so the dom "lights up" by contrast instead of being ringed. Built here (not
+  // in the markup) so each group's mask id stays unique and the hole reuses the ring geometry.
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  let spotDefs = null;
+  if (fx) {
+    spotDefs = document.createElementNS(SVGNS, 'defs');
+    const blur = document.createElementNS(SVGNS, 'filter');
+    blur.setAttribute('id', 'worlds-spot-blur');
+    for (const [k, v] of [['x', '-20%'], ['y', '-20%'], ['width', '140%'], ['height', '140%']]) blur.setAttribute(k, v);
+    const fe = document.createElementNS(SVGNS, 'feGaussianBlur');
+    fe.setAttribute('stdDeviation', '22');   // feather, in video-space px (viewBox 1620)
+    blur.appendChild(fe);
+    spotDefs.appendChild(blur);
+    fx.insertBefore(spotDefs, fx.firstChild);
+  }
+  const frameRect = (fill) => {
+    const r = document.createElementNS(SVGNS, 'rect');
+    for (const [k, v] of [['x', '0'], ['y', '0'], ['width', '1620'], ['height', '1080']]) r.setAttribute(k, v);
+    if (fill) r.setAttribute('fill', fill);
+    return r;
+  };
+
   const fxGroups = fx ? Array.from(fx.querySelectorAll('.worlds__fxg')) : [];
-  for (const g of fxGroups) {
+  fxGroups.forEach((g, i) => {
     g._ring = g.querySelector('.worlds__ring');
     g._dot = g.querySelector('.worlds__dot');
     const ps = g.querySelectorAll('.worlds__pulse');
     g._p1 = ps[0]; g._p2 = ps[1];
     for (const c of [g._dot, g._p1, g._p2]) c.setAttribute('r', DOT_R);
-  }
+    if (!spotDefs) return;
+    // mask = white frame (scrim visible) minus a blurred black polygon (building shows through).
+    const mask = document.createElementNS(SVGNS, 'mask');
+    mask.setAttribute('id', 'worlds-spot-' + i);
+    mask.setAttribute('maskUnits', 'userSpaceOnUse');
+    for (const [k, v] of [['x', '0'], ['y', '0'], ['width', '1620'], ['height', '1080']]) mask.setAttribute(k, v);
+    const hole = document.createElementNS(SVGNS, 'polygon');
+    hole.setAttribute('fill', '#000');
+    hole.setAttribute('filter', 'url(#worlds-spot-blur)');
+    mask.appendChild(frameRect('#fff'));
+    mask.appendChild(hole);
+    spotDefs.appendChild(mask);
+    g._spotHole = hole;
+    const spot = frameRect();
+    spot.setAttribute('class', 'worlds__spot');
+    spot.setAttribute('mask', 'url(#worlds-spot-' + i + ')');
+    g.insertBefore(spot, g.firstChild);   // behind the dot/pulse/connector
+  });
 
   let duration = 18.48;
   let scrub = false;      // true only after the seek probe passes
@@ -164,7 +204,9 @@ function init(section) {
     const k = anchor(WORLDS[activeIdx], g);
     const grp = fxGroups[activeIdx];
     if (!grp) return;
-    grp._ring.setAttribute('points', k.pts.map((p) => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' '));
+    const ptsStr = k.pts.map((p) => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+    grp._ring.setAttribute('points', ptsStr);
+    if (grp._spotHole) grp._spotHole.setAttribute('points', ptsStr);
     const dx = k.cx, dy = k.minY + (k.maxY - k.minY) * 0.34;   // sit the dot on the upper facade
     for (const c of [grp._dot, grp._p1, grp._p2]) { c.setAttribute('cx', dx.toFixed(1)); c.setAttribute('cy', dy.toFixed(1)); }
     updateLink(dx, dy);
