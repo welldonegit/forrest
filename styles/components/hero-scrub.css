@@ -1,0 +1,240 @@
+/* HeroScrub — pinned, scroll-scrubbed hero that resolves into the second screen (concept #1).
+   DESIGN.md §8 "scroll-scrubbed video" exception (hero half). A 400vh scene (300vh mobile) whose
+   inner pin is sticky at 100vh. One <video> (hero segment 0.0–9.0s of the fly footage) does
+   triple duty: it is the full-bleed rest background (act 1), the camera move (p .15–.65) and the
+   card that FLIPs into the second screen's 16:9 slot (act 2, p .65–1). The frame's *natural* box
+   is the act-2 slot (right column, 16:9); act 1 just scales it up uniformly to cover the viewport,
+   so the whole move is a single uniform scale — never a non-uniform squash that would distort the
+   picture. All text ink is white-sand: measured on the first frame it clears 3:1 (display) and
+   4.5:1 (body) with no scrim (see report). Degrades to a static two-screen layout (.hs--static):
+   first frame + text, then last frame in the card, no motion. All copy stays in the DOM. */
+
+.hs{position:relative;background:var(--bg-page)}
+
+/* Column helper: width of N grid columns inside the 1360 container. */
+.hs,.hs2{--hs-col:calc((var(--container) - 11 * var(--grid-gutter)) / 12)}
+
+/* ---------- Scene + pin ---------- */
+.hs__scene{position:relative;height:400vh}
+.hs__pin{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--bg-page)}
+
+/* A full-pin centred container used identically by the frame layer and act 2, so the frame's
+   natural slot and act 2's slot line up to the pixel. */
+.hs__stage{position:absolute;inset:0;width:min(100% - 2 * var(--page-padding), var(--container));
+  margin-inline:auto;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--grid-gutter);align-content:center}
+
+/* ---------- Frame layer (the video) ---------- */
+.hs__framelayer{z-index:1;pointer-events:none}
+.hs__frame{grid-column:6 / span 7;aspect-ratio:16 / 9;position:relative;overflow:hidden;border-radius:var(--radius-media);
+  transform-origin:0 0;will-change:transform;background:var(--spruce)}
+.hs__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;border-radius:var(--radius-media)}
+/* Even darkening over the video (travels with it through the FLIP). Opacity ramps from .2 in act 1
+   to ~.5 as the second screen arrives (--hs-dark set by hero-scrub.js) — so no separate dark box
+   shows at the landing spot. Deliberate §3.4 exception. */
+.hs__frame::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;border-radius:var(--radius-media);background:rgba(12,12,12,var(--hs-dark,.2))}
+
+/* ---------- Act 1: rest state (H1 top-left, panel + stats bottom-left) ---------- */
+.hs__act1{position:absolute;inset:0;z-index:3;pointer-events:none}
+.hs__act1 a,.hs__act1 button{pointer-events:auto}
+.hs__act1-inner{position:relative;width:min(100% - 2 * var(--page-padding), var(--container));height:100%;margin-inline:auto}
+.hs__act1-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}  /* static-mode rest bg */
+
+/* H1 — type/display, caps (hero exception, DESIGN.md §4.2). Top-left. */
+/* Sits low (just above the bottom description stack) — bottom-anchored so the gap to the copy stays
+   small at any viewport height. On scroll it's "beamed up" under the header (see hero-scrub.js). */
+.hs__title{position:absolute;top:auto;bottom:356px;left:0;margin:0;color:var(--air);
+  text-transform:uppercase;font-family:var(--font-display);font-size:var(--type-display-size);
+  line-height:var(--type-display-lh);letter-spacing:var(--type-display-ls);font-weight:var(--type-display-weight);
+  white-space:nowrap;transform-origin:0 50%;will-change:transform,opacity}
+.hs__title span{display:inline}
+
+/* Bottom-left stack: panel (subhead + buttons) with the stats row 48 below it; row bottom 64 from
+   the viewport floor. Gaps are bottom-up per the brief (nums → +48 → buttons → +24 → subhead). */
+.hs__act1-bottom{position:absolute;left:0;bottom:var(--space-64);display:flex;flex-direction:column;gap:var(--space-48);
+  will-change:opacity}
+.hs__panel{display:flex;flex-direction:column;gap:var(--space-24);align-items:flex-start}
+.hs__lead{font-family:var(--font-text);font-size:var(--type-lead-size);line-height:var(--type-lead-lh);
+  font-weight:var(--type-lead-weight);color:var(--air);text-wrap:pretty;
+  max-width:calc(5 * var(--hs-col) + 4 * var(--grid-gutter))}   /* ≤ 5 columns */
+.hs__cta{display:flex;align-items:center;gap:var(--space-24);flex-wrap:wrap}
+
+/* ---------- Stats row (DESIGN.md §7 Stat; number type/h3, qualifiers Mulish body) ---------- */
+.hs__stats{margin:0;display:flex;align-items:flex-start;gap:var(--space-40);
+  max-width:calc(9 * var(--hs-col) + 8 * var(--grid-gutter))}  /* ≤ 9 columns */
+.hs__stat{margin:0;display:flex;flex-direction:column}
+/* Valid <dl>: dt (caption) precedes dd (value) in the DOM; `order` paints the value on top. */
+.hs__stats dd{margin:0}
+.hs__stat-v{order:1;display:flex;align-items:baseline;gap:.2em;color:var(--air);white-space:nowrap}
+.hs__stat-num{font-family:var(--font-display);font-size:var(--type-h3-size);line-height:var(--type-h3-lh);
+  font-weight:500;letter-spacing:-.01em;font-variant-numeric:lining-nums tabular-nums}
+.hs__stat-q{font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);font-weight:400}
+.hs__stat-cap{order:2;font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);
+  color:var(--air);margin-top:var(--space-4)}
+
+/* ---------- Play control (DESIGN.md §6: white-sand square, spruce triangle, radius 4) --------
+   The only filled icon on the site. Size is set per use via --play-size (24 hero link / 48 mobile
+   / 64 second screen). Hit area is floored at 44px for the small variants. */
+.playctl{--play-size:64px;flex:none;inline-size:var(--play-size);block-size:var(--play-size);
+  display:inline-flex;align-items:center;justify-content:center;padding:0;border:0;cursor:pointer;
+  background:var(--white-sand);border-radius:var(--radius-control);color:var(--spruce);
+  transition:background-color var(--motion-hover) var(--ease-out)}
+/* Interaction: the white-sand tile fills sea-wave (triangle stays spruce). Focus ring sea-wave (dark). */
+.playctl:hover{background:var(--interactive)}
+.playctl svg{inline-size:40%;block-size:40%;display:block}
+.playctl:focus-visible{outline:var(--border-width-focus) solid var(--focus-ring-inverse);outline-offset:var(--focus-offset)}
+
+/* Hero text-button: 24px play + underlined label, all white-sand over the footage. */
+.hs__playlink{display:inline-flex;align-items:center;gap:var(--space-12);background:none;border:0;cursor:pointer;
+  padding:0;min-height:var(--tap-target);color:var(--air);
+  font-family:var(--font-text);font-size:var(--type-button-size);line-height:var(--type-button-lh);font-weight:600}
+.hs__playlink .hs__playlink-label{position:relative}
+.hs__playlink .hs__playlink-label::after{content:"";position:absolute;left:0;right:0;bottom:-3px;height:1px;background:var(--interactive);transform:scaleX(0);transform-origin:left;transition:transform var(--motion-menu) var(--ease-out)}
+.hs__playlink .playctl{--play-size:24px}
+.hs__playlink:hover .hs__playlink-label::after{transform:scaleX(1)}
+.hs__playlink:focus-visible{outline:var(--border-width-focus) solid var(--focus-ring-inverse);outline-offset:var(--focus-offset)}
+
+/* ---------- Act 2: the second screen, composed inside the pin ---------- */
+/* visibility:hidden (not just opacity) keeps the second-screen controls out of the tab order while
+   the card is still full-screen in act 1; is-shown (set by the scrub at p>.75 and by static mode)
+   reveals them. */
+.hs__act2{z-index:2;opacity:0;visibility:hidden;align-content:center;pointer-events:none}
+.hs__act2.is-shown{visibility:visible;pointer-events:auto}
+.hs__act2-text{grid-column:1 / span 5;align-self:center}
+/* Overline above the heading — display face, medium (500) weight. */
+.hs__act2-eyebrow{margin:0 0 var(--space-16);font-family:var(--font-display);font-size:var(--type-small-size);line-height:1;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--text-primary)}
+.hs__act2-title{margin:0;color:var(--text-primary)}
+/* "Дохід" greyed like the plans heading's second colour. */
+.hs__act2-accent{color:var(--accent-earth)}
+.hs__act2-lead{margin-top:var(--space-24);font-family:var(--font-text);font-size:var(--type-lead-size);
+  line-height:var(--type-lead-lh);color:var(--text-primary);max-width:var(--measure-text);text-wrap:pretty}
+.hs__act2-cta{margin-top:var(--space-40)}
+/* Right column mirrors the frame's slot (same grid cell) so the play + caption sit on the card. */
+.hs__act2-media{grid-column:6 / span 7;align-self:center}
+.hs__slot{position:relative;aspect-ratio:16 / 9;display:grid;place-items:center}
+/* Static mode (<1280) uses a still card in the slot — darken that directly (no FLIP, no stray box).
+   In FLIP mode the darkening lives on .hs__frame instead, so no rectangle shows before it lands. */
+.hs--static .hs__slot::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:rgba(12,12,12,.45)}
+.hs__card-static{display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:var(--radius-media)}
+/* "60 сек" chip — sea-wave play-badge pinned to the video's top-left corner. */
+.hs__slot-badge{position:absolute;top:var(--space-16);left:var(--space-16);z-index:2;display:inline-flex;align-items:center;gap:var(--space-4);
+  padding:var(--space-4) var(--space-8);border-radius:var(--radius-control);
+  background:var(--air);color:var(--spruce);
+  font-family:var(--font-text);font-size:var(--type-label-size);line-height:1;font-weight:700;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.hs__slot-badge svg{inline-size:.9em;block-size:.9em}
+/* Play control + its call-to-action line, centred on the video. */
+.hs__slot-center{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:var(--space-16)}
+.hs__slot-cta{max-width:28ch;background:none;border:0;cursor:pointer;color:var(--air);text-align:center;
+  font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);
+  text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:4px;
+  transition:text-decoration-color var(--motion-hover) var(--ease-out)}
+.hs__slot-cta:hover{text-decoration-color:var(--interactive)}
+.hs__slot-cta:focus-visible{outline:var(--border-width-focus) solid var(--focus-ring-inverse);outline-offset:var(--focus-offset)}
+/* The card chrome (60 сек chip · play · CTA) rises in with a soft stagger once the video has settled
+   (.hs--landed, set by hero-scrub.js), or immediately in static mode. */
+.hs__slot-badge,.hs__slot .playctl,.hs__slot-cta{opacity:0;transform:translateY(12px);
+  transition:opacity 550ms var(--ease-out),transform 650ms cubic-bezier(.22,1,.36,1)}
+.hs__slot .playctl{transform:translateY(12px) scale(.94)}
+.hs--landed .hs__slot-badge,.hs--static .hs__slot-badge{opacity:1;transform:none;transition-delay:80ms}
+.hs--landed .hs__slot .playctl,.hs--static .hs__slot .playctl{opacity:1;transform:none;transition-delay:180ms}
+.hs--landed .hs__slot-cta,.hs--static .hs__slot-cta{opacity:1;transform:none;transition-delay:300ms}
+@media (prefers-reduced-motion:reduce){
+  .hs__slot-badge,.hs__slot .playctl,.hs__slot-cta{transition:none;opacity:1;transform:none}
+}
+.hs__cap:hover .hs__cap-text{text-decoration-color:var(--interactive)}
+.hs__cap:focus-visible{outline:var(--border-width-focus) solid var(--focus-ring);outline-offset:var(--focus-offset);border-radius:var(--radius-4)}
+
+/* ======================================================================================
+   768–1279 — tablet. H1 to the mobile display scale; stats 3+2; left text / card still split.
+   ====================================================================================== */
+@media (max-width:1279px){
+  .hs__title{font-size:40px;line-height:46px}                 /* mobile display scale (brief) */
+  .hs__stats{flex-wrap:wrap;gap:var(--space-32)}
+  .hs__stat{flex:0 0 calc((100% - 2 * var(--space-32)) / 3)}  /* 3 per row → 3+2 */
+  /* The tighter <1280 centre-crop lands the bright sand building behind the text; bias the rest
+     poster left to the darker SUN-building/forest side. Reported: the brief's "до 10%" wasn't
+     enough — ~20% clears it (mobile subhead 1.35→5.1, numbers 3.44→8.25; tablet numbers 4.41→7.0). */
+  .hs__act1-bg{object-position:20% 50%}
+  /* Second screen collapses to one column: text, then full-width 16:9 card (static stack). */
+  .hs--static .hs__act2-text{grid-column:1 / -1}
+  .hs--static .hs__act2-media{grid-column:1 / -1;margin-top:var(--space-40)}
+  .hs--static .hs__act2-cta{margin-top:var(--space-32)}
+}
+
+/* ======================================================================================
+   < 768 — mobile. Wrapper 300vh. H1 / subhead / buttons stack; stats 2-col grid; card 4:5.
+   ====================================================================================== */
+@media (max-width:767px){
+  .hs__scene{height:300vh}
+  .hs__stage,.hs__act1-inner{width:100%;padding-inline:var(--page-padding)}
+  .hs__frame{grid-column:1 / -1;aspect-ratio:4 / 5}
+
+  .hs__title{top:calc(var(--header-h-scrolled) + var(--space-24));bottom:auto;font-size:var(--type-display-size);line-height:var(--type-display-lh);white-space:normal}
+  .hs__act1-bottom{right:0;gap:var(--space-32)}
+  .hs__lead{max-width:none}
+  .hs__cta{flex-direction:column;align-items:flex-start;gap:var(--space-16);width:100%}
+  .hs__cta .btn{width:100%}
+
+  .hs__stats{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-16) var(--space-24);max-width:none}
+  .hs__stat{flex:initial}
+  .hs__stat-num{font-size:var(--type-h4-size);line-height:var(--type-h4-lh)}
+
+  /* Second screen stacks: text, then full-width card. */
+  .hs__act2{align-content:center}
+  .hs__act2-text{grid-column:1 / -1}
+  .hs__act2-media{grid-column:1 / -1;margin-top:var(--space-40)}
+  .hs__act2-cta{margin-top:var(--space-32)}
+  .hs__slot{aspect-ratio:4 / 5}
+  .playctl{--play-size:48px}             /* mobile play size */
+  .hs__act2-media .playctl{--play-size:48px}
+}
+
+/* ======================================================================================
+   Static fallback — reduced-motion / slow seeks / failed video. Two real stacked screens.
+   ====================================================================================== */
+.hs--static .hs__scene{height:auto}
+.hs--static .hs__pin{position:static;height:auto}
+.hs--static .hs__framelayer{display:none}
+/* Act 1 → a normal 100vh hero: first-frame poster behind a *flowing* text column (the pinned
+   layout positions this content absolutely, which has no intrinsic height — static must flow it). */
+.hs--static .hs__act1{position:relative;min-height:100vh;display:flex;overflow:hidden}
+.hs--static .hs__act1-bg{display:block}
+.hs--static .hs__act1-inner{position:relative;z-index:1;height:auto;min-height:100vh;
+  display:flex;flex-direction:column;justify-content:space-between;gap:var(--space-48);
+  padding-block:calc(var(--header-h-scrolled) + var(--space-32)) var(--space-64)}
+.hs--static .hs__title{position:static}
+.hs--static .hs__act1-bottom{position:static}
+/* Act 2 → a normal scrollable section below: last frame in the card, no transform. */
+.hs--static .hs__act2{position:relative;opacity:1;pointer-events:auto;
+  padding-block:var(--section-padding-y);min-height:auto;align-content:start;align-items:start}
+.hs--static .hs__card-static{display:block}
+
+/* ======================================================================================
+   Second-screen standalone section (.hs2) — used by static mode's real card + for revert.
+   In the dynamic path the second screen lives inside the pin (act 2); .hs2 stays display:none
+   unless static mode promotes it. Kept minimal; real layout is shared with act 2 above.
+   ====================================================================================== */
+.hs2{display:none}
+
+/* Modal (presentation player) — spruce 92% veil, 16:9 player on 10 columns, close top-right. */
+.hs-modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;
+  padding:var(--page-padding);background:var(--spruce)}
+.hs-modal.is-open{display:flex}
+.hs-modal__dialog{position:relative;width:min(100%, calc(10 * var(--hs-col) + 9 * var(--grid-gutter)));}
+.hs-modal__player{position:relative;aspect-ratio:16 / 9;background:var(--spruce);border-radius:var(--radius-media);overflow:hidden}
+.hs-modal__player video,.hs-modal__poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.hs-modal__poster{display:grid;place-items:center;color:var(--white-sand);font-family:var(--font-text);
+  font-size:var(--type-body-size);background:var(--spruce);text-align:center;padding:var(--space-24)}
+.hs-modal__close{position:absolute;top:calc(-1 * var(--space-40));right:0;inline-size:var(--icon-24);block-size:var(--icon-24);
+  min-width:var(--tap-target);min-height:var(--tap-target);display:inline-flex;align-items:center;justify-content:center;
+  padding:0;border:0;background:none;cursor:pointer;color:var(--white-sand)}
+.hs-modal__close:focus-visible{outline:var(--border-width-focus) solid var(--accent);outline-offset:var(--focus-offset)}
+
+/* Header hand-off: while act 1 plays the hero forces the transparent (non-scrolled) header look,
+   overriding whatever .is-scrolled header-scroll.js has set from scrollY; removed at p ≥ .7. */
+.site-header.is-hero-transparent{background:var(--air);border-bottom-color:transparent}
+
+@media (prefers-reduced-motion:reduce){
+  .hs__title,.hs__act1-bottom,.hs__frame,.hs__act2{will-change:auto}
+}
+.playctl.is-hover{background:var(--interactive)}
+.playctl.is-focus{outline:var(--border-width-focus) solid var(--focus-ring-inverse);outline-offset:var(--focus-offset)}

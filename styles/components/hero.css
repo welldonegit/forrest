@@ -9,7 +9,7 @@
 .hero__media picture{display:block;width:100%;height:100%}
 .hero__media img{width:100%;height:100%;object-fit:cover;border-radius:var(--radius-media)}
 /* Brand-dark (bark, not spruce/green) 5% wash over the render. */
-.hero__media::after{content:"";position:absolute;inset:0;background:color-mix(in srgb,var(--bark) 5%,transparent);border-radius:var(--radius-media);pointer-events:none}
+/* §3.4: no tint layer over the hero photo. */
 .hero__inner{position:relative;z-index:1;width:min(100% - 2 * var(--page-padding), var(--container));margin-inline:auto;padding-block:var(--space-128) var(--space-64);display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--grid-gutter);grid-template-rows:auto 1fr auto;align-content:space-between}
 .hero__title{grid-column:1 / span 8;grid-row:1;font-family:var(--font-display);font-size:var(--type-display-size);line-height:var(--type-display-lh);letter-spacing:var(--type-display-ls);font-weight:var(--type-display-weight);text-transform:uppercase;color:var(--spruce)}
 .hero__title-a,.hero__title-b{display:block}
@@ -18,7 +18,7 @@
    starts under the "т" of "світи". Desktop only — hidden (flush) on mobile. */
 .hero__title-ghost{display:none}
 /* Bottom panel: lead text with the CTA under it, one light-blur plate pinned bottom-left. */
-.hero__panel{grid-column:1 / span 5;grid-row:3;align-self:end;width:fit-content;max-width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:var(--space-16);padding:var(--space-8) var(--space-12);padding-bottom:calc(var(--space-8) + (var(--type-lead-lh) - var(--type-lead-size)) / 2);margin-inline:calc(-1 * var(--space-12));backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+.hero__panel{grid-column:1 / span 5;grid-row:3;align-self:end;width:fit-content;max-width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:var(--space-16);padding:var(--space-8) var(--space-12);padding-bottom:calc(var(--space-8) + (var(--type-lead-lh) - var(--type-lead-size)) / 2);margin-inline:calc(-1 * var(--space-12))}
 .hero__lead{font-family:var(--font-text);font-size:var(--type-lead-size);line-height:var(--type-lead-lh);color:var(--white-sand);text-wrap:pretty}
 
 /* Desktop: fixed 72px/700 headline as a staircase (see .hero__title-ghost). nowrap keeps each

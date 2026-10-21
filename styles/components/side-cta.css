@@ -1,0 +1,16 @@
+/* Persistent side CTA — a vertical tab pinned to the right edge, vertically centred, visible for
+   the whole page. Spruce fill, white-sand ink; rounded on the page-facing (left) side. Below the
+   header (z 50) and menu (z 60). Interaction is the system's sea-wave: hover fills sea-wave with
+   spruce text (150ms, background/colour only — no transforms). Focus is a sea-wave ring (dark). */
+.side-cta{
+  position:fixed;top:50%;right:0;z-index:40;transform:translateY(-50%);
+  writing-mode:vertical-rl;
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:var(--space-24) var(--space-12);
+  background:var(--spruce);color:var(--white-sand);
+  font-family:var(--font-text);font-size:var(--type-button-size);line-height:1;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;text-decoration:none;
+  border-top-left-radius:var(--radius-control);border-bottom-left-radius:var(--radius-control);
+  transition:background-color var(--motion-hover) var(--ease-out),color var(--motion-hover) var(--ease-out)}
+.side-cta:hover{background:var(--interactive);color:var(--interactive-text)}
+.side-cta:focus-visible{outline:var(--border-width-focus) solid var(--focus-ring-inverse);outline-offset:var(--focus-offset)}

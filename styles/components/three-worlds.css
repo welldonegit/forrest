@@ -28,19 +28,18 @@
 .worlds__scene{position:relative;height:400vh}
 .worlds__pin{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--spruce)}
 .worlds__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.worlds__grad{position:absolute;inset:0;pointer-events:none;background:radial-gradient(65% 62% at 6% 100%,var(--scrim-spruce-local-60) 0%,var(--scrim-spruce-local-50) 30%,var(--scrim-spruce-30) 56%,var(--scrim-spruce-18) 78%,var(--scrim-spruce-0) 100%)}
+.worlds__grad{position:absolute;inset:0;pointer-events:none;background:none}
 
 /* ---------- Building markers: animated ring + pulsing dot + connector to the label ----------
    Two overlays: .worlds__fx in the video's coordinate space (slice-cropped exactly like the
    video, so markers track the drifting building), and .worlds__link in screen px (connector).
    Geometry is set per-frame by three-worlds.js; the reveal/pulse/draw-on is pure CSS. */
 .worlds__fx,.worlds__link{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
-.worlds__fx{filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))}
+.worlds__fx{}
 
 /* Spotlight: dim the whole frame; the mask (built in JS) punches a soft-edged hole in the shape
    of the active building, so the dom reads as lit by contrast — replaces the old ring outline. */
-.worlds__spot{fill:var(--spruce);fill-opacity:.6}
-.worlds__ring{display:none}
+.worlds__spot{display:none}
 
 .worlds__fxg{opacity:0;transition:opacity 340ms var(--ease-out)}
 .worlds__fxg.is-active{opacity:1}
@@ -53,9 +52,9 @@
 .worlds__fxg.is-active .worlds__pulse{animation:worlds-pulse 2.4s ease-out infinite}
 .worlds__fxg.is-active .worlds__pulse--2{animation-delay:1.2s}
 
-.worlds__link{filter:drop-shadow(0 1px 3px rgba(0,0,0,.5));opacity:0;transition:opacity 340ms var(--ease-out)}
+.worlds__link{opacity:0;transition:opacity 340ms var(--ease-out)}
 .worlds__link.is-shown{opacity:1}
-.worlds__link-line{stroke:var(--white-sand);stroke-width:1.5;stroke-dasharray:5 6;opacity:.75}
+.worlds__link-line{stroke:var(--white-sand);stroke-width:1.5;stroke-dasharray:5 6}
 .worlds__link.is-shown .worlds__link-line{animation:worlds-link-march 1s linear infinite}
 .worlds__link-anchor{fill:var(--white-sand)}
 
@@ -81,11 +80,11 @@
 /* ROCK / SUN — anchored bottom-right, right-aligned, ~6 cols. */
 .worlds__text--rock,.worlds__text--sun{right:0;bottom:var(--space-96);width:calc((var(--container) - 11 * var(--grid-gutter)) / 12 * 6 + 5 * var(--grid-gutter));text-align:right}
 /* Soft radial scrim behind the right-corner type so it stays legible over the footage. */
-.worlds__text--rock::before,.worlds__text--sun::before{content:"";position:absolute;inset:-28% -14%;z-index:-1;pointer-events:none;background:radial-gradient(closest-side,var(--scrim-spruce-local-60),var(--scrim-spruce-30) 52%,transparent 80%)}
+.worlds__text--rock::before,.worlds__text--sun::before{content:"";position:absolute;inset:-28% -14%;z-index:-1;pointer-events:none}
 
-.worlds__name{font-family:var(--font-display);font-size:48px;line-height:1;font-weight:500;letter-spacing:-.02em;text-transform:uppercase;color:var(--white-sand);text-shadow:0 2px 24px var(--scrim-spruce-local-60)}
-.worlds__tagline{font-family:var(--font-display);font-size:var(--type-h3-size);line-height:var(--type-h3-lh);font-weight:var(--type-h3-weight);color:var(--white-sand);margin-top:var(--space-8);text-shadow:0 1px 18px var(--scrim-spruce-local-60)}
-.worlds__desc{font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--white-sand);margin-top:var(--space-16);text-wrap:pretty;text-shadow:0 1px 14px var(--scrim-spruce-local-60)}
+.worlds__name{font-family:var(--font-display);font-size:48px;line-height:1;font-weight:500;letter-spacing:-.02em;text-transform:uppercase;color:var(--air)}
+.worlds__tagline{font-family:var(--font-display);font-size:var(--type-h3-size);line-height:var(--type-h3-lh);font-weight:var(--type-h3-weight);color:var(--air);margin-top:var(--space-8)}
+.worlds__desc{font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--air);margin-top:var(--space-16);text-wrap:pretty}
 .worlds__text--wind .worlds__desc{max-width:calc((var(--container) - 11 * var(--grid-gutter)) / 12 * 5 + 4 * var(--grid-gutter))}
 .worlds__text--rock .worlds__desc,.worlds__text--sun .worlds__desc{max-width:calc((var(--container) - 11 * var(--grid-gutter)) / 12 * 5 + 4 * var(--grid-gutter));margin-left:auto}
 

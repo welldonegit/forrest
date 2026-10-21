@@ -34,18 +34,18 @@ The brand is built on Carpathian nature reduced to geometry: angular shapes (win
 
 ### 3.1 Primitives (from the brand book — exact, never adjusted)
 
-| Token | Hex | Brand name | Role |
-|---|---|---|---|
-| `bark` | `#322512` | Black 4C (dark brown) | ROCK deep tone, inverse sections |
-| `spruce` | `#182820` | Смерековий шепіт | Primary dark; SUN deep tone |
-| `forest` | `#5B756A` | Лісова тиша | Secondary text, SUN mid tone |
-| `stone` | `#928C8E` | Мокрий камінь | ROCK mid tone, hairlines, decorative only for text |
-| `path-sand` | `#E1D4CB` | Пісок стежини | ROCK light surface |
-| `white-sand` | `#F2EAD8` | Білий пісок | Warm light surface |
-| `sea-wave` | `#7ABFB2` | Морська хвиля | WIND accent |
-| `sea-fog` | `#DDEBE6` | Морський туман | WIND light surface |
-| `air` | `#FFFFFF` | Гірське повітря | Page background |
-| `night-bark` | `#0C0C0C` | Нічна кора | Logo on pure white only |
+| Token        | Hex       | Brand name            | Role                                                               |
+| ------------ | --------- | --------------------- | ------------------------------------------------------------------ |
+| `bark`       | `#322512` | Black 4C (dark brown) | ROCK deep tone, inverse sections                                   |
+| `spruce`     | `#182820` | Смерековий шепіт      | Primary dark; SUN deep tone                                        |
+| `forest`     | `#5B756A` | Лісова тиша           | Secondary text, SUN mid tone                                       |
+| `stone`      | `#928C8E` | Мокрий камінь         | ROCK surface and mid tone, hairlines; not for body text on light   |
+| `path-sand`  | `#E1D4CB` | Пісок стежини         | ROCK light surface                                                 |
+| `white-sand` | `#F2EAD8` | Білий пісок           | Warm light surface                                                 |
+| `sea-wave`   | `#7ABFB2` | Морська хвиля         | WIND accent                                                        |
+| `sea-fog`    | `#DDEBE6` | Морський туман        | WIND light surface                                                 |
+| `air`        | `#FFFFFF` | Гірське повітря       | Page background                                                    |
+| `night-bark` | `#0C0C0C` | Нічна кора            | Brand black: logo on white, or a dark surface with white logo/text |
 
 Nothing else exists. No `#111`, no `#F5F5F5`, no Tailwind greys, no gradients between these values.
 
@@ -61,43 +61,53 @@ Nothing else exists. No `#111`, no `#F5F5F5`, no Tailwind greys, no gradients be
 
 --text-primary:       #182820   (spruce)       — all headings and body on light bg
 --text-secondary:     #5B756A   (forest)       — supporting copy, captions
---text-on-inverse:    #F2EAD8   (white-sand)   — text on spruce/bark; never pure white
+--text-on-inverse:    #F2EAD8   (white-sand)   — text on spruce/bark (pure white #FFFFFF is also a brand colour and allowed)
 --text-on-inverse-2:  #DDEBE6   (sea-fog)      — secondary text on spruce
 
 --accent:             #7ABFB2   (sea-wave)     — highlights, active states, WIND
 --accent-deep:        #5B756A   (forest)       — links, focus ring, SUN
 --accent-earth:       #928C8E   (stone)        — ROCK, dividers
 
+--interactive:        #7ABFB2   (sea-wave)     — the ONE color of interaction: hover fills, selection, active states, link underlines
+--interactive-text:   #182820   (spruce)       — text/icon on an --interactive fill (7:1)
+--interactive-soft:   #DDEBE6   (sea-fog)      — hover background behind icons and rows on light surfaces
+
 --border-hairline:    #E1D4CB   (path-sand)    — 1px rules on light bg
 --border-strong:      #928C8E   (stone)        — table rules, input borders
---border-on-inverse:  rgba(242,234,216,0.24)   — hairlines on dark bg (white-sand @ 24%)
+--border-on-inverse:  #5B756A   (forest)       — hairlines on spruce; on bark use stone #928C8E (solid brand colours, no opacity)
 ```
 
 ### 3.3 World palettes
 
+From the brand book's colour pairs for graphic elements. WIND: sea‑fog, sea‑wave, forest, stone — no spruce. SUN: white‑sand, forest, spruce, sea‑fog. ROCK: path‑sand, stone, bark, white‑sand. The book allows other brand colours, but these pairs are preferred.
+
 Each world has a fixed pair; use it whenever that world is the subject.
 
-| World | Surface | Shape / accent | Dark |
-|---|---|---|---|
-| **WIND** | `sea-fog` #DDEBE6 | `sea-wave` #7ABFB2 | `spruce` #182820 |
-| **SUN** | `white-sand` #F2EAD8 | `forest` #5B756A | `spruce` #182820 |
-| **ROCK** | `path-sand` #E1D4CB | `stone` #928C8E | `bark` #322512 |
+| World    | Surface              | Shape / accent     | Dark                                   |
+| -------- | -------------------- | ------------------ | -------------------------------------- |
+| **WIND** | `sea-fog` #DDEBE6    | `sea-wave` #7ABFB2 | `forest` #5B756A (and `stone` #928C8E) |
+| **SUN**  | `white-sand` #F2EAD8 | `forest` #5B756A   | `spruce` #182820                       |
+| **ROCK** | `path-sand` #E1D4CB  | `stone` #928C8E    | `bark` #322512                         |
 
 ### 3.4 Color rules
 
 - **Max 3 color roles per section**: one background, one text color, one accent. A muted state of the text role (`text-secondary` on light, `text-on-inverse-2` on dark) counts as the same role, not as a fourth color — it is how inactive items, captions and secondary copy are shown. The page is rich because sections alternate, not because a section is busy.
 - Section backgrounds alternate: `air` → warm/mist/sand surface → `air` → inverse. Never two dark sections in a row; never more than two consecutive tinted sections.
-- `sea-wave` is **never used as text on a light background** (contrast ≈2:1). It is a fill, a shape color, or text on `spruce`/`bark`.
+- `sea-wave` on light backgrounds: the brand book uses it for the logo and for world names/slogans on `sea-fog` and `white-sand`. On the site this is allowed **only as decorative display** (world names as graphics, with the real text available to screen readers). Informational text in `sea-wave` on light is not used — it fails contrast (≈2:1). This is an accessibility rule, not a brand rule.
+- **Interaction is always `sea-wave`.** Every hover, active, selected and "current" state uses `--interactive` as a fill with `spruce` on top, or `--interactive-soft` as a background behind an icon or row on light surfaces. `forest` and `spruce` are never used as hover colors — they are resting colors (text, dark surfaces). `::selection` is `sea-wave` background with `spruce` text, site‑wide.
+- Focus rings stay `spruce` on light surfaces and `sea-wave` on dark ones (WCAG 3:1 for UI components).
 - `stone` is not used for body text on light backgrounds (contrast ≈3.3:1). Allowed for large display numbers, hairlines and shapes.
 - Primary CTA is `spruce` fill + `white-sand` text. There is exactly one primary CTA per viewport.
-- **Forbidden pairs** (from the brand book — too low contrast or muddy): `spruce` on `bark`; `path-sand` on `white-sand`; `white-sand` on `sea-fog`; `forest` on `sea-wave`; `sea-wave` or `sea-fog` on any grey; `night-bark` anywhere except the logo on pure white.
-- No gradients, no glassmorphism, no colored shadows, no opacity tints of accent colors on photos except a `spruce` 0–40% scrim for legibility.
+- **Forbidden pairs** (exactly the brand book's «Не використовувати поєднання»): `spruce` on `bark`; `path-sand` on `white-sand`; `forest` on `sea-wave`; `white-sand` on `sea-fog`; `sea-wave` on a grey‑green tint; `sea-fog` on a light grey. `sea-fog` on `stone` **is allowed** (brand book shows it).
+- No decorative gradients, no glassmorphism, no shadows, no opacity variants of brand colours on UI elements (buttons, borders, text, panels).
+- **Photo scrims are allowed and expected** wherever text sits on a photo or video. Rules: the scrim colour is `night-bark` #0C0C0C or `spruce` #182820, never a tint (no sea-wave, sand or forest washes). Prefer a **directional gradient** from the edge where the text sits (e.g. bottom 0→65%, left 0→55%) over a flat layer; a flat layer is allowed for full‑bleed sections with centred text, max 45%. Keep the scrim off the subject where possible so the render keeps its colour. Mobile crops get their own scrim tuned to the crop.
+- **Text on photos and video**: `air` #FFFFFF on a scrim; `spruce` only when the text sits on a genuinely light, calm area (e.g. sky) without a scrim. Body text on a photo must reach 4.5:1 against the brightest pixels under it, display text 3:1 — adjust the scrim, not the text colour, to get there.
 
 ---
 
 ## 4. Typography
 
-Two families, clearly separated by role. Both are free (Google Fonts). Google Sans from the brand book is **excluded** for the web (licensing); Mulish covers its role.
+Two families, clearly separated by role. Both are free (Google Fonts). The brand book also lists **Google Sans** as an additional font; it is not used until its web licence is confirmed — the book calls it free, but Google Sans has historically not been licensed for third‑party sites. Mulish covers its role.
 
 ```
 --font-display: "Unbounded", "Arial Black", sans-serif;   /* headings, numbers, world names */
@@ -106,20 +116,20 @@ Two families, clearly separated by role. Both are free (Google Fonts). Google Sa
 
 ### 4.1 Scale (desktop / mobile, size/line‑height in px)
 
-| Token | Family & weight | Desktop | Mobile | Use |
-|---|---|---|---|---|
-| `type/display` | Unbounded 500, ls −0.02em | 64/72 | 40/46 | Hero headline only. One per page. |
-| `type/h2` | Unbounded 500, ls −0.01em | 40/48 | 28/34 | Every section title. All of them. |
-| `type/h3` | Unbounded 400 | 24/32 | 20/28 | Sub‑block titles inside a section |
-| `type/h4` | Mulish 700 | 18/26 | 17/24 | Card / item titles |
-| `type/stat` | Unbounded 400, ls −0.02em | 56/60 | 36/40 | Key numbers (45 000+, 12%) |
-| `type/stat-hero` | Unbounded 500, ls −0.03em | 144/136 | 56/56 | One dominant number per section, max one section per page. Qualifiers ("від", "$", "%", "років", "м²") set in Mulish `type/h3` `text-secondary`, baseline‑aligned. Mobile size is fixed by the widest value ("27,4–115 м²") fitting 350 px |
-| `type/lead` | Mulish 400 | 20/30 | 18/28 | Intro paragraph under h2, max 2 per page |
-| `type/body` | Mulish 400 | 17/27 | 16/26 | Default text |
-| `type/small` | Mulish 400 | 14/20 | 14/20 | Captions, legal, footnotes |
-| `type/label` | Mulish 600 | 13/18 | 13/18 | Form labels, tags. Sentence case, **no letter‑spacing** |
-| `type/button` | Mulish 600 | 16/20 | 16/20 | Buttons, nav |
-| `type/world` | Unbounded 500, UPPERCASE | 40–96 | 32–56 | Only the words WIND / SUN / ROCK |
+| Token            | Family & weight           | Desktop | Mobile | Use                                                                                                                                                                                                                                        |
+| ---------------- | ------------------------- | ------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `type/display`   | Unbounded 500, ls −0.02em | 64/72   | 40/46  | Hero headline only. One per page.                                                                                                                                                                                                          |
+| `type/h2`        | Unbounded 500, ls −0.01em | 40/48   | 28/34  | Every section title. All of them.                                                                                                                                                                                                          |
+| `type/h3`        | Unbounded 400             | 24/32   | 20/28  | Sub‑block titles inside a section                                                                                                                                                                                                          |
+| `type/h4`        | Mulish 700                | 18/26   | 17/24  | Card / item titles                                                                                                                                                                                                                         |
+| `type/stat`      | Unbounded 400, ls −0.02em | 56/60   | 36/40  | Key numbers (45 000+, 12%)                                                                                                                                                                                                                 |
+| `type/stat-hero` | Unbounded 500, ls −0.03em | 144/136 | 56/56  | One dominant number per section, max one section per page. Qualifiers ("від", "$", "%", "років", "м²") set in Mulish `type/h3` `text-secondary`, baseline‑aligned. Mobile size is fixed by the widest value ("27,4–115 м²") fitting 350 px |
+| `type/lead`      | Mulish 400                | 20/30   | 18/28  | Intro paragraph under h2, max 2 per page                                                                                                                                                                                                   |
+| `type/body`      | Mulish 400                | 17/27   | 16/26  | Default text                                                                                                                                                                                                                               |
+| `type/small`     | Mulish 400                | 14/20   | 14/20  | Captions, legal, footnotes                                                                                                                                                                                                                 |
+| `type/label`     | Mulish 600                | 13/18   | 13/18  | Form labels, tags. Sentence case, **no letter‑spacing**                                                                                                                                                                                    |
+| `type/button`    | Mulish 600                | 16/20   | 16/20  | Buttons, nav                                                                                                                                                                                                                               |
+| `type/world`     | Unbounded 500, UPPERCASE  | 40–96   | 32–56  | Only the words WIND / SUN / ROCK                                                                                                                                                                                                           |
 
 ### 4.2 Typography rules
 
@@ -130,7 +140,7 @@ Two families, clearly separated by role. Both are free (Google Fonts). Google Sa
 - Body line length 55–75 characters. Columns of text max 640 px wide.
 - Numbers in Unbounded, always with a Mulish label under them, never a caption above.
 - Unbounded is wide: never set body text or paragraphs in it, never below 17 px.
-- No monospace anywhere. No text‑shadows. No text on photos without a `spruce` scrim.
+- No monospace anywhere. No text‑shadows. Text on photos per §3.4 (white on a scrim, or spruce on a calm light area).
 
 ---
 
@@ -174,10 +184,10 @@ Nothing is rounder than 6 px. Pill buttons, circles as decoration and 16–24 px
 ## 6. Imagery and brand graphics
 
 - **Photography** is real, warm, editorial: people in Carpathian settings, interiors, snow, forest. No stock smiles, no 3D renders styled as photos, no AI‑looking imagery, no purple/teal color grading. Photos are never rounded.
-- **Brand shapes** (WIND chevron, SUN twin peaks, ROCK double slab) are used in exactly three ways: (a) as a solid fill in a world color on a world surface; (b) as a mask that crops a photo; (c) as a 1–1.5 px outline stroke laid over a photo in `white-sand` or `sea-fog`. One shape per composition. Shapes are never rotated, mirrored, gradient‑filled, shadowed or distorted.
+- **Brand shapes** (WIND chevron, SUN twin peaks, ROCK double slab) are used in exactly three ways: (a) as a solid fill in a world color on a world surface; (b) as a mask that crops a photo; (c) as a 1–1.5 px outline stroke laid over a photo in `air`, `white-sand` or `sea-fog`. One shape per composition. Shapes keep their proportions (never stretched), are never gradient‑filled or shadowed. Rotating, cropping by the frame edge and deriving new elements from the brand shapes are allowed — the brand book does all three («Допускається створення унікальних елементів на основі існуючих брендових»).
 - **Patterns** (WIND contour swirls, SUN rings, ROCK cell mesh) fill only: a shape, a full‑bleed band under a section title, or the integrator mark. Line color = shape/accent color of that world, background = that world's surface or dark. Patterns never sit under body text.
-- **Logo**: the primary horizontal logo (mark + FORREST + Trinity Resort) in the header and footer; the integrator (mark + Trinity Resort) for favicon, small badges and repeated marks. Use only the brand‑book color variants: `spruce`/`bark`/`night-bark` on light, `white-sand`/`sea-fog`/`sea-wave` on dark. Minimum width 120 px on screen. Clear space = height of the mark on all sides. Never recolor, outline, add effects, change proportions or place on a busy photo without a scrim.
-- **Icons**: none, unless functional (phone, social, chevron, close). 1.5 px stroke, `currentColor`, 20 or 24 px. No icon‑in‑a‑colored‑circle, no illustrated feature icons.
+- **Logo**: the primary horizontal logo (mark + FORREST + Trinity Resort) in the header and footer; the integrator (mark + Trinity Resort) for favicon, small badges and repeated marks. Use only the brand‑book color variants: `spruce`/`bark`/`night-bark` on light, `white-sand`/`sea-fog`/`sea-wave` on dark. Minimum width 120 px on screen. Clear space = height of the mark on all sides. Never recolor, outline, add effects, change proportions, rearrange parts or place where contrast is insufficient (brand book «Заборонені модифікації»).
+- **Icons**: none, unless functional (phone, social, chevron, close, play). 1.5 px stroke, `currentColor`, 20 or 24 px. Hover on light surfaces: a 40 px `--interactive-soft` square (radius 4) appears behind the icon, icon stays `spruce`; on dark surfaces the icon itself turns `sea-wave`. No icon‑in‑a‑colored‑circle, no illustrated feature icons. The play control is a 64 px square, radius 4, `white-sand` fill, `spruce` solid triangle; it is the only filled icon on the site.
 
 ---
 
@@ -185,19 +195,19 @@ Nothing is rounder than 6 px. Pill buttons, circles as decoration and 16–24 px
 
 Every component uses the tokens above; states are listed so they are never improvised.
 
-**Button / primary** — `spruce` bg, `white-sand` text, `type/button`, padding 16×28, radius 4. Hover: `forest` bg. Focus: 2 px `accent-deep` ring, 2 px offset. Disabled: `path-sand` bg, `stone` text. Text describes the outcome: "Отримати інвест‑пропозицію", never "Надіслати". No arrow glyphs appended to the label.
+**Button / primary** — `spruce` bg, `white-sand` text, `type/button`, padding 16×28, radius 4. Hover: `sea-wave` bg, `spruce` text, 150 ms. On dark surfaces the resting state is `white-sand` bg + `spruce` text, hover `sea-wave` + `spruce`. Focus: 2 px ring (`spruce` on light, `sea-wave` on dark), 2 px offset. Disabled: `path-sand` bg, `stone` text. Text describes the outcome: "Отримати інвест‑пропозицію", never "Надіслати". No arrow glyphs appended to the label.
 
-**Button / secondary** — transparent, 1 px `spruce` border, `spruce` text. On dark: 1 px `white-sand` border, `white-sand` text. Hover: fill with 8% of text color.
+**Button / secondary** — transparent, 1 px `spruce` border, `spruce` text. On dark: 1 px `white-sand` border, `white-sand` text. Hover (both): `sea-wave` fill, `sea-wave` border, `spruce` text.
 
-**Button / text** — `type/button`, `accent-deep`, 1 px underline offset 4 px. For "Дивитись відео", "Усі питання".
+**Button / text** — `type/button`, `spruce` (`white-sand` on dark), 1 px underline `path-sand` (`border-on-inverse` on dark), offset 4 px. Hover: underline becomes 2 px `sea-wave`, text color unchanged. For "Дивитись відео", "Усі питання".
 
-**Input / select** — 48 px high, `air` bg, 1 px `border-strong`, radius 4, `type/body`, label above in `type/label` (`text-secondary`). Focus: border `accent-deep` 2 px. Error: border `bark`, message in `type/small`. Placeholder is an example, not the label.
+**Input / select** — 48 px high, `air` bg, 1 px `border-strong`, radius 4, `type/body`, label above in `type/label` (`text-secondary`). Hover: border `sea-wave`. Focus: border `spruce` 2 px. Error: border `bark`, message in `type/small`. Placeholder is an example, not the label.
 
 **Panel** (replaces "card") — a surface token bg (`white-sand`, `sea-fog`, `path-sand` or `spruce`), padding 32, radius 6, no border, no shadow. Title `type/h4`, text `type/body`. Panels in one row share height and internal structure.
 
 **World block** — the signature component. Full‑bleed band on that world's surface; left: `type/world` name + `type/h3` tagline ("Тиша. Відновлення. Біохакінг.") + `type/body` description + text button; right: photo masked into the world's shape or shape outline over photo. Three world blocks always follow the same layout; only colors, shape and photo change.
 
-**Accordion** (advantages, FAQ) — full‑width rows separated by 1 px `border-hairline`; question in `type/h4`, 24 px vertical padding; a single chevron rotates 180°; open state adds `type/body` answer, no background change. One item open at a time on mobile.
+**Accordion** (advantages, FAQ) — full‑width rows separated by 1 px `border-hairline`; question in `type/h4`, 24 px vertical padding; a single chevron rotates 180°. Hover: row background `--interactive-soft` (on dark: chevron and question turn `sea-wave`). Open state adds `type/body` answer, no background change. One item open at a time on mobile.
 
 **Stat** — `type/stat` number in `spruce` on light or `white-sand` on dark, `type/small` label below in `text-secondary`. Prefix/suffix qualifiers ("від", "до", "$", "%", "років", "м²") in Mulish `type/h4` `text-secondary`, baseline‑aligned. Laid out in one row with columns **sized by content** (flex, gap ≥ 48, label wraps under its own number, min label width 160 px) — not forced into equal columns. No boxes, no lines.
 
@@ -207,7 +217,7 @@ Every component uses the tokens above; states are listed so they are never impro
 
 **Partner row** — logos in `stone` (monochrome), 40 px high, equal spacing, hairline above and below.
 
-**Nav** — transparent over hero, becomes `air` with hairline bottom on scroll; logo left, 5–6 links `type/button` in `spruce`, phone number, one primary button. Mobile: full‑screen `spruce` menu, links in `type/h3` `white-sand`.
+**Nav** — transparent over hero, becomes `air` with hairline bottom on scroll; logo left, 5–6 links `type/button` in `spruce`, phone number, one primary button. Link hover and current: 2 px `sea-wave` underline, offset 6 px, text color unchanged. Mobile: full‑screen `spruce` menu, links in `type/h3` `white-sand`.
 
 **Footer** — `bark` bg, `white-sand` text, logo in `white-sand`, hairlines `border-on-inverse`. Legal in `type/small` `text-on-inverse-2`.
 
@@ -219,9 +229,11 @@ Every component uses the tokens above; states are listed so they are never impro
 
 - One orchestrated moment: hero headline and photo fade in on load (400 ms, ease‑out). Nothing else animates on scroll — no fade‑and‑slide on every section, no parallax, no counters ticking up.
 - Interaction feedback only: accordion open/close 200 ms, button hover 150 ms, menu 250 ms. `prefers-reduced-motion` disables all of it.
+- **Menu open choreography.** The full‑screen menu may reveal its items in sequence: each menu line rises from behind a mask (translateY 100 % → 0, 600 ms, `cubic-bezier(0.22, 1, 0.36, 1)`, stagger 70 ms), and the side cards fade in with a 24 px rise (500 ms, stagger 90 ms) starting 200 ms after the first line. Closing reverses in half the time with no stagger. Reduced motion: everything appears at once.
 - No hover zoom on photos, no cursor effects, no marquee logos.
 - **Single exception — rotating stat.** A `type/stat-hero` number may cycle through a fixed list of values every 4 s: outgoing value fades out and moves up 12 px, incoming fades in from 12 px below, 500 ms ease‑in‑out, no digit counting or ticking. Pauses on hover/focus and on tab blur; with `prefers-reduced-motion` the rotation stops and all values are shown as a static grid. Used in at most one section per page.
-- **Second exception — scroll‑scrubbed video ("Три світи").** One pinned section may map scroll progress to `video.currentTime` and switch a text overlay in three steps. This is scroll‑driven, not time‑driven: nothing moves unless the user scrolls. Text switches by crossfade 300 ms, no slide, no parallax. With `prefers-reduced-motion`, on devices that cannot seek smoothly, or when the video fails to load, the section degrades to a static poster frame with the three text blocks stacked. All three texts are always present in the DOM for assistive tech.
+- **Third exception — shape outline draw.** A 1.5 px outline of one brand shape (WIND, SUN or ROCK) may draw itself over a photo once, when the section enters the viewport: single continuous stroke, 1200 ms ease‑out, from 0 to full length, no fill, no fade. Plays once per page load; with `prefers-reduced-motion` the outline is shown fully drawn. The shape is never stretched, never overlaps text, and the world it belongs to matches the section's world (neutral sections use ROCK or the shape of the nearest world). Max one outline per section.
+- **Second exception — scroll‑scrubbed video (hero and "Три світи").** At most two pinned sections may map scroll progress to `video.currentTime`; they must use different segments of the footage, never the same frames twice. The hero may additionally move its headline and scale/translate the video frame into the next screen (transform and opacity only). "Три світи" may switch a text overlay in three steps. This is scroll‑driven, not time‑driven: nothing moves unless the user scrolls. Text switches by crossfade 300 ms, no slide, no parallax. With `prefers-reduced-motion`, on devices that cannot seek smoothly, or when the video fails to load, the section degrades to a static poster frame with the three text blocks stacked. All three texts are always present in the DOM for assistive tech.
 
 ---
 
@@ -237,13 +249,15 @@ Every component uses the tokens above; states are listed so they are never impro
 ## 10. Banned list (things that read as a template)
 
 From the client:
+
 - Washed‑out, low‑saturation "pastel default" palettes — use the brand hexes at full value.
 - Default fonts (Inter, Roboto, Arial, system UI) anywhere.
-- Grey as a mood: no grey text on white, no grey cards, no grey dividers — greys here are `stone` and only for ROCK, hairlines and partner logos.
+- Grey as a mood: no grey text on white, no neutral grey cards — the only grey is `stone`, used as the ROCK surface/tone, for hairlines and partner logos.
 - Off‑system sizes: if a heading is not `type/h2` or `type/h3`, it is a bug.
 - "Interesting" blocks built as a pile of elements. A distinctive section has **one** idea (a shape‑masked photo, a big number, a full‑bleed pattern band) and quiet everything else.
 
 Generic AI‑design tells to avoid:
+
 - Cream background + serif display + terracotta accent.
 - Near‑black + single neon accent.
 - Cards for everything: identical rounded boxes with the same soft grey shadow in a 3×3 grid.
@@ -254,6 +268,7 @@ Generic AI‑design tells to avoid:
 - Centered hero with a badge pill above the headline and two buttons below it.
 
 Brand‑book prohibitions (absolute):
+
 - Distorting, recoloring, outlining, shadowing or restructuring the logo; using it on a low‑contrast background; violating clear space.
 - Using brand shapes and patterns in any color outside the palette.
 - Combining the forbidden color pairs from §3.4.
@@ -280,7 +295,7 @@ Run this list and fix violations before showing the result:
 4. Fonts are Unbounded (display/h2/h3/stat/world) and Mulish (everything else) only.
 5. Radii are 4 / 6 / 0 only. No shadows.
 6. At most one brand shape per section; shapes are undistorted and in palette colors.
-7. Photos have sharp corners; text on photos has a scrim.
+7. Photos have sharp corners; text on photos passes contrast, with a `night-bark`/`spruce` scrim where needed (§3.4).
 8. No eyebrows, no all‑caps except world names, no arrows in labels, no single‑word color accents in headlines.
 9. Exactly one primary button in view at a time.
 10. Logo untouched and inside its clear space.

@@ -10,9 +10,12 @@
 @import "./components/icon.css";
 @import "./components/logo.css";
 @import "./components/header.css";
+@import "./components/menu-overlay.css";
+@import "./components/side-cta.css";
 @import "./components/hero.css";
-@import "./components/statsrow.css";
+@import "./components/hero-scrub.css";
 @import "./components/three-worlds.css";
+@import "./components/tri.css";
 @import "./components/plans.css";
 @import "./components/news.css";
 @import "./components/site-footer.css";
