@@ -20,5 +20,6 @@ img,video{height:auto}
 button,input,select,textarea{font:inherit;color:inherit}
 button{background:none;border:none;padding:0;cursor:pointer}
 
-/* A predictable focus baseline; components define their own visible rings. */
-:focus-visible{outline:var(--border-width-focus) solid var(--accent-deep);outline-offset:var(--focus-offset)}
+/* A predictable focus baseline; components define their own visible rings.
+   Default is the light-surface ring (spruce); dark components switch to sea-wave themselves. */
+:focus-visible{outline:var(--border-width-focus) solid var(--focus-ring);outline-offset:var(--focus-offset)}

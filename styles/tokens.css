@@ -35,7 +35,9 @@
   --bg-inverse-warm:var(--bark);
 
   --text-primary:var(--spruce);
-  --text-secondary:var(--forest);
+  /* Secondary text on light must be dark, never green (user rule) — remapped forest → spruce.
+     Primary/secondary hierarchy now comes from size/weight, not colour. */
+  --text-secondary:var(--spruce);
   --text-on-inverse:var(--white-sand);
   --text-on-inverse-2:var(--sea-fog);
 
@@ -43,27 +45,25 @@
   --accent-deep:var(--forest);
   --accent-earth:var(--stone);
 
+  /* Interaction system (DESIGN.md §3.2 / §3.4) — sea-wave is the ONE colour of interaction.
+     Hover fills, selection, active/current states and link underlines use --interactive; text or
+     icons sitting on an --interactive fill use --interactive-text (spruce, 7:1); --interactive-soft
+     is the hover background behind icons and rows on light surfaces. */
+  --interactive:var(--sea-wave);
+  --interactive-text:var(--spruce);
+  --interactive-soft:var(--sea-fog);
+  /* Focus rings: spruce on light surfaces, sea-wave on dark (set per component context). */
+  --focus-ring:var(--spruce);
+  --focus-ring-inverse:var(--sea-wave);
+
   --border-hairline:var(--path-sand);
   --border-strong:var(--stone);
-  --border-on-inverse:rgba(242,234,216,.24);
+  --border-on-inverse:var(--forest);  /* §3.2 forest on spruce; footer (bark) overrides to stone */
 
-  /* Scrims — spruce is the only ink permitted over photography (DESIGN.md §3.4). */
-  --scrim-spruce-40:rgba(24,40,32,.4);
-  --scrim-spruce-24:rgba(24,40,32,.24);
-  --scrim-spruce-local-60:rgba(24,40,32,.6);  /* three-worlds scene overlay (§8 exception) */
-  --scrim-spruce-local-55:rgba(24,40,32,.55);
-  --scrim-spruce-local-52:rgba(24,40,32,.52);
-  --scrim-spruce-local-50:rgba(24,40,32,.5);
-  --scrim-spruce-47:rgba(24,40,32,.47);
-  --scrim-spruce-38:rgba(24,40,32,.38);
-  --scrim-spruce-30:rgba(24,40,32,.3);
-  --scrim-spruce-18:rgba(24,40,32,.18);
-  --scrim-spruce-10:rgba(24,40,32,.1);
-  --scrim-spruce-0:rgba(24,40,32,0);
-  --veil-spruce-78:rgba(24,40,32,.78);
+  /* Scrims removed — DESIGN.md §3.4 forbids scrims/gradients/opacity over photo & video. */
 
   /* World palettes — fixed trio per world (DESIGN.md §3.3). */
-  --wind-surface:var(--sea-fog);   --wind-accent:var(--sea-wave); --wind-dark:var(--spruce);
+  --wind-surface:var(--sea-fog);   --wind-accent:var(--sea-wave); --wind-dark:var(--forest);
   --sun-surface:var(--white-sand); --sun-accent:var(--forest);    --sun-dark:var(--spruce);
   --rock-surface:var(--path-sand); --rock-accent:var(--stone);    --rock-dark:var(--bark);
 
@@ -103,7 +103,7 @@
   --radius-24:24px;
   --radius-full:9999px;
   /* Semantic */
-  --radius-control:var(--radius-4);  /* buttons, inputs, tags */
+  --radius-control:var(--radius-8);  /* buttons, inputs, tags, header pills — one radius family */
   --radius-panel:6px;                /* cards, panels — DESIGN.md §5.3 mandates 6; kept off-scale by design */
   --radius-media:0px;                /* photos, video, brand-shape masks — always sharp */
 

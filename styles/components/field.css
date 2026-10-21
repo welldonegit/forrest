@@ -5,8 +5,8 @@
 .field__label{font-family:var(--font-text);font-size:var(--type-label-size);line-height:var(--type-label-lh);font-weight:var(--type-label-weight);color:var(--text-secondary)}
 .control{height:var(--control-height);width:100%;background:var(--air);color:var(--text-primary);border:var(--border-width) solid var(--border-strong);border-radius:var(--radius-control);padding:0 var(--space-16);font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);transition:border-color var(--motion-hover) var(--ease-out)}
 .control::placeholder{color:var(--stone)}
-.control:hover:not(:disabled),.control.is-hover{border-color:var(--text-secondary)}
-.control:focus,.control.is-focus{outline:var(--border-width-focus) solid var(--accent-deep);outline-offset:calc(-1 * var(--border-width-focus));border-color:var(--accent-deep)}
+.control:hover:not(:disabled),.control.is-hover{border-color:var(--interactive)}
+.control:focus,.control.is-focus{outline:var(--border-width-focus) solid var(--focus-ring);outline-offset:calc(-1 * var(--border-width-focus));border-color:var(--focus-ring)}
 .control[aria-invalid="true"],.control.is-error{border-color:var(--bark)}
 .control:disabled,.control.is-disabled{background:var(--bg-surface-sand);color:var(--stone);border-color:var(--stone);cursor:not-allowed}
 .field__error{font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);color:var(--bark)}

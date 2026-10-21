@@ -1,0 +1,139 @@
+/* Три секції — massive-type heading + pinned stacking presentation of WIND / ROCK / SUN, plus the
+   section modal (switcher + lead form). Replaces the old .worlds section. Behaviour in
+   scripts/tri.js. Progressive enhancement: base CSS = a readable static stack; JS adds .tri--pinned
+   to turn it into the scroll-driven deck where each slide rises to cover the previous.
+
+   NB (exploratory, DESIGN override — approved): the heading uses off-scale massive type and inline
+   rounded image chips, which §4.2 / §6 would normally forbid. Flagged for a human DESIGN.md call. */
+
+.tri{background:var(--bg-page)}
+
+/* ---------- Heading: massive typography with inline image chips ---------- */
+.tri__head{width:min(100% - 2 * var(--page-padding),var(--container));margin-inline:auto;padding-block:var(--space-128) var(--space-64);text-align:center}
+.tri__title{margin:0;font-family:var(--font-display);font-weight:500;letter-spacing:-.03em;line-height:1.02;color:var(--text-primary);
+  font-size:clamp(2.4rem,7vw,6.5rem)}
+.tri__line{display:block;text-wrap:balance}
+/* One line gets a sea-wave highlighter (fill + spruce ink, 7:1 — the one interaction colour). */
+/* Third line — plain uppercase emphasis, no fill. */
+.tri__line--accent{text-transform:uppercase;color:var(--accent-earth)}
+.tri__chip{display:inline-block;vertical-align:middle;block-size:.62em;aspect-ratio:16 / 10;overflow:hidden;border-radius:999px;margin-inline:.08em;transform:translateY(-.05em)}
+.tri__chip--wide{aspect-ratio:22 / 9}
+.tri__chip img{inline-size:100%;block-size:100%;object-fit:cover;display:block}
+.tri__line-in{display:block}
+.tri__lead{margin:var(--space-32) auto 0;max-width:52ch;font-family:var(--font-text);font-size:var(--type-lead-size);line-height:var(--type-lead-lh);color:var(--text-primary);text-wrap:pretty}
+
+/* Premium entrance — each title line rises from behind a mask, lead fades up after. JS adds
+   .tri--anim (sets the hidden start) then .tri--revealed (plays). No JS → text simply shows. */
+.tri--anim .tri__line{overflow:hidden;padding:.14em 0;margin:-.14em 0}
+.tri--anim .tri__line-in{transform:translateY(110%)}
+.tri--anim .tri__lead{opacity:0;transform:translateY(16px)}
+.tri--anim.tri--revealed .tri__line-in{transform:none;transition:transform 900ms cubic-bezier(.19,1,.22,1)}
+.tri--anim.tri--revealed .tri__line:nth-child(1) .tri__line-in{transition-delay:40ms}
+.tri--anim.tri--revealed .tri__line:nth-child(2) .tri__line-in{transition-delay:150ms}
+.tri--anim.tri--revealed .tri__line:nth-child(3) .tri__line-in{transition-delay:260ms}
+.tri--anim.tri--revealed .tri__lead{opacity:1;transform:none;transition:opacity 700ms var(--ease-out) 400ms,transform 700ms var(--ease-out) 400ms}
+
+/* ---------- Intro: centred heading + triptych that FLIP-zooms into the first slide ----------
+   Static base = a normal block (heading, then a row of 3 images). When pinned (JS), it becomes a
+   full-pin layer above the deck; item 0 FLIPs to cover the viewport, items 1–2 slide out, the
+   heading drifts up, then the whole layer fades to hand off to the deck's first slide. */
+.tri__intro{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--space-48);
+  padding:var(--space-128) var(--page-padding) var(--space-64);background:var(--bg-page);text-align:center}
+.tri__intro-head{position:relative;z-index:1;width:min(100% - 2 * var(--page-padding),var(--container));margin-inline:auto}
+.tri__intro .tri__title{font-size:clamp(1.6rem,4.2vw,3.4rem);line-height:1.04}
+/* Hero = the full-bleed slide-0 image; JS shrinks it into the centre slot then back to identity.
+   Rendered full-size always (only scaled DOWN) → sharp; identity == slide 0 → seamless hand-off. */
+.tri__hero{display:none;position:absolute;inset:0;z-index:3;transform-origin:center;overflow:hidden;will-change:transform}
+.tri__hero img{inline-size:100%;block-size:100%;object-fit:cover;display:block}
+.tri__triptych{display:none;position:relative;z-index:2;align-items:center;gap:var(--space-16);width:min(84vw,1120px)}
+.tri__tri-item,.tri__tri-slot{flex:1;min-width:0;aspect-ratio:16 / 9}
+.tri__tri-item{overflow:hidden;position:relative;will-change:transform}
+.tri__tri-item img{inline-size:100%;block-size:100%;object-fit:cover;display:block}
+/* Triptych + hero are the pinned-only animation; static fallback shows just the heading + slides. */
+.tri--pinned .tri__hero{display:block}
+.tri--pinned .tri__triptych{display:flex}
+
+/* ---------- Slides (static base — readable without JS / reduced motion) ---------- */
+.tri__scene{position:relative}
+.tri__slide{position:relative;min-height:88vh;display:flex;align-items:center;overflow:hidden;color:var(--air);background:var(--bg-inverse)}
+.tri__slide--wind{background:var(--forest)}  /* WIND dark = forest, not spruce (§3.3) */
+.tri__slide--rock{background:var(--bg-inverse-warm)}
+.tri__viz{position:absolute;inset:0;z-index:0}
+.tri__viz img{inline-size:100%;block-size:100%;object-fit:cover;display:block}
+/* Light darkening (floema-style) — left-weighted so the copy reads. NB: a scrim, i.e. an opacity
+   layer over the photo — a deliberate exception to DESIGN.md §3.4, at the user's request. */
+.tri__slide::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(90deg,rgba(24,40,32,.66) 0%,rgba(24,40,32,.42) 45%,rgba(24,40,32,.16) 100%)}
+.tri__content{position:relative;z-index:2;width:min(100% - 2 * var(--page-padding),var(--container));margin-inline:auto}
+.tri__content > *{max-width:46ch}
+.tri__marker{margin:0 0 var(--space-16);font-family:var(--font-text);font-size:var(--type-small-size);line-height:1;letter-spacing:.14em;text-transform:uppercase;color:var(--air)}
+.tri__name{margin:0;font-family:var(--font-display);font-weight:500;letter-spacing:-.03em;line-height:.9;text-transform:uppercase;color:var(--air);
+  font-size:clamp(4rem,14vw,12rem)}
+.tri__sub{margin:var(--space-16) 0 0;font-family:var(--font-display);font-size:var(--type-h3-size);line-height:var(--type-h3-lh);font-weight:var(--type-h3-weight);color:var(--air)}
+.tri__text{margin:var(--space-16) 0 0;font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--air);text-wrap:pretty}
+.tri__content .btn{margin-top:var(--space-32)}
+
+
+/* ---------- Pinned deck (JS) — scene scroll drives a stack that rises slide over slide ---------- */
+.tri--pinned .tri__scene{height:400vh}  /* intro zoom (~34%) + two deck transitions */
+.tri--pinned .tri__pin{position:sticky;top:0;height:100vh;overflow:hidden}
+.tri--pinned .tri__intro{position:absolute;inset:0;z-index:5;padding:0;overflow:hidden}
+.tri--pinned .tri__slide{position:absolute;inset:0;min-height:0;height:100vh;z-index:var(--i,0);
+  transform:translateY(var(--ty,0));will-change:transform}
+/* Subtle parallax: the visualization drifts against its slide (--p ∈ [-1,1]); oversized so no
+   edge shows at the extremes. */
+.tri--pinned .tri__viz{inset:-48px 0;transform:translateY(calc(var(--p,0) * 48px));will-change:transform}
+
+@media (max-width:767px){
+  .tri__head{padding-block:var(--space-64) var(--space-32)}
+}
+@media (prefers-reduced-motion:reduce){
+  .tri--pinned .tri__scene{height:auto}
+  .tri--pinned .tri__pin{position:static;height:auto}
+  .tri--pinned .tri__slide{position:relative;height:auto;min-height:88vh;transform:none}
+}
+
+/* ================================ Section modal ================================ */
+.tri-modal{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;padding:var(--space-24);
+  opacity:0;visibility:hidden;transition:opacity 250ms var(--ease-out),visibility 0s linear 250ms}
+.tri-modal.is-open{opacity:1;visibility:visible;transition:opacity 250ms var(--ease-out),visibility 0s}
+.tri-modal[hidden]{display:none}
+.tri-modal__scrim{position:absolute;inset:0;background:var(--spruce);cursor:pointer}
+.tri-modal__dialog{position:relative;z-index:1;display:flex;flex-direction:column;width:min(90vw,1100px);max-height:88vh;overflow:hidden;
+  background:var(--white-sand);color:var(--text-primary);border-radius:var(--radius-panel)}
+
+.tri-modal__bar{display:flex;align-items:center;justify-content:space-between;gap:var(--space-16);padding:var(--space-16) var(--space-24);border-bottom:var(--border-1) solid var(--border-hairline)}
+.tri-modal__switch{display:inline-flex;gap:var(--space-8)}
+.tri-modal__tab{min-height:var(--control-h-40);padding:0 var(--space-16);border:var(--border-1) solid var(--border-strong);border-radius:var(--radius-control);background:transparent;color:var(--text-primary);font-family:var(--font-display);font-size:var(--type-button-size);line-height:1;font-weight:var(--type-button-weight);letter-spacing:.02em;cursor:pointer;
+  transition:background-color var(--motion-hover) var(--ease-out),border-color var(--motion-hover) var(--ease-out),color var(--motion-hover) var(--ease-out)}
+.tri-modal__tab:hover:not(.is-active){background:var(--interactive-soft);border-color:var(--interactive-soft)}
+.tri-modal__tab.is-active{background:var(--interactive);border-color:var(--interactive);color:var(--interactive-text)}
+.tri-modal__tab:focus-visible{outline:var(--border-width-focus) solid var(--focus-ring);outline-offset:var(--focus-offset)}
+.tri-modal__close{display:inline-flex;align-items:center;justify-content:center;inline-size:var(--tap-target);block-size:var(--tap-target);background:none;border:0;cursor:pointer;color:var(--text-primary);border-radius:var(--radius-4);
+  transition:background-color var(--motion-hover) var(--ease-out)}
+.tri-modal__close:hover{background:var(--interactive-soft)}
+.tri-modal__close:focus-visible{outline:var(--border-width-focus) solid var(--focus-ring);outline-offset:var(--focus-offset)}
+
+.tri-modal__body{flex:1;min-height:0;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr}
+.tri-modal__info{padding:var(--space-32)}
+.tri-modal__eyebrow{margin:0 0 var(--space-12);font-family:var(--font-text);font-size:var(--type-small-size);letter-spacing:.14em;text-transform:uppercase;color:var(--text-secondary)}
+.tri-modal__name{margin:0;text-transform:uppercase}
+.tri-modal__sub{margin:var(--space-8) 0 0;font-family:var(--font-display);font-size:var(--type-h3-size);line-height:var(--type-h3-lh);font-weight:var(--type-h3-weight);color:var(--text-primary)}
+.tri-modal__desc{margin:var(--space-16) 0 0;font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--text-primary);text-wrap:pretty}
+.tri-modal__facts{margin:var(--space-32) 0 0;display:flex;flex-direction:column;gap:var(--space-16)}
+.tri-modal__facts dt{font-family:var(--font-text);font-size:var(--type-small-size);letter-spacing:.08em;text-transform:uppercase;color:var(--text-secondary)}
+.tri-modal__facts dd{margin:var(--space-4) 0 0;font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--text-primary)}
+
+.tri-modal__form-wrap{padding:var(--space-32);background:var(--bg-surface-mist);border-inline-start:var(--border-1) solid var(--border-hairline)}
+.tri-modal__form-title{margin:0}
+.tri-modal__form-lead{margin:var(--space-12) 0 var(--space-24);font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);color:var(--text-secondary)}
+.tri-modal__form{display:flex;flex-direction:column;gap:var(--space-16)}
+.tri-modal__form .btn{margin-top:var(--space-8)}
+.tri-modal__privacy{margin:0;color:var(--text-secondary)}
+
+@media (max-width:767px){
+  .tri-modal{padding:0}
+  .tri-modal__dialog{width:100vw;max-height:100vh;height:100vh;border-radius:0}
+  .tri-modal__body{grid-template-columns:1fr}
+  .tri-modal__form-wrap{border-inline-start:0;border-top:var(--border-1) solid var(--border-hairline)}
+}

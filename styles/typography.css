@@ -51,6 +51,10 @@ body{font-family:var(--font-text);font-size:var(--type-body-size);line-height:va
 .type-button{font-family:var(--font-text);font-size:var(--type-button-size);line-height:var(--type-button-lh);font-weight:var(--type-button-weight)}
 .type-world{font-family:var(--font-display);font-size:var(--type-world-size);line-height:var(--type-world-lh);font-weight:var(--type-world-weight);letter-spacing:-.02em;text-transform:uppercase}
 
+/* ---------- Selection (DESIGN.md §3.4) — sea-wave fill, spruce text, site-wide ---------- */
+::selection{background:var(--interactive);color:var(--interactive-text)}
+
 /* ---------- Links (default text-button treatment, DESIGN.md §7) ---------- */
-a{color:var(--accent-deep);text-decoration:underline;text-decoration-thickness:var(--border-1);text-underline-offset:var(--space-4)}
-a:hover{color:var(--text-primary)}
+/* Spruce ink, path-sand underline; hover thickens the underline to 2px sea-wave, text unchanged. */
+a{color:var(--text-primary);text-decoration:underline;text-decoration-color:var(--border-hairline);text-decoration-thickness:var(--border-1);text-underline-offset:var(--space-4);transition:text-decoration-color var(--motion-hover) var(--ease-out)}
+a:hover{text-decoration-color:var(--interactive);text-decoration-thickness:var(--border-1)}

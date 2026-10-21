@@ -1,0 +1,107 @@
+/* MenuOverlay — full-screen navigation (DESIGN.md §7 Nav, §8 "Menu open choreography", §3.4).
+   Spruce field, white-sand ink; sea-wave is the only interaction colour. Driven by
+   scripts/menu-overlay.js: focus trap, Esc, inert on the rest of the page, scroll lock.
+   Container follows the project --container token (1360) so the bar/nav/cards line up with the
+   rest of the site; DESIGN.md §5.2 text says 1280 — the token is the source of truth here. */
+
+html.is-menu-open{overflow:hidden}
+
+.menu-overlay{position:fixed;inset:0;z-index:70;display:flex;flex-direction:column;
+  background:var(--bg-inverse);color:var(--text-on-inverse);overflow-y:auto;
+  opacity:0;visibility:hidden;
+  /* Closed/closing: content retracts first (its own half-time transitions), then the field fades
+     after a 300ms hold; visibility drops once everything is done. */
+  transition:opacity 250ms var(--ease-out) 300ms,visibility 0s linear 550ms}
+.menu-overlay.is-open{opacity:1;visibility:visible;transition:opacity 250ms var(--ease-out) 0s,visibility 0s}
+.menu-overlay[hidden]{display:none}
+
+/* Shared container — bar, main and foot share edges with the rest of the site. */
+.menu-overlay__bar,.menu-overlay__main,.menu-overlay__foot{width:100%;max-width:var(--container);margin-inline:auto;padding-inline:var(--page-padding)}
+
+/* Top row — logo left, close right, hairline under. Sticky so it stays put on mobile scroll. */
+.menu-overlay__bar{position:sticky;top:0;z-index:2;background:var(--bg-inverse);
+  display:flex;align-items:center;justify-content:space-between;
+  padding-block:var(--space-24)}
+.menu-overlay__logo{display:inline-flex;color:var(--white-sand)}
+.menu-overlay__logo .logo{width:140px}
+.menu-overlay__close{display:inline-flex;align-items:center;justify-content:center;inline-size:var(--tap-target);block-size:var(--tap-target);margin-inline-end:calc(var(--space-12) * -1);padding:0;background:none;border:0;cursor:pointer;color:var(--white-sand);transition:color var(--motion-hover) var(--ease-out)}
+.menu-overlay__close svg{width:24px;height:24px}
+.menu-overlay__close:hover{color:var(--accent)}
+.menu-overlay__close:focus-visible{outline:var(--border-width-focus) solid var(--accent);outline-offset:var(--focus-offset)}
+
+/* Body — nav (cols 1–7) vertically centred, cards (cols 9–12) top-aligned with the first line. */
+.menu-overlay__main{flex:1;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--grid-gutter);
+  align-content:center;padding-block:var(--space-48)}
+.menu-overlay__nav{grid-column:1 / span 7;align-self:center;display:flex;flex-direction:column;gap:var(--space-16)}
+/* Vertical hairline in the empty column 8, separating the nav zone from the cards zone. */
+.menu-overlay__divide{grid-column:8;justify-self:center;align-self:stretch;inline-size:var(--border-1);background:var(--border-on-inverse)}
+.menu-overlay__cards{grid-column:9 / span 4;align-self:center;display:flex;flex-direction:column}
+
+/* Nav items — type/display, sentence case, no numbers. Each line is masked for the rise-in. */
+.menu-overlay__line{display:block;overflow:hidden}
+.menu-overlay__link{display:inline-block;font-family:var(--font-display);font-weight:500;letter-spacing:-.01em;
+  font-size:var(--type-h2-size);line-height:var(--type-h2-lh);color:var(--text-on-inverse);text-decoration:none;
+  transform:translateY(100%);transition:transform 300ms var(--ease-out),color var(--motion-hover) var(--ease-out)}
+.menu-overlay.is-open .menu-overlay__link{transform:translateY(0);
+  transition:transform 600ms cubic-bezier(0.22,1,0.36,1) calc(var(--i) * 70ms),color var(--motion-hover) var(--ease-out) 0s}
+.menu-overlay__link:hover,.menu-overlay__link[aria-current="page"]{color:var(--interactive)}
+.menu-overlay__link:focus-visible{outline:var(--border-width-focus) solid var(--focus-ring-inverse);outline-offset:var(--focus-offset)}
+
+/* Cards — compact editorial rows: portrait photo · title · subtitle · an up-right (↗) sea-wave
+   arrow that turns on hover. No dividers between items. */
+.menu-overlay__card{display:grid;grid-template-columns:auto 1fr auto;align-items:center;column-gap:var(--space-24);
+  padding-block:var(--space-16);
+  text-decoration:none;color:inherit;
+  opacity:0;transform:translateY(24px);transition:opacity 250ms var(--ease-out),transform 250ms var(--ease-out)}
+.menu-overlay.is-open .menu-overlay__card{opacity:1;transform:none;
+  transition:opacity 500ms var(--ease-out) calc(200ms + var(--i) * 90ms),transform 500ms var(--ease-out) calc(200ms + var(--i) * 90ms)}
+.menu-overlay__card-img{grid-column:1;grid-row:1 / span 2;width:72px;height:96px;object-fit:cover;border-radius:var(--radius-media)}
+.menu-overlay__card-title{grid-column:2;grid-row:1;margin:0;font-family:var(--font-text);font-weight:700;font-size:var(--type-h4-size);line-height:var(--type-h4-lh);color:var(--text-on-inverse);transition:color var(--motion-hover) var(--ease-out)}
+.menu-overlay__card-sub{grid-column:2;grid-row:2;margin:var(--space-4) 0 0;font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);color:var(--text-on-inverse-2)}
+/* On the dark field, interaction turns the title and arrow sea-wave (colour only, 150ms). */
+.menu-overlay__card-arrow{grid-column:3;grid-row:1 / span 2;display:inline-flex;align-items:center;justify-content:center;color:var(--text-on-inverse-2);transition:color var(--motion-hover) var(--ease-out)}
+.menu-overlay__card-arrow svg{width:28px;height:28px}
+.menu-overlay__card:hover .menu-overlay__card-title,.menu-overlay__card:focus-visible .menu-overlay__card-title{color:var(--interactive)}
+.menu-overlay__card:hover .menu-overlay__card-arrow,.menu-overlay__card:focus-visible .menu-overlay__card-arrow{color:var(--interactive)}
+.menu-overlay__card:focus-visible{outline:var(--border-width-focus) solid var(--focus-ring-inverse);outline-offset:var(--focus-offset)}
+
+/* Bottom row — phone (type/h3) left, messenger text links right. Hairline above, 48 up. */
+.menu-overlay__foot{margin-top:var(--space-48);padding-top:var(--space-48);
+  display:flex;align-items:baseline;gap:var(--space-32);
+  opacity:0;transition:opacity 150ms var(--ease-out)}
+.menu-overlay.is-open .menu-overlay__foot{opacity:1;transition:opacity 300ms var(--ease-out) 680ms}
+.menu-overlay__phone{font-family:var(--font-display);font-weight:400;font-size:var(--type-h3-size);line-height:var(--type-h3-lh);color:var(--text-on-inverse);text-decoration:none;transition:color var(--motion-hover) var(--ease-out)}
+.menu-overlay__phone:hover{color:var(--accent)}
+.menu-overlay__phone:focus-visible{outline:var(--border-width-focus) solid var(--accent);outline-offset:var(--focus-offset)}
+.menu-overlay__messengers{display:flex;gap:var(--space-32);margin-inline-start:auto}
+.menu-overlay__messenger{font-family:var(--font-text);font-weight:var(--type-button-weight);font-size:var(--type-button-size);line-height:var(--type-button-lh);color:var(--text-on-inverse);text-decoration:none;position:relative;padding-bottom:3px}
+.menu-overlay__messenger::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--interactive);transform:scaleX(0);transform-origin:left;transition:transform var(--motion-menu) var(--ease-out)}
+.menu-overlay__messenger:hover::after{transform:scaleX(1)}
+.menu-overlay__messenger:focus-visible{outline:var(--border-width-focus) solid var(--accent);outline-offset:var(--focus-offset)}
+
+/* ---- 768–1279: nav at mobile display size; cards one full-width column under the nav ---- */
+@media (max-width:1279px){
+  .menu-overlay__main{grid-template-columns:1fr;gap:var(--space-48);align-content:start}
+  .menu-overlay__nav{grid-column:1;align-self:start}
+  .menu-overlay__cards{grid-column:1;align-self:start}
+  .menu-overlay__divide{display:none}  /* stacked layout — no vertical rule */
+  .menu-overlay__foot{flex-direction:column;align-items:flex-start;gap:var(--space-16)}
+  .menu-overlay__messengers{margin-inline-start:0}
+}
+
+/* ---- <768: tighter nav; cards already compact rows, drop the hover arrow on touch ---- */
+@media (max-width:767px){
+  .menu-overlay__nav{gap:var(--space-12)}
+  .menu-overlay__card-arrow{display:none}
+  .menu-overlay__card-img{width:64px;height:84px}
+}
+
+/* Reduced motion — everything appears at once, no mask/fade/stagger. */
+@media (prefers-reduced-motion:reduce){
+  .menu-overlay,.menu-overlay.is-open{transition:opacity 0s,visibility 0s}
+  .menu-overlay__link,.menu-overlay.is-open .menu-overlay__link,
+  .menu-overlay__card,.menu-overlay.is-open .menu-overlay__card,
+  .menu-overlay__foot,.menu-overlay.is-open .menu-overlay__foot{transition:none;transform:none;opacity:1}
+}
+.menu-overlay__link.is-hover{color:var(--interactive)}
+.menu-overlay__link.is-focus{outline:var(--border-width-focus) solid var(--focus-ring-inverse);outline-offset:var(--focus-offset)}
