@@ -28,6 +28,10 @@
 .hs__frame{grid-column:6 / span 7;aspect-ratio:16 / 9;position:relative;overflow:hidden;border-radius:var(--radius-media);
   transform-origin:0 0;will-change:transform;background:var(--spruce)}
 .hs__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;border-radius:var(--radius-media)}
+/* Even darkening over the video (travels with it through the FLIP). Opacity ramps from .2 in act 1
+   to ~.5 as the second screen arrives (--hs-dark set by hero-scrub.js) — so no separate dark box
+   shows at the landing spot. Deliberate §3.4 exception. */
+.hs__frame::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;border-radius:var(--radius-media);background:rgba(12,12,12,var(--hs-dark,.2))}
 
 /* ---------- Act 1: rest state (H1 top-left, panel + stats bottom-left) ---------- */
 .hs__act1{position:absolute;inset:0;z-index:3;pointer-events:none}
@@ -36,11 +40,13 @@
 .hs__act1-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}  /* static-mode rest bg */
 
 /* H1 — type/display, caps (hero exception, DESIGN.md §4.2). Top-left. */
-.hs__title{position:absolute;top:var(--space-128);left:0;margin:0;color:var(--air);
+/* Sits low (just above the bottom description stack) — bottom-anchored so the gap to the copy stays
+   small at any viewport height. On scroll it's "beamed up" under the header (see hero-scrub.js). */
+.hs__title{position:absolute;top:auto;bottom:356px;left:0;margin:0;color:var(--air);
   text-transform:uppercase;font-family:var(--font-display);font-size:var(--type-display-size);
   line-height:var(--type-display-lh);letter-spacing:var(--type-display-ls);font-weight:var(--type-display-weight);
-  will-change:transform,opacity}
-.hs__title span{display:block}
+  white-space:nowrap;transform-origin:0 50%;will-change:transform,opacity}
+.hs__title span{display:inline}
 
 /* Bottom-left stack: panel (subhead + buttons) with the stats row 48 below it; row bottom 64 from
    the viewport floor. Gaps are bottom-up per the brief (nums → +48 → buttons → +24 → subhead). */
@@ -94,29 +100,46 @@
 .hs__act2{z-index:2;opacity:0;visibility:hidden;align-content:center;pointer-events:none}
 .hs__act2.is-shown{visibility:visible;pointer-events:auto}
 .hs__act2-text{grid-column:1 / span 5;align-self:center}
-.hs__act2-title{margin:0;display:flex;flex-direction:column}
-.hs__act2-title .ln1{color:var(--text-primary)}
-.hs__act2-title .ln2{color:var(--text-primary)}
+/* Overline above the heading — display face, medium (500) weight. */
+.hs__act2-eyebrow{margin:0 0 var(--space-16);font-family:var(--font-display);font-size:var(--type-small-size);line-height:1;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--text-primary)}
+.hs__act2-title{margin:0;color:var(--text-primary)}
+/* "Дохід" greyed like the plans heading's second colour. */
+.hs__act2-accent{color:var(--accent-earth)}
 .hs__act2-lead{margin-top:var(--space-24);font-family:var(--font-text);font-size:var(--type-lead-size);
   line-height:var(--type-lead-lh);color:var(--text-primary);max-width:var(--measure-text);text-wrap:pretty}
 .hs__act2-cta{margin-top:var(--space-40)}
 /* Right column mirrors the frame's slot (same grid cell) so the play + caption sit on the card. */
 .hs__act2-media{grid-column:6 / span 7;align-self:center}
 .hs__slot{position:relative;aspect-ratio:16 / 9;display:grid;place-items:center}
-.hs__slot .playctl{position:relative;z-index:1}
+/* Static mode (<1280) uses a still card in the slot — darken that directly (no FLIP, no stray box).
+   In FLIP mode the darkening lives on .hs__frame instead, so no rectangle shows before it lands. */
+.hs--static .hs__slot::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:rgba(12,12,12,.45)}
 .hs__card-static{display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:var(--radius-media)}
-/* Caption → a premium, clickable micro-CTA for the presentation: a sea-wave "60 сек" play-chip
-   plus the line, which underlines on hover. The whole row opens the presentation (data-hs-play). */
-.hs__cap{display:inline-flex;align-items:center;gap:var(--space-12);margin-top:var(--space-32);
-  padding:0;background:none;border:0;cursor:pointer;text-align:left}
-.hs__cap-badge{flex:none;display:inline-flex;align-items:center;gap:var(--space-4);
+/* "60 сек" chip — sea-wave play-badge pinned to the video's top-left corner. */
+.hs__slot-badge{position:absolute;top:var(--space-16);left:var(--space-16);z-index:2;display:inline-flex;align-items:center;gap:var(--space-4);
   padding:var(--space-4) var(--space-8);border-radius:var(--radius-control);
-  background:var(--interactive);color:var(--interactive-text);
+  background:var(--air);color:var(--spruce);
   font-family:var(--font-text);font-size:var(--type-label-size);line-height:1;font-weight:700;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
-.hs__cap-badge svg{inline-size:.9em;block-size:.9em}
-.hs__cap-text{font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--text-primary);
+.hs__slot-badge svg{inline-size:.9em;block-size:.9em}
+/* Play control + its call-to-action line, centred on the video. */
+.hs__slot-center{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:var(--space-16)}
+.hs__slot-cta{max-width:28ch;background:none;border:0;cursor:pointer;color:var(--air);text-align:center;
+  font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);
   text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:2px;text-underline-offset:4px;
   transition:text-decoration-color var(--motion-hover) var(--ease-out)}
+.hs__slot-cta:hover{text-decoration-color:var(--interactive)}
+.hs__slot-cta:focus-visible{outline:var(--border-width-focus) solid var(--focus-ring-inverse);outline-offset:var(--focus-offset)}
+/* The card chrome (60 сек chip · play · CTA) rises in with a soft stagger once the video has settled
+   (.hs--landed, set by hero-scrub.js), or immediately in static mode. */
+.hs__slot-badge,.hs__slot .playctl,.hs__slot-cta{opacity:0;transform:translateY(12px);
+  transition:opacity 550ms var(--ease-out),transform 650ms cubic-bezier(.22,1,.36,1)}
+.hs__slot .playctl{transform:translateY(12px) scale(.94)}
+.hs--landed .hs__slot-badge,.hs--static .hs__slot-badge{opacity:1;transform:none;transition-delay:80ms}
+.hs--landed .hs__slot .playctl,.hs--static .hs__slot .playctl{opacity:1;transform:none;transition-delay:180ms}
+.hs--landed .hs__slot-cta,.hs--static .hs__slot-cta{opacity:1;transform:none;transition-delay:300ms}
+@media (prefers-reduced-motion:reduce){
+  .hs__slot-badge,.hs__slot .playctl,.hs__slot-cta{transition:none;opacity:1;transform:none}
+}
 .hs__cap:hover .hs__cap-text{text-decoration-color:var(--interactive)}
 .hs__cap:focus-visible{outline:var(--border-width-focus) solid var(--focus-ring);outline-offset:var(--focus-offset);border-radius:var(--radius-4)}
 
@@ -145,7 +168,7 @@
   .hs__stage,.hs__act1-inner{width:100%;padding-inline:var(--page-padding)}
   .hs__frame{grid-column:1 / -1;aspect-ratio:4 / 5}
 
-  .hs__title{top:calc(var(--header-h-scrolled) + var(--space-24));font-size:var(--type-display-size);line-height:var(--type-display-lh)}
+  .hs__title{top:calc(var(--header-h-scrolled) + var(--space-24));bottom:auto;font-size:var(--type-display-size);line-height:var(--type-display-lh);white-space:normal}
   .hs__act1-bottom{right:0;gap:var(--space-32)}
   .hs__lead{max-width:none}
   .hs__cta{flex-direction:column;align-items:flex-start;gap:var(--space-16);width:100%}

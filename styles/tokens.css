@@ -152,10 +152,12 @@
   --type-stat-size:56px;--type-stat-lh:60px;--type-stat-ls:-.02em;--type-stat-weight:400;
   --type-stat-lg-size:72px;--type-stat-lg-lh:76px;--type-stat-lg-ls:-.02em;--type-stat-lg-weight:400;
   --type-stat-hero-size:112px;--type-stat-hero-lh:104px;--type-stat-hero-ls:-.03em;--type-stat-hero-weight:500;
-  --type-lead-size:20px;--type-lead-lh:30px;--type-lead-weight:400;
-  --type-body-size:17px;--type-body-lh:27px;--type-body-weight:400;
-  --type-small-size:14px;--type-small-lh:20px;--type-small-weight:400;
-  --type-label-size:13px;--type-label-lh:18px;--type-label-weight:600;
+  /* lead now matches h4 (18/26) — one "large text" step. */
+  --type-lead-size:18px;--type-lead-lh:26px;--type-lead-weight:400;
+  --type-body-size:16px;--type-body-lh:26px;--type-body-weight:400;
+  /* small + label now match button (16/20) — one small-text size, weights still differ. */
+  --type-small-size:16px;--type-small-lh:20px;--type-small-weight:400;
+  --type-label-size:16px;--type-label-lh:20px;--type-label-weight:600;
   --type-button-size:16px;--type-button-lh:20px;--type-button-weight:600;
   --type-world-size:64px;--type-world-lh:1;--type-world-weight:500;
 
@@ -177,11 +179,11 @@
   --type-display-size:40px;--type-display-lh:46px;
   --type-h2-size:28px;--type-h2-lh:34px;--type-h2-lg-size:40px;--type-h2-lg-lh:44px;
   --type-h3-size:20px;--type-h3-lh:28px;
-  --type-h4-size:17px;--type-h4-lh:24px;
+  /* h4 keeps its even desktop size (18) on mobile — only lh inherits; no odd 17. */
   --type-stat-size:36px;--type-stat-lh:40px;
   --type-stat-lg-size:48px;--type-stat-lg-lh:52px;
   --type-stat-hero-size:56px;--type-stat-hero-lh:56px;
-  --type-lead-size:18px;--type-lead-lh:28px;
+  /* lead inherits desktop 18/26 (= h4) on mobile too. */
   --type-body-size:16px;--type-body-lh:26px;
   --type-world-size:40px;
 }}
@@ -197,11 +199,11 @@
   --type-display-size:40px;--type-display-lh:46px;
   --type-h2-size:28px;--type-h2-lh:34px;--type-h2-lg-size:40px;--type-h2-lg-lh:44px;
   --type-h3-size:20px;--type-h3-lh:28px;
-  --type-h4-size:17px;--type-h4-lh:24px;
+  /* h4 keeps its even desktop size (18) on mobile — only lh inherits; no odd 17. */
   --type-stat-size:36px;--type-stat-lh:40px;
   --type-stat-lg-size:48px;--type-stat-lg-lh:52px;
   --type-stat-hero-size:56px;--type-stat-hero-lh:56px;
-  --type-lead-size:18px;--type-lead-lh:28px;
+  /* lead inherits desktop 18/26 (= h4) on mobile too. */
   --type-body-size:16px;--type-body-lh:26px;
   --type-world-size:40px;
 }

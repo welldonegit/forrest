@@ -3,7 +3,7 @@
    every breakpoint; below 1024px the row collapses to МЕНЮ glyph · logo · phone glyph. On scroll
    the JS adds .is-scrolled → bottom hairline. */
 .site-header{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;height:calc(var(--header-h) - var(--space-16) - 10px);padding-inline:var(--page-padding);color:var(--spruce);background:var(--air);transition:transform var(--motion-menu) var(--ease-out),background-color var(--motion-hover) var(--ease-out),border-color var(--motion-hover) var(--ease-out)}
-.site-header.is-scrolled{background:var(--air);border-bottom:var(--border-1) solid var(--border-hairline)}
+.site-header.is-scrolled{background:var(--air);border-bottom:var(--border-1) solid var(--spruce)}
 /* Hide on scroll down, reveal on scroll up (toggled by header-scroll.js). */
 .site-header.is-hidden{transform:translateY(-100%)}
 /* Equal side columns (1fr auto 1fr) so the logo sits at true page-centre regardless of how wide

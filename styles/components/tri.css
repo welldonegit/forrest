@@ -10,21 +10,21 @@
 
 /* ---------- Heading: massive typography with inline image chips ---------- */
 .tri__head{width:min(100% - 2 * var(--page-padding),var(--container));margin-inline:auto;padding-block:var(--space-128) var(--space-64);text-align:center}
-.tri__title{margin:0;font-family:var(--font-display);font-weight:500;letter-spacing:-.03em;line-height:1.02;color:var(--text-primary);
-  font-size:clamp(2.4rem,7vw,6.5rem)}
+.tri__title{margin:0;font-family:var(--font-display);font-weight:500;letter-spacing:-.03em;line-height:1.08;text-transform:uppercase;color:var(--text-primary);
+  font-size:clamp(40px,7vw,104px)}
 .tri__line{display:block;text-wrap:balance}
-/* One line gets a sea-wave highlighter (fill + spruce ink, 7:1 — the one interaction colour). */
-/* Third line — plain uppercase emphasis, no fill. */
-.tri__line--accent{text-transform:uppercase;color:var(--accent-earth)}
-.tri__chip{display:inline-block;vertical-align:middle;block-size:.62em;aspect-ratio:16 / 10;overflow:hidden;border-radius:999px;margin-inline:.08em;transform:translateY(-.05em)}
+/* Third line — stone emphasis, no fill. */
+.tri__line--accent{color:var(--accent-earth)}
+.tri__chip{display:inline-block;vertical-align:middle;block-size:1.55em;aspect-ratio:16 / 10;overflow:hidden;border-radius:999px;margin-inline:.1em;transform:translateY(-.04em)}
 .tri__chip--wide{aspect-ratio:22 / 9}
 .tri__chip img{inline-size:100%;block-size:100%;object-fit:cover;display:block}
-.tri__line-in{display:block}
+/* Each logical line stays on ONE visual line (3 lines total); vw-sized so it never overflows. */
+.tri__line-in{display:block;white-space:nowrap}
 .tri__lead{margin:var(--space-32) auto 0;max-width:52ch;font-family:var(--font-text);font-size:var(--type-lead-size);line-height:var(--type-lead-lh);color:var(--text-primary);text-wrap:pretty}
 
 /* Premium entrance — each title line rises from behind a mask, lead fades up after. JS adds
    .tri--anim (sets the hidden start) then .tri--revealed (plays). No JS → text simply shows. */
-.tri--anim .tri__line{overflow:hidden;padding:.14em 0;margin:-.14em 0}
+.tri--anim .tri__line{overflow:hidden;padding:.32em 0;margin:-.32em 0}
 .tri--anim .tri__line-in{transform:translateY(110%)}
 .tri--anim .tri__lead{opacity:0;transform:translateY(16px)}
 .tri--anim.tri--revealed .tri__line-in{transform:none;transition:transform 900ms cubic-bezier(.19,1,.22,1)}
@@ -40,7 +40,7 @@
 .tri__intro{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--space-48);
   padding:var(--space-128) var(--page-padding) var(--space-64);background:var(--bg-page);text-align:center}
 .tri__intro-head{position:relative;z-index:1;width:min(100% - 2 * var(--page-padding),var(--container));margin-inline:auto}
-.tri__intro .tri__title{font-size:clamp(1.6rem,4.2vw,3.4rem);line-height:1.04}
+.tri__intro .tri__title{font-size:clamp(15px,4.2vw,66px);line-height:1.4}
 /* Hero = the full-bleed slide-0 image; JS shrinks it into the centre slot then back to identity.
    Rendered full-size always (only scaled DOWN) → sharp; identity == slide 0 → seamless hand-off. */
 .tri__hero{display:none;position:absolute;inset:0;z-index:3;transform-origin:center;overflow:hidden;will-change:transform}
@@ -66,16 +66,18 @@
   background:linear-gradient(90deg,rgba(24,40,32,.66) 0%,rgba(24,40,32,.42) 45%,rgba(24,40,32,.16) 100%)}
 .tri__content{position:relative;z-index:2;width:min(100% - 2 * var(--page-padding),var(--container));margin-inline:auto}
 .tri__content > *{max-width:46ch}
-.tri__marker{margin:0 0 var(--space-16);font-family:var(--font-text);font-size:var(--type-small-size);line-height:1;letter-spacing:.14em;text-transform:uppercase;color:var(--air)}
+.tri__marker{margin:0 0 var(--space-16);font-family:var(--font-display);font-size:var(--type-small-size);line-height:1;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--air)}
 .tri__name{margin:0;font-family:var(--font-display);font-weight:500;letter-spacing:-.03em;line-height:.9;text-transform:uppercase;color:var(--air);
-  font-size:clamp(4rem,14vw,12rem)}
+  font-size:clamp(64px,14vw,192px)}
 .tri__sub{margin:var(--space-16) 0 0;font-family:var(--font-display);font-size:var(--type-h3-size);line-height:var(--type-h3-lh);font-weight:var(--type-h3-weight);color:var(--air)}
 .tri__text{margin:var(--space-16) 0 0;font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--air);text-wrap:pretty}
 .tri__content .btn{margin-top:var(--space-32)}
 
 
 /* ---------- Pinned deck (JS) — scene scroll drives a stack that rises slide over slide ---------- */
-.tri--pinned .tri__scene{height:400vh}  /* intro zoom (~34%) + two deck transitions */
+/* intro zoom (~34%) + two deck transitions. The deck pacing (dwell vs transition) lives in tri.js;
+   the extra px here just sets how much total scroll the deck spans. */
+.tri--pinned .tri__scene{height:calc(400vh + 600px)}
 .tri--pinned .tri__pin{position:sticky;top:0;height:100vh;overflow:hidden}
 .tri--pinned .tri__intro{position:absolute;inset:0;z-index:5;padding:0;overflow:hidden}
 .tri--pinned .tri__slide{position:absolute;inset:0;min-height:0;height:100vh;z-index:var(--i,0);
@@ -94,46 +96,93 @@
 }
 
 /* ================================ Section modal ================================ */
+/* 1200×720 split card: left = world photo (crossfade), right = lead form on pure white.
+   The page behind sits under a night-bark 70% scrim (deliberate §3.4 exception, per brief).
+   No white-sand / sea-fog surfaces inside the card — only the photo, night-bark darkening,
+   #FFFFFF text on the left and the #FFFFFF form on the right. */
 .tri-modal{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;padding:var(--space-24);
-  opacity:0;visibility:hidden;transition:opacity 250ms var(--ease-out),visibility 0s linear 250ms}
-.tri-modal.is-open{opacity:1;visibility:visible;transition:opacity 250ms var(--ease-out),visibility 0s}
+  visibility:hidden;transition:visibility 0s linear 400ms}
+.tri-modal.is-open{visibility:visible;transition:visibility 0s}
 .tri-modal[hidden]{display:none}
-.tri-modal__scrim{position:absolute;inset:0;background:var(--spruce);cursor:pointer}
-.tri-modal__dialog{position:relative;z-index:1;display:flex;flex-direction:column;width:min(90vw,1100px);max-height:88vh;overflow:hidden;
-  background:var(--white-sand);color:var(--text-primary);border-radius:var(--radius-panel)}
+/* Scrim — night-bark 70%, fades in 200ms. */
+.tri-modal__scrim{position:absolute;inset:0;background:rgba(12,12,12,.7);opacity:0;cursor:pointer;transition:opacity 200ms var(--ease-out)}
+.tri-modal.is-open .tri-modal__scrim{opacity:1}
+/* Dialog — opacity + 16px rise, 400ms. */
+/* Full container width; left (photo/text) 60%, right (form) 40%. */
+.tri-modal__dialog{position:relative;z-index:1;display:grid;grid-template-columns:60% 40%;
+  width:var(--container);max-width:calc(100vw - 2 * var(--space-24));height:720px;max-height:calc(100vh - 2 * var(--space-24));
+  overflow:hidden;border-radius:var(--radius-panel);background:#FFFFFF;
+  opacity:0;transform:translateY(16px);transition:opacity 400ms var(--ease-out),transform 400ms var(--ease-out)}
+.tri-modal.is-open .tri-modal__dialog{opacity:1;transform:none}
 
-.tri-modal__bar{display:flex;align-items:center;justify-content:space-between;gap:var(--space-16);padding:var(--space-16) var(--space-24);border-bottom:var(--border-1) solid var(--border-hairline)}
-.tri-modal__switch{display:inline-flex;gap:var(--space-8)}
-.tri-modal__tab{min-height:var(--control-h-40);padding:0 var(--space-16);border:var(--border-1) solid var(--border-strong);border-radius:var(--radius-control);background:transparent;color:var(--text-primary);font-family:var(--font-display);font-size:var(--type-button-size);line-height:1;font-weight:var(--type-button-weight);letter-spacing:.02em;cursor:pointer;
-  transition:background-color var(--motion-hover) var(--ease-out),border-color var(--motion-hover) var(--ease-out),color var(--motion-hover) var(--ease-out)}
-.tri-modal__tab:hover:not(.is-active){background:var(--interactive-soft);border-color:var(--interactive-soft)}
-.tri-modal__tab.is-active{background:var(--interactive);border-color:var(--interactive);color:var(--interactive-text)}
-.tri-modal__tab:focus-visible{outline:var(--border-width-focus) solid var(--focus-ring);outline-offset:var(--focus-offset)}
-.tri-modal__close{display:inline-flex;align-items:center;justify-content:center;inline-size:var(--tap-target);block-size:var(--tap-target);background:none;border:0;cursor:pointer;color:var(--text-primary);border-radius:var(--radius-4);
+/* ---- Left column: photo ---- */
+.tri-modal__media{position:relative;overflow:hidden;background:var(--spruce)}
+.tri-modal__photos{position:absolute;inset:0}
+.tri-modal__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 300ms var(--ease-out)}
+.tri-modal__img.is-active{opacity:1}
+/* Darkening — night-bark, heavy at the bottom so the white caption reads over any photo
+   (deliberate §3.4 scrim exception, per brief). */
+.tri-modal__media-grad{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(to top,rgba(12,12,12,.97) 0%,rgba(12,12,12,.9) 42%,rgba(12,12,12,.66) 66%,rgba(12,12,12,.22) 100%)}
+
+/* Caption — bottom-left, all #FFFFFF. Fades 200ms on section change. */
+/* Caption fills the left column (name/sub + details anchored to the bottom), all #FFFFFF. */
+.tri-modal__caption{position:absolute;inset:0;z-index:2;padding:56px;display:flex;flex-direction:column;justify-content:flex-end;color:#FFFFFF;transition:opacity 200ms var(--ease-out)}
+.tri-modal__caption.is-fading{opacity:0}
+.tri-modal__name{margin:0;font-family:var(--font-display);font-size:48px;line-height:1;font-weight:500;letter-spacing:-.02em;text-transform:uppercase;color:#FFFFFF}
+.tri-modal__sub{margin:var(--space-8) 0 0;font-family:var(--font-display);font-size:var(--type-h3-size);line-height:var(--type-h3-lh);font-weight:var(--type-h3-weight);color:#FFFFFF}
+.tri-modal__eyebrow{margin:var(--space-32) 0 var(--space-16);font-family:var(--font-display);font-size:var(--type-small-size);line-height:1;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#FFFFFF}
+.tri-modal__desc{margin:0;font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);color:#FFFFFF;text-wrap:pretty}
+/* Infrastructure — items as chips (rounded tags, white ink on a dark fill for readability). */
+.tri-modal__infra{margin:var(--space-32) 0 0}
+.tri-modal__infra-label{display:flex;align-items:center;gap:var(--space-8);margin:0 0 var(--space-24);font-family:var(--font-text);font-size:var(--type-small-size);line-height:1;letter-spacing:.1em;text-transform:uppercase;color:#FFFFFF}
+.tri-modal__infra-list{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:var(--space-8)}
+.tri-modal__infra-list li{padding:var(--space-4) var(--space-12);border:var(--border-1) solid var(--stone);border-radius:var(--radius-control);background:rgba(12,12,12,.45);font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);color:#FFFFFF}
+/* Date line. */
+.tri-modal__meta{display:flex;align-items:center;gap:var(--space-8);margin:var(--space-32) 0 0;font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);color:#FFFFFF}
+.tri-modal__fact-ic{flex:none;inline-size:18px;block-size:18px;color:#FFFFFF}
+.tri-modal__more{display:none}  /* mobile-only disclosure */
+
+/* ---- Right column: form on pure white, padding 56 ---- */
+.tri-modal__form-wrap{position:relative;background:#FFFFFF;padding:56px;overflow-y:auto}
+/* Close — 24px spruce glyph, sea-fog square on hover. */
+.tri-modal__close{position:absolute;top:56px;right:56px;z-index:3;display:inline-flex;align-items:center;justify-content:center;inline-size:40px;block-size:40px;padding:0;background:none;border:0;cursor:pointer;color:var(--spruce);border-radius:var(--radius-4);
   transition:background-color var(--motion-hover) var(--ease-out)}
-.tri-modal__close:hover{background:var(--interactive-soft)}
+.tri-modal__close svg{width:24px;height:24px}
+.tri-modal__close:hover{background:var(--sea-fog)}
 .tri-modal__close:focus-visible{outline:var(--border-width-focus) solid var(--focus-ring);outline-offset:var(--focus-offset)}
 
-.tri-modal__body{flex:1;min-height:0;overflow-y:auto;display:grid;grid-template-columns:1fr 1fr}
-.tri-modal__info{padding:var(--space-32)}
-.tri-modal__eyebrow{margin:0 0 var(--space-12);font-family:var(--font-text);font-size:var(--type-small-size);letter-spacing:.14em;text-transform:uppercase;color:var(--text-secondary)}
-.tri-modal__name{margin:0;text-transform:uppercase}
-.tri-modal__sub{margin:var(--space-8) 0 0;font-family:var(--font-display);font-size:var(--type-h3-size);line-height:var(--type-h3-lh);font-weight:var(--type-h3-weight);color:var(--text-primary)}
-.tri-modal__desc{margin:var(--space-16) 0 0;font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--text-primary);text-wrap:pretty}
-.tri-modal__facts{margin:var(--space-32) 0 0;display:flex;flex-direction:column;gap:var(--space-16)}
-.tri-modal__facts dt{font-family:var(--font-text);font-size:var(--type-small-size);letter-spacing:.08em;text-transform:uppercase;color:var(--text-secondary)}
-.tri-modal__facts dd{margin:var(--space-4) 0 0;font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--text-primary)}
-
-.tri-modal__form-wrap{padding:var(--space-32);background:var(--bg-surface-mist);border-inline-start:var(--border-1) solid var(--border-hairline)}
-.tri-modal__form-title{margin:0}
-.tri-modal__form-lead{margin:var(--space-12) 0 var(--space-24);font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);color:var(--text-secondary)}
+.tri-modal__form-title{margin:0;padding-right:var(--space-48);font-family:var(--font-display);font-size:calc(var(--type-h3-size) + 4px);line-height:calc(var(--type-h3-lh) + 4px);font-weight:var(--type-h3-weight);color:var(--spruce);text-wrap:pretty}
+.tri-modal__form-lead{margin:var(--space-12) 0 var(--space-32);font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--spruce);text-wrap:pretty}
 .tri-modal__form{display:flex;flex-direction:column;gap:var(--space-16)}
-.tri-modal__form .btn{margin-top:var(--space-8)}
-.tri-modal__privacy{margin:0;color:var(--text-secondary)}
+.tri-modal__submit{width:100%;margin-top:var(--space-8)}
+.tri-modal__privacy{margin:0;color:var(--spruce)}
 
+/* Contact method — four segmented buttons; selected = spruce fill + white text. */
+.tri-modal__choices{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--space-8)}
+.tri-modal__choice{min-height:var(--control-h-40);padding:0 var(--space-8);background:#FFFFFF;border:var(--border-1) solid var(--stone);border-radius:var(--radius-control);color:var(--spruce);font-family:var(--font-text);font-size:var(--type-small-size);line-height:1;font-weight:600;cursor:pointer;
+  transition:background-color var(--motion-hover) var(--ease-out),border-color var(--motion-hover) var(--ease-out),color var(--motion-hover) var(--ease-out)}
+.tri-modal__choice:hover:not(.is-active){border-color:var(--sea-wave)}
+.tri-modal__choice.is-active{background:var(--spruce);border-color:var(--spruce);color:#FFFFFF}
+.tri-modal__choice:focus-visible{outline:var(--border-width-focus) solid var(--focus-ring);outline-offset:2px}
+
+@media (prefers-reduced-motion:reduce){
+  .tri-modal__dialog,.tri-modal__img,.tri-modal__caption{transition-duration:0s}
+}
+
+/* ---- Mobile: full-screen. Photo on top 40% with the world name; desc/facts behind «Детальніше». ---- */
 @media (max-width:767px){
-  .tri-modal{padding:0}
-  .tri-modal__dialog{width:100vw;max-height:100vh;height:100vh;border-radius:0}
-  .tri-modal__body{grid-template-columns:1fr}
-  .tri-modal__form-wrap{border-inline-start:0;border-top:var(--border-1) solid var(--border-hairline)}
+  .tri-modal{padding:0;align-items:stretch}
+  .tri-modal__dialog{width:100vw;height:100dvh;max-width:none;max-height:none;border-radius:0;
+    grid-template-columns:1fr;grid-template-rows:40vh 1fr;overflow-y:auto}
+  .tri-modal__media{grid-row:1}
+  .tri-modal__caption{padding:24px}
+  .tri-modal__details{display:grid;grid-template-rows:0fr;transition:grid-template-rows var(--motion-accordion) var(--ease-out)}
+  .tri-modal__details-inner{overflow:hidden;min-height:0}
+  .tri-modal__caption.is-expanded .tri-modal__details{grid-template-rows:1fr}
+  .tri-modal__more{display:inline-block;margin-top:var(--space-12);padding:var(--space-4) 0;background:none;border:0;cursor:pointer;
+    font-family:var(--font-text);font-size:var(--type-small-size);font-weight:600;color:#FFFFFF;text-decoration:underline;text-underline-offset:3px}
+  .tri-modal__form-wrap{grid-row:2;padding:var(--space-24)}
+  .tri-modal__close{top:16px;right:16px}
+  .tri-modal__choices{grid-template-columns:repeat(2,1fr)}
 }

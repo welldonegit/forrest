@@ -35,6 +35,7 @@ function init(section) {
   let raf = 0;
   let seekTarget = -1;
   let cover = { s: 1, tx: 0, ty: 0 };   // cached fullscreen-cover transform for the frame
+  let flyDist = 600;                    // px the H1 travels up to clear the top (set in measure)
 
   /* ---------- Modal (presentation) — wired up regardless of scrub state ---------- */
   setupModal(section);
@@ -45,6 +46,7 @@ function init(section) {
     scrub = false;
     if (raf) { cancelAnimationFrame(raf); raf = 0; }
     frame.style.transform = '';
+    frame.style.removeProperty('--hs-dark');
     title.style.transform = '';
     title.style.opacity = '';
     bottom.style.opacity = '';
@@ -65,6 +67,8 @@ function init(section) {
   /* Measure the frame's natural slot box (identity transform) and derive the transform that blows
      it up to fully cover the viewport — a single uniform scale, so the picture never distorts. */
   function measure() {
+    // How far the H1 must travel up to fully clear the viewport top (beamed under the header).
+    flyDist = title.offsetTop + title.offsetHeight + 40;
     const prev = frame.style.transform;
     frame.style.transform = 'none';
     const r = frame.getBoundingClientRect();
@@ -105,9 +109,12 @@ function init(section) {
     const p = progress();
 
     // Act 1 — rest state leaves (0 → .40, ~half the camera playback): H1 drifts up slow & eased.
-    const t1 = easeInOut(clamp(p / 0.40, 0, 1));
-    title.style.transform = `translateY(${-120 * t1}px)`;
-    title.style.opacity = `${1 - t1}`;
+    // H1 is "beamed up" (0 → .40): starts slow, then accelerates up and off under the header
+    // (ease-in), shrinking to 60% and fading as it's sucked away.
+    const t1 = clamp(p / 0.40, 0, 1);
+    const tf = t1 * t1;                                  // ease-in — accelerating pull upward
+    title.style.transform = `translateY(${-flyDist * tf}px) scale(${lerp(1, 0.6, tf)})`;
+    title.style.opacity = `${1 - tf}`;
     // Panel + stats stay through the whole camera and only leave once the FLIP (video resize)
     // begins at .65, fading out over .65 → .80.
     const tb = easeInOut(clamp((p - 0.65) / 0.15, 0, 1));
@@ -121,12 +128,16 @@ function init(section) {
     const q = easeInOut(clamp((p - 0.65) / 0.35, 0, 1));
     const s = lerp(cover.s, 1, q), tx = lerp(cover.tx, 0, q), ty = lerp(cover.ty, 0, q);
     frame.style.transform = `translate(${tx}px,${ty}px) scale(${s})`;
+    // Reveal the card chrome (60 сек chip, play, CTA) only once the video has settled in place.
+    section.classList.toggle('hs--landed', q > 0.93);
 
     // Header hands over at .7.
     header && header.classList.toggle('is-hero-transparent', p < 0.7);
 
-    // Second screen fades in (.75 → 1).
+    // Second screen fades in (.75 → 1). Darken the video more as it settles into the card so the
+    // "60 сек" chip + white CTA read — on the frame itself, so no box shows at the landing spot.
     const a2 = clamp((p - 0.75) / 0.25, 0, 1);
+    frame.style.setProperty('--hs-dark', (0.2 + 0.3 * a2).toFixed(3));
     act2.style.opacity = `${a2}`;
     act2.classList.toggle('is-shown', a2 > 0.01);
 
