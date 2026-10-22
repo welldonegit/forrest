@@ -61,7 +61,12 @@ function init(section) {
   // 100vh, so it can't live inside a 100vh pin without clipping; touch scrubbing is also fragile.
   // Below 1280 we use the static two-screen stack (hero → scrollable second screen), which yields
   // exactly the brief's tablet/mobile layout. Reported as a deliberate, non-silent simplification.
-  if (matchMedia('(max-width: 1279px)').matches) { goStatic(); return; }
+  // Re-check on resize too: a page loaded ≥1280 then narrowed (responsive testing / orientation /
+  // window resize) must also drop to static — otherwise the pinned layout runs at mobile widths,
+  // where the absolute H1/panel escape the container and the FLIPing video overlaps the act-2 text.
+  const narrow = matchMedia('(max-width: 1279px)');
+  narrow.addEventListener('change', (e) => { if (e.matches) goStatic(); });
+  if (narrow.matches) { goStatic(); return; }
   if (!video) { goStatic(); return; }
 
   /* Measure the frame's natural slot box (identity transform) and derive the transform that blows

@@ -9,6 +9,8 @@ const clamp = (v, a, b) => (v < a ? a : v > b ? b : v);
 
 const easeOut = (t) => 1 - Math.pow(1 - t, 3);    // cubic ease-out for the intro zoom
 const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);  // deck transition
+// Silkier accel/decel for the deck hand-off — a longer, softer glide (floema.com feel).
+const easeInOutQuint = (t) => (t < 0.5 ? 16 * t * t * t * t * t : 1 - Math.pow(-2 * t + 2, 5) / 2);
 
 /* ----------------------------- Heading entrance reveal ----------------------------- */
 (function reveal() {
@@ -37,28 +39,34 @@ const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) 
   if (slides.length < 2) return;
 
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
-  const wide = matchMedia('(min-width: 768px)');
   const N = slides.length;
-  const EASE = 0.085;            // deck glide
+  const EASE = 0.07;             // deck glide — lower = more trailing, liquid lag (floema feel)
   const INTRO = 0.34;            // first 34% of the scene is the intro
   const STAGE_A = 0.45;          // intro fraction: centre +20% while sides tuck under
   const HOLD_PX = 200;           // keep the triptych at rest for the first ~200px of scroll
   // Deck pacing: each slide "dwells" (stays fully shown) for DWELL, then transitions over TRANS.
-  // Relative weights — normalized to the deck span — so slides stick before the next one rises.
-  const DWELL = 0.14, TRANS = 0.29;
+  // Relative weights — normalized to the deck span. Longer TRANS = the slide is in motion most of
+  // the scroll, so the hand-off reads as one continuous flowing glide rather than a quick swap.
+  const DWELL = 0.11, TRANS = 0.36;
   let current = 0, raf = 0, visible = false, enabled = false;
   // Reverse FLIP: the hero is laid out full-bleed; shrink{} is the transform that packs it into the
   // centre slot. We only ever scale DOWN from native → always sharp; identity = the real slide 0.
   let shrink = { s: 1, tx: 0, ty: 0 };
+  let mobileIntro = false, clipBandY = 0;   // mobile: 16/9 letterbox on the centre hero (see measure)
 
   function measure() {
     if (!hero || !slot) return;
     const vw = window.innerWidth, vh = window.innerHeight;
-    // Match the thumbnails to the viewport aspect so the hero fits its slot exactly (no overflow
-    // into the 16px gaps, equal heights with the side thumbs).
-    const ar = `${vw} / ${vh}`;
+    // Desktop: thumbnails take the viewport aspect so the full-bleed hero covers its slot exactly.
+    // Mobile (portrait): thumbnails keep the desktop 16/9 ratio; the centre hero is cover-scaled into
+    // its 16/9 slot and letterboxed to it with clip-path. As it zooms (stage B) the letterbox opens,
+    // un-cropping top+bottom so the picture "becomes vertical" (full-screen portrait) to match the
+    // slides below. clipBandY = px to crop off top+bottom (in the hero's own full-bleed coords).
+    mobileIntro = vw < 768;
+    const ar = mobileIntro ? '16 / 9' : `${vw} / ${vh}`;
     slot.style.aspectRatio = ar;
     sides.forEach((s) => { s.style.aspectRatio = ar; });
+    clipBandY = mobileIntro ? Math.max(0, (vh - vw * 9 / 16) / 2) : 0;
     const r = slot.getBoundingClientRect();
     const pinTop = pin.getBoundingClientRect().top;
     if (r.width < 1 || r.height < 1) return;
@@ -85,7 +93,17 @@ const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) 
       s = s0 + (1 - s0) * b;
       tx = shrink.tx * (1 - b); ty = shrink.ty * (1 - b);
     }
-    if (hero) hero.style.transform = `translate(${tx}px,${ty}px) scale(${s})`;
+    if (hero) {
+      hero.style.transform = `translate(${tx}px,${ty}px) scale(${s})`;
+      // Mobile: open the 16/9 letterbox in lockstep with the stage-B zoom so the centre image
+      // un-crops top+bottom and resolves into the full-screen vertical slide.
+      if (mobileIntro && clipBandY > 0) {
+        const openB = pi <= STAGE_A ? 0 : easeOut((pi - STAGE_A) / (1 - STAGE_A));
+        hero.style.clipPath = `inset(${(clipBandY * (1 - openB)).toFixed(2)}px 0)`;
+      } else {
+        hero.style.clipPath = '';
+      }
+    }
     // Sides slide inward UNDER the centre (not away); they stay through stage B.
     const a = easeOut(clamp(pi / STAGE_A, 0, 1));
     if (sides[0]) sides[0].style.transform = `translateX(${a * 92}%) scale(${1 - a * 0.14})`;
@@ -108,7 +126,7 @@ const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) 
     for (let i = 0; i < segs; i++) {
       if (x < d) return i;                     // dwelling on slide i
       x -= d;
-      if (x < t) return i + easeInOut(x / t);  // transition slide i → i+1
+      if (x < t) return i + easeInOutQuint(x / t);  // transition slide i → i+1 (silky glide)
       x -= t;
     }
     return segs;                               // dwelling on the last slide
@@ -149,7 +167,7 @@ const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) 
 
   function clearStyles() {
     slides.forEach((s) => { s.style.removeProperty('--ty'); s.style.removeProperty('--p'); });
-    if (hero) hero.style.transform = '';
+    if (hero) { hero.style.transform = ''; hero.style.clipPath = ''; }
     if (slot) slot.style.aspectRatio = '';
     sides.forEach((it) => { it.style.transform = ''; it.style.opacity = ''; it.style.aspectRatio = ''; });
     intro.style.opacity = ''; intro.style.visibility = ''; intro.style.pointerEvents = '';
@@ -169,9 +187,11 @@ const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) 
   }
 
   addEventListener('resize', () => { if (enabled) measure(); }, { passive: true });
-  const sync = () => { (wide.matches && !reduce.matches) ? enable() : disable(); };
+  // The deck is transform-only (translateY + a tiny parallax) — safe on touch — so it runs at every
+  // width; mobile gets the same stacking animation as desktop (measure() keys the cards to the
+  // viewport aspect). Only reduced-motion falls back to the readable static stack.
+  const sync = () => { reduce.matches ? disable() : enable(); };
   sync();
-  wide.addEventListener('change', sync);
   reduce.addEventListener('change', sync);
 })();
 
