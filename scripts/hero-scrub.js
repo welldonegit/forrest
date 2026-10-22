@@ -142,7 +142,7 @@ function init(section) {
     // Second screen fades in (.75 → 1). Darken the video more as it settles into the card so the
     // "60 сек" chip + white CTA read — on the frame itself, so no box shows at the landing spot.
     const a2 = clamp((p - 0.75) / 0.25, 0, 1);
-    frame.style.setProperty('--hs-dark', (0.2 + 0.3 * a2).toFixed(3));
+    frame.style.setProperty('--hs-dark', (0.5 * a2).toFixed(3));
     act2.style.opacity = `${a2}`;
     act2.classList.toggle('is-shown', a2 > 0.01);
 

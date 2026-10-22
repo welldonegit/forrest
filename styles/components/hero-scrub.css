@@ -28,10 +28,11 @@
 .hs__frame{grid-column:6 / span 7;aspect-ratio:16 / 9;position:relative;overflow:hidden;border-radius:var(--radius-media);
   transform-origin:0 0;will-change:transform;background:var(--spruce)}
 .hs__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;border-radius:var(--radius-media)}
-/* Even darkening over the video (travels with it through the FLIP). Opacity ramps from .2 in act 1
-   to ~.5 as the second screen arrives (--hs-dark set by hero-scrub.js) — so no separate dark box
-   shows at the landing spot. Deliberate §3.4 exception. */
-.hs__frame::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;border-radius:var(--radius-media);background:rgba(12,12,12,var(--hs-dark,.2))}
+/* Even darkening over the video (travels with it through the FLIP). No scrim in act 1 (first screen
+   reads clean — white ink clears 3:1/4.5:1 on the first frame); opacity ramps from 0 to ~.5 as the
+   second screen arrives (--hs-dark set by hero-scrub.js) — so the "60 сек" chip + white CTA read and
+   no separate dark box shows at the landing spot. Deliberate §3.4 exception. */
+.hs__frame::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;border-radius:var(--radius-media);background:rgba(12,12,12,var(--hs-dark,0))}
 
 /* ---------- Act 1: rest state (H1 top-left, panel + stats bottom-left) ---------- */
 .hs__act1{position:absolute;inset:0;z-index:3;pointer-events:none}
