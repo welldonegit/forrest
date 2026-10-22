@@ -28,10 +28,11 @@
 .hs__frame{grid-column:6 / span 7;aspect-ratio:16 / 9;position:relative;overflow:hidden;border-radius:var(--radius-media);
   transform-origin:0 0;will-change:transform;background:var(--spruce)}
 .hs__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;border-radius:var(--radius-media)}
-/* Even darkening over the video (travels with it through the FLIP). Opacity ramps from .2 in act 1
-   to ~.5 as the second screen arrives (--hs-dark set by hero-scrub.js) — so no separate dark box
-   shows at the landing spot. Deliberate §3.4 exception. */
-.hs__frame::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;border-radius:var(--radius-media);background:rgba(12,12,12,var(--hs-dark,.2))}
+/* Even darkening over the video (travels with it through the FLIP). No scrim in act 1 (first screen
+   reads clean — white ink clears 3:1/4.5:1 on the first frame); opacity ramps from 0 to ~.5 as the
+   second screen arrives (--hs-dark set by hero-scrub.js) — so the "60 сек" chip + white CTA read and
+   no separate dark box shows at the landing spot. Deliberate §3.4 exception. */
+.hs__frame::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;border-radius:var(--radius-media);background:rgba(12,12,12,var(--hs-dark,0))}
 
 /* ---------- Act 1: rest state (H1 top-left, panel + stats bottom-left) ---------- */
 .hs__act1{position:absolute;inset:0;z-index:3;pointer-events:none}
@@ -168,14 +169,21 @@
   .hs__stage,.hs__act1-inner{width:100%;padding-inline:var(--page-padding)}
   .hs__frame{grid-column:1 / -1;aspect-ratio:4 / 5}
 
-  .hs__title{top:calc(var(--header-h-scrolled) + var(--space-24));bottom:auto;font-size:var(--type-display-size);line-height:var(--type-display-lh);white-space:normal}
-  .hs__act1-bottom{right:0;gap:var(--space-32)}
+  /* Dynamic (pinned) mobile: .hs__title / .hs__act1-bottom are absolutely positioned, so they
+     anchor to .hs__act1-inner's padding-box edge and ignore its padding-inline — pin them to the
+     page padding explicitly so the copy stays inside the container. (Static mode makes these
+     position:static, so they flow inside the padding instead and these insets are moot.) */
+  .hs__title{top:calc(var(--header-h-scrolled) + var(--space-24));bottom:auto;left:var(--page-padding);right:var(--page-padding);font-size:var(--type-display-size);line-height:var(--type-display-lh);white-space:normal}
+  .hs__act1-bottom{left:var(--page-padding);right:var(--page-padding);gap:var(--space-32)}
   .hs__lead{max-width:none}
   .hs__cta{flex-direction:column;align-items:flex-start;gap:var(--space-16);width:100%}
   .hs__cta .btn{width:100%}
 
-  .hs__stats{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-16) var(--space-24);max-width:none}
-  .hs__stat{flex:initial}
+  /* Three stats in one row (3 columns). Values may wrap within a cell on the narrowest screens
+     rather than overflow, and the row gap tightens so "9 000 $" etc. fit. */
+  .hs__stats{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-16) var(--space-8);max-width:none}
+  .hs__stat{flex:initial;min-width:0}
+  .hs__stat-v{flex-wrap:wrap;white-space:normal}
   .hs__stat-num{font-size:var(--type-h4-size);line-height:var(--type-h4-lh)}
 
   /* Second screen stacks: text, then full-width card. */

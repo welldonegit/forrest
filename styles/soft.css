@@ -1,0 +1,667 @@
+/* ============================================================================================
+   FORREST — «М'яка» альтернатива головної (soft.html).
+   Окрема обгортка: та сама типографіка й ті самі брендові hex, але форма/колір/анімації за
+   спец-правилами цієї сторінки (великі радіуси, рамка-хіро, скло лише поверх фото, sea-wave
+   крупними плоскостями, Lenis + GSAP). DESIGN.md §5.3 / §8 тут НЕ діють — замість них правила нижче.
+   Переваги шрифтів/шкали — зі спільної системи (tokens + typography). ============================ */
+@import "./tokens.css";
+@import "./reset.css";
+@import "./typography.css";
+
+:root{
+  --s-radius-img:32px;      /* фото та карточки */
+  --s-radius-panel:24px;    /* панелі, скло, інпути */
+  --s-frame-inset:12px;     /* відступ рамки від краю вьюпорта */
+  --s-frame-radius:40px;    /* радіус великих рамок (хіро, глибокі блоки) */
+  /* Скло — лише поверх фото/відео. */
+  --s-glass-bg:rgba(255,255,255,.14);
+  --s-glass-border:rgba(255,255,255,.28);
+  --s-ease:cubic-bezier(.22,1,.36,1);
+}
+
+/* Lenis base styles (smooth scroll). */
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}
+.lenis.lenis-stopped{overflow:clip}
+
+.soft{background:var(--white-sand);color:var(--spruce);
+  font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+[data-parallax]{will-change:transform}
+.s-hero__frame picture{display:contents}
+.soft ::selection{background:var(--sea-wave);color:var(--spruce)}
+
+/* ---------------------------------- Glass (over photo only) ---------------------------------- */
+.s-glass{background:var(--s-glass-bg);
+  -webkit-backdrop-filter:blur(20px) saturate(140%);backdrop-filter:blur(20px) saturate(140%);
+  border:1px solid var(--s-glass-border);border-radius:var(--s-radius-panel);color:#fff}
+
+/* ---------------------------------- Logo (always solid colour) ---------------------------------- */
+.s-logo{display:block;height:28px;width:auto;color:#fff}
+
+/* ---------------------------------- Button (pill + arrow in a circle) ---------------------------------- */
+.btn-soft{display:inline-flex;align-items:center;gap:var(--space-16);padding:8px 8px 8px 28px;border:0;
+  border-radius:var(--radius-full);cursor:pointer;background:var(--spruce);color:var(--white-sand);
+  font-family:var(--font-text);font-size:var(--type-button-size);line-height:var(--type-button-lh);font-weight:600;
+  text-decoration:none;white-space:nowrap;transition:background-color 400ms var(--s-ease),color 400ms var(--s-ease)}
+.btn-soft__ic{flex:none;display:inline-flex;align-items:center;justify-content:center;inline-size:44px;block-size:44px;
+  border-radius:var(--radius-full);background:var(--white-sand);color:var(--spruce);
+  transition:transform 400ms var(--s-ease),background-color 400ms var(--s-ease),color 400ms var(--s-ease)}
+.btn-soft__ic svg{width:18px;height:18px}
+.btn-soft:hover{background:var(--sea-wave);color:var(--spruce)}
+.btn-soft:hover .btn-soft__ic{transform:translateX(4px)}
+.btn-soft:focus-visible{outline:2px solid var(--spruce);outline-offset:3px}
+/* On dark surfaces (footer): light pill, fills sea-wave on hover. */
+.btn-soft--light{background:var(--white-sand);color:var(--spruce)}
+.btn-soft--light .btn-soft__ic{background:var(--spruce);color:var(--white-sand)}
+.btn-soft--light:hover{background:var(--sea-wave);color:var(--spruce)}
+.btn-soft--light:hover .btn-soft__ic{background:var(--spruce);color:var(--white-sand)}
+/* Ghost (over the hero / in the glass header). */
+.btn-soft--ghost{background:transparent;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.5);padding-left:24px}
+.btn-soft--ghost .btn-soft__ic{inline-size:34px;block-size:34px;background:#fff;color:var(--spruce)}
+.btn-soft--ghost:hover{background:#fff;color:var(--spruce);box-shadow:inset 0 0 0 1px #fff}
+
+/* ---------------------------------- Header (glass over hero → solid on scroll) ---------------------------------- */
+.s-head{position:fixed;z-index:50;top:var(--s-frame-inset);
+  left:calc(var(--s-frame-inset) + 16px);right:calc(var(--s-frame-inset) + 16px);
+  display:flex;align-items:center;justify-content:space-between;gap:var(--space-24);
+  padding:10px 10px 10px 24px;border-radius:var(--radius-full);color:#fff;
+  background:var(--s-glass-bg);-webkit-backdrop-filter:blur(20px) saturate(140%);backdrop-filter:blur(20px) saturate(140%);
+  border:1px solid var(--s-glass-border);
+  transition:background-color 400ms var(--s-ease),color 400ms var(--s-ease),box-shadow 400ms var(--s-ease),border-color 400ms var(--s-ease),transform var(--motion-menu) var(--s-ease)}
+/* Smart header: slides up out of view when scrolling down. */
+.s-head.is-hidden{transform:translateY(-150%)}
+.s-head__nav{display:flex;gap:var(--space-32)}
+.s-head__nav a{color:inherit;text-decoration:none;font-weight:600;font-size:var(--type-button-size);opacity:.92}
+.s-head__nav a:hover{opacity:1}
+/* Right-side actions: language switcher sits next to the CTA (with a gap). */
+.s-head__actions{display:flex;align-items:center;gap:var(--space-16)}
+/* Burger + phone — mobile only. */
+.s-head__burger,.s-head__phone{display:none;align-items:center;justify-content:center;inline-size:40px;block-size:40px;padding:0;border:0;background:none;color:inherit;cursor:pointer}
+.s-head__burger svg{width:24px;height:24px}
+.s-head__phone svg{width:22px;height:22px}
+/* Premium language switcher. */
+.s-head__lang{display:inline-flex;align-items:center;gap:2px;padding:3px;border-radius:var(--radius-full);box-shadow:inset 0 0 0 1px rgba(255,255,255,.4)}
+.s-head__lang-opt{inline-size:44px;block-size:44px;display:inline-flex;align-items:center;justify-content:center;border:0;background:none;color:inherit;cursor:pointer;border-radius:var(--radius-full);
+  font-family:var(--font-text);font-size:var(--type-small-size);font-weight:700;letter-spacing:.04em;opacity:.72;transition:background-color var(--motion-hover) var(--ease-out),color var(--motion-hover) var(--ease-out),opacity var(--motion-hover) var(--ease-out)}
+.s-head__lang-opt:hover{opacity:1}
+.s-head__lang-opt.is-active{background:#fff;color:var(--spruce);opacity:1}
+.s-head__lang-opt:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.s-head.is-solid .s-head__lang{box-shadow:inset 0 0 0 1px var(--path-sand)}
+.s-head.is-solid .s-head__lang-opt.is-active{background:var(--spruce);color:#fff}
+.s-head.is-solid .s-head__lang-opt:focus-visible{outline-color:var(--spruce)}
+/* Past the hero the header sits on white-sand → no glass; solid white card instead. */
+.s-head.is-solid{background:#fff;color:var(--spruce);-webkit-backdrop-filter:none;backdrop-filter:none;
+  border-color:transparent;box-shadow:0 12px 40px rgba(24,40,32,.1)}
+.s-head.is-solid .s-logo{color:var(--spruce)}
+.s-head.is-solid .btn-soft--ghost{color:var(--spruce);box-shadow:inset 0 0 0 1px var(--path-sand)}
+.s-head.is-solid .btn-soft--ghost .btn-soft__ic{background:var(--spruce);color:#fff}
+.s-head.is-solid .btn-soft--ghost:hover{background:var(--sea-wave);color:var(--spruce);box-shadow:inset 0 0 0 1px var(--sea-wave)}
+
+/* ---------------------------------- Full-screen mobile menu ---------------------------------- */
+html.is-menu-open{overflow:hidden}
+.s-menu{position:fixed;inset:0;z-index:60;background:var(--white-sand);color:var(--spruce);
+  display:flex;flex-direction:column;justify-content:center;gap:var(--space-40);padding:var(--space-96) var(--page-padding) var(--space-40);overflow-y:auto;
+  opacity:0;visibility:hidden;transition:opacity 400ms var(--s-ease),visibility 0s linear 400ms}
+.s-menu[hidden]{display:none}
+.s-menu.is-open{opacity:1;visibility:visible;transition:opacity 400ms var(--s-ease)}
+.s-menu__close{position:absolute;top:var(--space-24);right:var(--page-padding);inline-size:44px;block-size:44px;display:inline-flex;align-items:center;justify-content:center;padding:0;border:0;background:none;color:var(--spruce);cursor:pointer}
+.s-menu__nav{display:flex;flex-direction:column;gap:var(--space-12)}
+.s-menu__nav a{font-family:var(--font-display);font-size:clamp(34px,10vw,56px);line-height:1.08;font-weight:500;letter-spacing:-.02em;text-transform:uppercase;color:var(--spruce);text-decoration:none;
+  opacity:0;transform:translateY(18px)}
+.s-menu.is-open .s-menu__nav a{opacity:1;transform:none;transition:opacity 520ms var(--s-ease),transform 620ms var(--s-ease)}
+.s-menu.is-open .s-menu__nav a:nth-child(1){transition-delay:.06s}
+.s-menu.is-open .s-menu__nav a:nth-child(2){transition-delay:.12s}
+.s-menu.is-open .s-menu__nav a:nth-child(3){transition-delay:.18s}
+.s-menu.is-open .s-menu__nav a:nth-child(4){transition-delay:.24s}
+.s-menu.is-open .s-menu__nav a:nth-child(5){transition-delay:.30s}
+.s-menu__cards{display:flex;flex-direction:column;gap:var(--space-12)}
+.s-menu__card{display:flex;align-items:center;gap:var(--space-16);padding:var(--space-12);background:#fff;border-radius:var(--s-radius-panel);text-decoration:none;
+  opacity:0;transform:translateY(18px)}
+.s-menu.is-open .s-menu__card{opacity:1;transform:none;transition:opacity 520ms var(--s-ease),transform 620ms var(--s-ease)}
+.s-menu.is-open .s-menu__card:nth-child(1){transition-delay:.34s}
+.s-menu.is-open .s-menu__card:nth-child(2){transition-delay:.40s}
+.s-menu.is-open .s-menu__card:nth-child(3){transition-delay:.46s}
+.s-menu__card img{inline-size:56px;block-size:56px;border-radius:var(--radius-16);object-fit:cover;flex:none;display:block}
+.s-menu__card-body{display:flex;flex-direction:column;gap:2px;min-width:0}
+.s-menu__card-title{font-family:var(--font-display);font-size:var(--type-body-size);line-height:1.2;font-weight:500;color:var(--spruce)}
+.s-menu__card-sub{font-size:var(--type-small-size);line-height:var(--type-small-lh);color:var(--spruce);opacity:.7}
+.s-menu__foot{display:flex;flex-direction:column;gap:var(--space-16)}
+.s-menu__phone{font-family:var(--font-display);font-size:var(--type-h3-size);line-height:1;color:var(--spruce);text-decoration:none;letter-spacing:-.01em}
+.s-menu__msgs{display:flex;flex-wrap:wrap;gap:var(--space-24)}
+.s-menu__msgs a{color:var(--spruce);text-decoration:none;font-weight:600;font-size:var(--type-button-size)}
+@media (prefers-reduced-motion:reduce){.s-menu,.s-menu .s-menu__nav a{transition:opacity 150ms linear}.s-menu__nav a{transform:none}}
+
+/* ---------------------------------- Shared type ---------------------------------- */
+.s-eyebrow{margin:0 0 var(--space-16);font-family:var(--font-display);font-size:var(--type-small-size);line-height:1;
+  font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--spruce)}
+/* All block H2s use the design-system base h2 (40 desktop / 28 mobile) — one consistent size. */
+.s-h2{margin:0;font-family:var(--font-display);font-size:var(--type-h2-size);line-height:var(--type-h2-lh);
+  letter-spacing:var(--type-h2-ls);font-weight:500;text-transform:uppercase;color:var(--spruce)}
+.s-h2 em{font-style:normal;color:var(--sea-wave)}
+.s-h2__muted{color:var(--accent-earth)}
+.s-h2--light{color:var(--white-sand)}
+/* Line-mask heading — JS lifts each .line-in from under the mask. Default (no JS / reduced) = visible. */
+.s-split .line{display:block;overflow:hidden;padding-block:.06em}
+.s-split .line-in{display:block}
+/* Mobile-only manual line breaks (hidden on desktop → natural wrap there). */
+@media (min-width:768px){.s-mob-br{display:none}}
+
+/* ================================ Hero (framed) — Scandiwest-style composition ================================
+   Big brand name across the sky up top; a solid white project card bottom-left; the H1 tagline
+   bottom-right. Header is a separate fixed element (unchanged). */
+.s-hero{padding:var(--s-frame-inset)}
+.s-hero__frame{position:relative;overflow:hidden;border-radius:var(--s-frame-radius);
+  min-height:calc(100svh - 2*var(--s-frame-inset));display:flex;flex-direction:column;justify-content:flex-end;
+  padding:var(--space-48);isolation:isolate}
+.s-hero__bg{position:absolute;inset:-10% 0;width:100%;height:120%;object-fit:cover;z-index:0}
+/* Premium multi-stop vignette: a gentle, gradual darkening toward the bottom (no hard band),
+   keeping the top light for the watermark brand. */
+.s-hero__frame::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(to bottom,
+    rgba(12,12,12,.10) 0%,
+    rgba(12,12,12,0) 22%,
+    rgba(12,12,12,0) 46%,
+    rgba(12,12,12,.06) 60%,
+    rgba(12,12,12,.18) 73%,
+    rgba(12,12,12,.34) 84%,
+    rgba(12,12,12,.52) 93%,
+    rgba(12,12,12,.66) 100%)}
+/* Brand name across the sky — large, light, watermark-like. */
+.s-hero__brand{position:absolute;z-index:2;top:var(--space-96);left:var(--space-48);right:var(--space-48);margin:0;text-align:right;
+  font-family:var(--font-display);font-weight:var(--type-display-weight);text-transform:uppercase;letter-spacing:-.02em;
+  font-size:clamp(66px,15.2vw,160px);line-height:.9;color:rgba(255,255,255,.9);pointer-events:none}
+/* Bottom row: solid white card (left) + big tagline (right). */
+.s-hero__foot{position:relative;z-index:2;display:flex;align-items:flex-end;justify-content:space-between;gap:var(--space-48)}
+/* Solid white project card. */
+.s-hero__card{display:flex;align-items:stretch;gap:var(--space-16);padding:var(--space-12);max-width:440px;
+  background:#fff;border-radius:var(--s-radius-panel);text-decoration:none;
+  transition:transform var(--motion-entrance) var(--s-ease),box-shadow var(--motion-entrance) var(--s-ease)}
+.s-hero__card:hover{transform:translateY(-4px);box-shadow:0 18px 50px rgba(24,40,32,.22)}
+.s-hero__card-img{flex:none;inline-size:110px;aspect-ratio:4 / 5;border-radius:var(--radius-16);object-fit:cover;display:block}
+.s-hero__card-body{display:flex;flex-direction:column;min-width:0;padding:var(--space-4) var(--space-8) var(--space-4) 0}
+.s-hero__card-top{display:flex;align-items:center;justify-content:space-between;gap:var(--space-12);margin-bottom:auto}
+.s-hero__card-chip{padding:var(--space-4) var(--space-12);border-radius:var(--radius-full);background:var(--white-sand);white-space:nowrap;
+  font-family:var(--font-text);font-size:var(--type-small-size);line-height:1.4;font-weight:600;color:var(--spruce)}
+.s-hero__card-arrow{flex:none;display:inline-flex;align-items:center;justify-content:center;inline-size:34px;block-size:34px;border-radius:var(--radius-full);background:var(--spruce);color:#fff;
+  transition:background-color var(--motion-entrance) var(--s-ease),color var(--motion-entrance) var(--s-ease),transform var(--motion-entrance) var(--s-ease)}
+.s-hero__card:hover .s-hero__card-arrow,.s-hero__card:focus-visible .s-hero__card-arrow{background:var(--sea-wave);color:var(--spruce);transform:translate(3px,-3px)}
+.s-hero__card-arrow svg{width:16px;height:16px}
+.s-hero__card-title{margin:var(--space-16) 0 0;font-family:var(--font-display);font-size:var(--type-h4-size);line-height:var(--type-h4-lh);font-weight:500;color:var(--spruce)}
+.s-hero__card-sub{margin:var(--space-4) 0 0;font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);color:var(--stone)}
+/* Bottom-right column: season toggle above the tagline. */
+.s-hero__right{display:flex;flex-direction:column;align-items:flex-end;gap:var(--space-16)}
+/* Tagline bottom-right — h4 scale, left-aligned text (block stays in the right corner). */
+.s-hero__tagline{margin:0;max-width:none;text-align:left;color:#fff;
+  font-family:var(--font-display);font-weight:var(--type-h4-weight);text-transform:none;letter-spacing:0;
+  font-size:var(--type-h4-size);line-height:1.65}
+
+/* Winter photo layer — revealed by an iris wave from the toggle (bottom-right). */
+.s-hero__bg--winter{clip-path:circle(0% at var(--wx,93%) var(--wy,50%));transition:clip-path 1200ms cubic-bezier(.76,0,.24,1)}
+.s-hero__frame.is-winter .s-hero__bg--winter{clip-path:circle(150% at var(--wx,93%) var(--wy,50%))}
+/* Season toggle — glass pill over the photo, vertically centred on the right edge. */
+.s-hero__season{position:absolute;z-index:2;right:var(--space-48);top:50%;transform:translateY(-50%);
+  display:inline-flex;align-items:center;gap:var(--space-8);padding:var(--space-8) var(--space-16);border-radius:var(--radius-full);color:#fff;cursor:pointer;
+  font-family:var(--font-text);font-size:var(--type-button-size);line-height:1;font-weight:600;
+  transition:background-color var(--motion-entrance) var(--s-ease)}
+.s-hero__season:hover{background:rgba(255,255,255,.26)}
+.s-hero__season:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.s-hero__season-ic{display:inline-flex;align-items:center}
+.s-hero__season-ic svg{width:18px;height:18px}
+.s-hero__season-ic--sun{display:none}
+.s-hero__season.is-winter .s-hero__season-ic--snow{display:none}
+.s-hero__season.is-winter .s-hero__season-ic--sun{display:inline-flex}
+@media (prefers-reduced-motion:reduce){.s-hero__bg--winter{transition:clip-path 1ms}}
+
+/* ================================ Section wrappers ================================ */
+/* Each block owns only its TOP gap (= one --section-padding-y), no bottom — so gaps between
+   consecutive blocks are never doubled (design-system rhythm). */
+/* ================================ Floating finmodel card ================================
+   Appears bottom-right once the hero is scrolled past; coalesces in (blur + rise + scale). */
+.s-float{position:fixed;z-index:45;right:var(--space-24);bottom:var(--space-24);max-width:320px;
+  background:#fff;border-radius:var(--s-radius-panel);box-shadow:0 18px 50px rgba(24,40,32,.22);
+  opacity:0;transform:translateY(22px) scale(.92);filter:blur(6px);pointer-events:none;
+  transition:opacity 550ms var(--s-ease),transform 600ms var(--s-ease),filter 550ms var(--s-ease)}
+.s-float.is-visible{opacity:1;transform:none;filter:none;pointer-events:auto}
+.s-float__link{display:flex;align-items:center;gap:var(--space-12);padding:var(--space-8) var(--space-16) var(--space-8) var(--space-8);text-decoration:none;border-radius:inherit}
+.s-float__close{position:absolute;top:-8px;left:-8px;inline-size:24px;block-size:24px;border:0;border-radius:var(--radius-full);padding:0;cursor:pointer;z-index:2;
+  display:inline-flex;align-items:center;justify-content:center;background:var(--spruce);color:#fff;box-shadow:0 3px 10px rgba(12,12,12,.3);
+  transition:background-color var(--motion-hover) var(--ease-out),color var(--motion-hover) var(--ease-out)}
+.s-float__close svg{width:12px;height:12px}
+.s-float__close:hover{background:var(--sea-wave);color:var(--spruce)}
+.s-float__close:focus-visible{outline:2px solid var(--spruce);outline-offset:2px}
+.s-float__img{flex:none;inline-size:50px;block-size:50px;border-radius:var(--radius-16);object-fit:cover;display:block}
+.s-float__text{display:flex;flex-direction:column;gap:2px;min-width:0}
+.s-float__chip{font-family:var(--font-text);font-size:var(--type-small-size);line-height:1;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--stone)}
+.s-float__title{font-family:var(--font-display);font-size:var(--type-small-size);line-height:1.2;font-weight:500;color:var(--spruce)}
+.s-float__arrow{flex:none;display:inline-flex;align-items:center;justify-content:center;inline-size:34px;block-size:34px;border-radius:var(--radius-full);background:var(--spruce);color:#fff;
+  transition:background-color var(--motion-entrance) var(--s-ease),color var(--motion-entrance) var(--s-ease),transform var(--motion-entrance) var(--s-ease)}
+.s-float__arrow svg{width:16px;height:16px}
+.s-float:hover .s-float__arrow,.s-float:focus-visible .s-float__arrow{background:var(--sea-wave);color:var(--spruce);transform:translate(3px,-3px)}
+@media (prefers-reduced-motion:reduce){.s-float{transition:opacity 200ms linear;filter:none;transform:none}}
+
+.s-season,.s-figures,.s-form,.s-nums{width:min(100% - 2*var(--page-padding),var(--container));margin-inline:auto;padding-top:var(--section-padding-y)}
+
+/* ================================ FORREST у цифрах — 4 premium cards (reference3) ================================ */
+.s-nums__title{margin:0;font-family:var(--font-display);font-size:var(--type-h2-lg-size);line-height:var(--type-h2-lg-lh);letter-spacing:var(--type-h2-ls);font-weight:500;color:var(--spruce)}
+.s-nums__title-b{color:var(--accent-earth)}
+.s-nums__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-24)}
+.s-num{position:relative;aspect-ratio:2 / 3;border-radius:var(--s-radius-img);overflow:hidden;background:var(--night-bark);isolation:isolate;
+  display:flex;flex-direction:column;justify-content:space-between;padding:var(--space-24);
+  transition:box-shadow var(--motion-entrance) var(--s-ease)}
+.s-num:hover{box-shadow:0 30px 70px rgba(24,40,32,.3)}
+.s-num__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;transition:transform 700ms var(--s-ease)}
+.s-num:hover .s-num__img{transform:scale(1.07)}
+/* Spruce wash over the photo — strong top (number) + bottom (foot), lighter middle. */
+.s-num__grad{position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(12,12,12,.9) 0%,rgba(12,12,12,.5) 30%,rgba(12,12,12,.18) 52%,rgba(12,12,12,.46) 82%,rgba(12,12,12,.86) 100%);
+  transition:opacity var(--motion-entrance) var(--s-ease)}
+.s-num:hover .s-num__grad{opacity:.86}
+.s-num__top,.s-num__foot{position:relative;z-index:2;color:#fff}
+.s-num__v{margin:0;font-family:var(--font-display);font-weight:500;letter-spacing:-.02em;line-height:1;font-size:clamp(40px,4.4vw,60px);white-space:nowrap}
+.s-num__v span{font-size:.5em;font-weight:500}
+.s-num__label{margin:var(--space-12) 0 0;font-family:var(--font-text);font-size:var(--type-lead-size);line-height:var(--type-lead-lh);color:#fff;text-wrap:pretty}
+/* Bottom figure on a glass plaque (over the photo). */
+.s-num__foot{align-self:flex-start;margin:0;padding:var(--space-8) var(--space-16);border-radius:var(--radius-full);
+  background:var(--s-glass-bg);-webkit-backdrop-filter:blur(20px) saturate(140%);backdrop-filter:blur(20px) saturate(140%);
+  border:1px solid var(--s-glass-border);
+  font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);font-weight:600;color:#fff}
+/* Swipe hint (mobile only). */
+.s-nums__hint{display:none;align-items:center;gap:var(--space-8);margin:0 0 var(--space-16);
+  font-family:var(--font-text);font-size:var(--type-small-size);line-height:1;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--stone)}
+.s-nums__hint svg{width:22px;height:22px;color:var(--spruce);animation:nums-swipe 1.6s ease-in-out infinite}
+@keyframes nums-swipe{0%,100%{transform:translateX(-7px)}50%{transform:translateX(7px)}}
+@media (prefers-reduced-motion:reduce){.s-nums__hint svg{animation:none}}
+
+/* ---------------- Seasonal — text + reveal photo ---------------- */
+/* Editorial composition: heading + lead on a 12-col row, then a large rounded video. */
+.s-season{display:flex;flex-direction:column;gap:var(--space-64)}
+.s-season__head{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--grid-gutter);align-items:end}
+.s-season__headtext{grid-column:1 / span 7}
+.s-season__title{margin:var(--space-16) 0 0}
+.s-season__title em{font-style:normal;color:var(--accent-earth)}   /* readable accent on light (not sea-wave) */
+.s-season__lead{grid-column:8 / span 5;margin:0;font-size:var(--type-lead-size);line-height:var(--type-lead-lh);color:var(--spruce);text-wrap:pretty}
+/* Large rounded video. */
+.s-season__media{position:relative;aspect-ratio:16 / 7;border-radius:var(--s-radius-img);overflow:hidden;background:var(--night-bark);display:grid;place-items:center}
+.s-season__video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+/* Light premium darkening over the video (fades out once it plays). */
+.s-season__media::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(12,12,12,.26) 0%,rgba(12,12,12,.14) 42%,rgba(12,12,12,.3) 100%);
+  transition:opacity var(--motion-menu) var(--ease-out)}
+.s-season__media.is-playing::after{opacity:0}
+.s-season__badge{position:absolute;top:var(--space-24);left:var(--space-24);z-index:2;display:inline-flex;align-items:center;gap:var(--space-8);
+  padding:var(--space-8) var(--space-12);font-family:var(--font-text);font-size:var(--type-small-size);line-height:1;font-weight:600;color:#fff;border-radius:var(--radius-full)}
+.s-season__badge svg{inline-size:.9em;block-size:.9em}
+.s-season__play{position:relative;z-index:2;inline-size:92px;block-size:92px;border:0;border-radius:var(--radius-full);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;color:var(--spruce);background:var(--white-sand);
+  transition:transform var(--motion-entrance) var(--s-ease),background-color var(--motion-entrance) var(--s-ease)}
+.s-season__play svg{inline-size:34px;block-size:34px;margin-left:4px}
+.s-season__play:hover{transform:scale(1.06);background:var(--sea-wave)}
+.s-season__play:focus-visible{outline:2px solid #fff;outline-offset:4px}
+.s-season__media.is-playing .s-season__play,.s-season__media.is-playing .s-season__badge{opacity:0;pointer-events:none;transition:opacity var(--motion-menu) var(--ease-out)}
+
+/* ---------------- Reveal image (clip-open + inner scale) ---------------- */
+.s-reveal{position:relative;overflow:hidden;border-radius:var(--s-radius-img);margin:0;background:var(--path-sand)}
+.s-reveal__img{position:absolute;inset:-10% 0;width:100%;height:120%;object-fit:cover;display:block}
+
+/* ---------------- Numbers ---------------- */
+.s-figures__head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:var(--space-24);margin-bottom:var(--gap-title-content)}
+.s-figures__lead{margin:0;max-width:42ch;font-size:var(--type-lead-size);line-height:var(--type-lead-lh);color:var(--spruce)}
+.s-figures__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--space-24)}
+.s-figcard{position:relative;overflow:hidden;border-radius:var(--s-radius-img);aspect-ratio:3/2;display:flex;isolation:isolate}
+.s-figcard__img{position:absolute;inset:-8% 0;width:100%;height:116%;object-fit:cover;z-index:0}
+.s-figcard__badge{position:relative;z-index:1;align-self:flex-end;margin:var(--space-24);padding:var(--space-24)}
+.s-figcard__num{margin:0;display:flex;align-items:baseline;gap:.15em;color:#fff;
+  font-family:var(--font-display);font-weight:500;font-size:var(--type-stat-size);line-height:var(--type-stat-lh);letter-spacing:var(--type-stat-ls)}
+.s-figcard__num span{font-family:var(--font-text);font-size:var(--type-body-size);font-weight:400}
+.s-figcard__cap{margin:var(--space-8) 0 0;font-size:var(--type-small-size);line-height:var(--type-small-lh);color:#fff;opacity:.85}
+/* The one solid sea-wave card. */
+.s-figcard--fill{background:var(--sea-wave);color:var(--spruce);flex-direction:column;align-items:flex-start;justify-content:center;padding:var(--space-48)}
+.s-figcard--fill .s-figcard__num{color:var(--spruce)}
+.s-figcard__num--big{font-family:var(--font-display);font-weight:500;font-size:var(--type-stat-hero-size);line-height:var(--type-stat-hero-lh);letter-spacing:var(--type-stat-hero-ls)}
+.s-figcard--fill .s-figcard__cap{margin-top:var(--space-16);max-width:34ch;font-size:var(--type-lead-size);line-height:var(--type-lead-lh);color:var(--spruce);opacity:1}
+
+/* ================================ Три секції — pinned stacking deck (tri-soft.js) ================================
+   SAME structure + animation as the main concept; soft styling. The sticky pin carries the rounded
+   40px / 12px-inset frame, so the full-bleed slides stack seamlessly inside one soft rounded card. */
+.tri{background:var(--white-sand);padding-top:var(--section-padding-y)}
+/* Static base (no JS / reduced motion) — framed slides stacked and readable. */
+.tri__scene{position:relative}
+.tri__slide{position:relative;min-height:84vh;display:flex;align-items:flex-end;overflow:hidden;color:#fff;
+  margin:var(--s-frame-inset);border-radius:var(--s-frame-radius)}
+.tri__viz{position:absolute;inset:0;z-index:0}
+.tri__viz img{width:100%;height:100%;object-fit:cover;display:block}
+.tri__slide::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(to top,rgba(12,12,12,.72) 0%,rgba(12,12,12,.4) 42%,rgba(12,12,12,.04) 80%)}
+.tri__content{position:relative;z-index:2;width:min(100% - 2*var(--page-padding),var(--container));margin-inline:auto;padding-block:var(--space-64);color:#fff}
+.tri__content > *{max-width:48ch}
+.tri__marker{margin:0 0 var(--space-16);font-family:var(--font-display);font-size:var(--type-small-size);line-height:1;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#fff;opacity:.85}
+.tri__name{margin:0;font-family:var(--font-display);font-weight:500;letter-spacing:-.03em;line-height:.9;text-transform:uppercase;color:#fff;font-size:clamp(64px,12vw,160px)}
+.tri__sub{margin:var(--space-16) 0 0;font-family:var(--font-display);font-size:var(--type-h3-size);line-height:var(--type-h3-lh);font-weight:400;color:#fff}
+.tri__text{margin:var(--space-16) 0 0;font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:#fff;text-wrap:pretty}
+.tri__content .btn-soft{margin-top:var(--space-32)}
+
+/* Pinned deck (JS): the sticky pin = the rounded, 12px-inset frame; slides fill it and translate. */
+.tri--pinned .tri__scene{height:calc(400vh + 600px)}
+.tri--pinned .tri__pin{position:sticky;top:var(--s-frame-inset);height:calc(100vh - 2 * var(--s-frame-inset));
+  margin-inline:var(--s-frame-inset);border-radius:var(--s-frame-radius);overflow:hidden;background:var(--white-sand)}
+.tri--pinned .tri__intro{position:absolute;inset:0;z-index:5;padding:0;overflow:hidden}
+.tri--pinned .tri__slide{position:absolute;inset:0;min-height:0;height:100%;margin:0;border-radius:0;z-index:var(--i,0);transform:translateY(var(--ty,0));will-change:transform}
+.tri--pinned .tri__viz{inset:-64px 0;transform:translateY(calc(var(--p,0) * 64px));will-change:transform}
+
+/* Intro — centred heading + triptych that FLIP-zooms into slide 0. */
+.tri__intro{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--space-48);
+  padding:var(--section-padding-y) var(--page-padding);background:var(--white-sand);text-align:center}
+.tri__intro-head{position:relative;z-index:1;width:min(100%,var(--container));margin-inline:auto}
+.tri__title{margin:0;font-family:var(--font-display);font-weight:500;letter-spacing:-.02em;line-height:1.08;text-transform:uppercase;color:var(--spruce);font-size:clamp(28px,4.6vw,66px)}
+.tri__line{display:block}
+.tri__line--accent{color:var(--accent-earth)}
+.tri__line-in{display:block;white-space:nowrap}
+.tri__chip{display:inline-block;vertical-align:middle;block-size:1.1em;aspect-ratio:16 / 10;overflow:hidden;border-radius:var(--radius-full);margin-inline:.14em;transform:translateY(-.02em)}
+.tri__chip--wide{aspect-ratio:22 / 9}
+.tri__chip img{width:100%;height:100%;object-fit:cover;display:block}
+.tri__hero{display:none;position:absolute;inset:0;z-index:3;transform-origin:center;overflow:hidden;will-change:transform}
+.tri__hero img{width:100%;height:100%;object-fit:cover;display:block}
+.tri__triptych{display:none;position:relative;z-index:2;align-items:center;gap:var(--space-16);width:min(84vw,1120px)}
+.tri__tri-item,.tri__tri-slot{flex:1;min-width:0;aspect-ratio:16 / 9}
+.tri__tri-item{overflow:hidden;position:relative;border-radius:var(--s-frame-radius);will-change:transform}
+.tri__tri-item img{width:100%;height:100%;object-fit:cover;display:block}
+.tri--pinned .tri__hero{display:block}
+.tri--pinned .tri__triptych{display:flex}
+
+/* Heading mask-reveal (tri-soft.js adds .tri--anim then .tri--revealed). */
+.tri--anim .tri__line{overflow:hidden;padding:.3em 0;margin:-.3em 0}
+.tri--anim .tri__line-in{transform:translateY(110%)}
+.tri--anim.tri--revealed .tri__line-in{transform:none;transition:transform 900ms cubic-bezier(.19,1,.22,1)}
+.tri--anim.tri--revealed .tri__line:nth-child(1) .tri__line-in{transition-delay:40ms}
+.tri--anim.tri--revealed .tri__line:nth-child(2) .tri__line-in{transition-delay:150ms}
+.tri--anim.tri--revealed .tri__line:nth-child(3) .tri__line-in{transition-delay:260ms}
+
+/* ================================ Апартаменти — tabbed plans + portal dive (plans-portal.js) ================================
+   SAME structure + animation (pill tabs, portal "dive" keyframes) as the main concept; soft styling. */
+.plans{width:min(100% - 2 * var(--page-padding),var(--container));margin-inline:auto;padding-top:var(--section-padding-y)}
+.plans__head{margin-bottom:var(--gap-title-content)}
+/* Heading as in the original concept: mixed case, two-tone (second line stone). */
+.plans__title{margin:0;font-family:var(--font-display);font-size:var(--type-h2-size);line-height:var(--type-h2-lh);letter-spacing:var(--type-h2-ls);font-weight:500;color:var(--spruce)}
+.plans__title-a,.plans__title-b{display:block}
+.plans__title-b{color:var(--accent-earth)}
+.plans__lead{margin:var(--space-24) 0 0;max-width:var(--measure-text);font-size:var(--type-lead-size);line-height:var(--type-lead-lh);color:var(--spruce);text-wrap:pretty}
+@media (min-width:768px){
+  .plans__head{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:var(--grid-gutter);align-items:end}
+  .plans__title{grid-column:1 / span 6}
+  .plans__lead{grid-column:8 / span 5;margin-top:0;max-width:none}
+}
+/* Tabs — pills (checked = solid spruce). */
+.plans__tabs{position:relative}
+.plans__radio{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.plans__tab{display:inline-flex;align-items:center;min-height:var(--tap-target);margin:0 var(--space-8) var(--space-32) 0;padding:var(--space-8) var(--space-24);
+  border:1px solid var(--path-sand);border-radius:var(--radius-full);background:#fff;color:var(--spruce);
+  font-family:var(--font-display);font-size:var(--type-button-size);line-height:var(--type-button-lh);font-weight:500;letter-spacing:.02em;cursor:pointer;
+  transition:background-color 300ms var(--s-ease),border-color 300ms var(--s-ease),color 300ms var(--s-ease)}
+.plans__tab:hover{background:var(--white-sand)}
+.plans__radio:checked + .plans__tab{background:var(--spruce);border-color:var(--spruce);color:#fff}
+.plans__radio:focus-visible + .plans__tab{outline:2px solid var(--spruce);outline-offset:2px}
+/* Tap hint on the first card. */
+.plans__tap--card{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;display:inline-flex;align-items:center;justify-content:center;width:52px;height:52px;pointer-events:none;color:#fff}
+.plans__hand{position:relative;z-index:1;width:32px;height:32px;animation:plans-tap 1.8s ease-in-out infinite;transform-origin:60% 30%}
+.plans__ripple{position:absolute;top:50%;left:50%;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;border:2px solid currentColor;opacity:0;animation:plans-ripple 1.8s ease-out infinite}
+.plans__ripple--2{animation-delay:.3s}
+@keyframes plans-tap{0%,100%{transform:translateY(0) scale(1)}8%{transform:translateY(2px) scale(.9)}22%{transform:translateY(0) scale(1)}}
+@keyframes plans-ripple{0%,6%{transform:scale(.4);opacity:0}12%{opacity:.65}60%,100%{transform:scale(2.6);opacity:0}}
+/* Panels + rounded cards. */
+.plans__panel{display:none;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-24)}
+#plans-wind:checked ~ .plans__panel--wind,
+#plans-rock:checked ~ .plans__panel--rock,
+#plans-sun:checked ~ .plans__panel--sun{display:grid}
+.plans__card{position:relative;aspect-ratio:1;border-radius:var(--s-radius-img);overflow:hidden;background:var(--path-sand)}
+.plans__image{width:100%;height:100%;object-fit:cover;display:block}
+.plans__card::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(12,12,12,.74) 0%,rgba(12,12,12,.38) 30%,rgba(12,12,12,0) 60%)}
+.plans__meta{position:absolute;inset-inline:0;bottom:0;z-index:1;padding:var(--space-24);display:flex;flex-direction:column;gap:var(--space-4);color:#fff}
+.plans__name{font-family:var(--font-display);font-size:var(--type-h4-size);line-height:var(--type-h4-lh);font-weight:700;letter-spacing:.02em;text-transform:uppercase;color:#fff}
+.plans__area{font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);font-weight:600;color:#fff}
+.plans__desc{font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);color:#fff;opacity:.85;text-wrap:pretty}
+.plans__open{position:absolute;inset:0;z-index:2;width:100%;height:100%;padding:0;border:0;background:transparent;cursor:pointer;border-radius:inherit;-webkit-tap-highlight-color:transparent}
+.plans__open:focus-visible{outline:2px solid #fff;outline-offset:-4px}
+
+/* Portal dive — same keyframes as the main concept, soft chrome (rounded white-sand close). */
+.portal{position:fixed;inset:0;z-index:100;overflow:hidden;background:var(--spruce);opacity:0;transition:opacity .25s ease}
+.portal[hidden]{display:none}
+.portal.is-open{opacity:1}
+.portal__room,.portal__plan{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform-origin:var(--px,50%) var(--py,50%);will-change:transform,opacity,filter,clip-path}
+.portal__plan{object-fit:contain;z-index:1}
+.portal__room{z-index:2;clip-path:circle(0% at var(--px,50%) var(--py,50%))}
+.portal__flash{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0;mix-blend-mode:screen;background:none}
+.portal__caption{position:absolute;left:0;bottom:var(--space-48);width:100%;margin:0;padding-inline:var(--page-padding);text-align:center;font-family:var(--font-display);font-size:var(--type-h3-size);line-height:var(--type-h3-lh);letter-spacing:.02em;color:#fff;opacity:0;pointer-events:none;z-index:4}
+.portal__close{position:absolute;top:var(--space-24);right:var(--space-24);z-index:5;display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:var(--radius-full);border:0;background:var(--white-sand);color:var(--spruce);font-size:18px;line-height:1;cursor:pointer;opacity:0;transition:background-color 300ms var(--s-ease),color 300ms var(--s-ease)}
+.portal__close:hover{background:var(--sea-wave);color:var(--spruce)}
+.portal__close:focus-visible{outline:2px solid var(--white-sand);outline-offset:3px}
+@keyframes portal-swallow{0%{transform:scale(1);opacity:1;filter:blur(0) brightness(1)}100%{transform:scale(.62);opacity:0;filter:blur(7px) brightness(.6)}}
+@keyframes portal-open{0%{clip-path:circle(0% at var(--px,50%) var(--py,50%));transform:scale(1.14);opacity:1;filter:brightness(1.18)}100%{clip-path:circle(150% at var(--px,50%) var(--py,50%));transform:scale(1);opacity:1;filter:brightness(1)}}
+@keyframes portal-flash{0%,26%{opacity:0}48%{opacity:.75}100%{opacity:0}}
+@keyframes portal-appear{to{opacity:1}}
+.portal.is-open .portal__plan{animation:portal-swallow 1.13s cubic-bezier(.55,0,.85,.2) both}
+.portal.is-open .portal__room{animation:portal-open 1.33s cubic-bezier(.22,1,.36,1) .04s both}
+.portal.is-open .portal__flash{animation:portal-flash 1.23s ease .1s both}
+.portal.is-open .portal__caption,.portal.is-open .portal__close{animation:portal-appear .5s ease 1.38s both}
+@media (prefers-reduced-motion:reduce){
+  .portal.is-open .portal__plan{animation:none;opacity:0}
+  .portal.is-open .portal__room{clip-path:none;transform:none;animation:portal-appear .4s ease both}
+  .portal.is-open .portal__flash{animation:none}
+  .portal.is-open .portal__caption,.portal.is-open .portal__close{animation:portal-appear .3s ease .2s both}
+  .plans__hand{animation:none}.plans__ripple{animation:none;opacity:0}
+}
+
+/* ================================ Form (solid white card on light) ================================ */
+.s-form__head{max-width:760px;margin-bottom:var(--gap-title-content)}
+/* Desktop: exactly 2 lines (only the <br> breaks it; no auto-wrap). */
+@media (min-width:768px){.s-form__head{max-width:none}.s-form__head h2{white-space:nowrap}}
+.s-form__lead{margin:var(--space-24) 0 0;max-width:var(--measure-text);font-size:var(--type-lead-size);line-height:var(--type-lead-lh);color:var(--spruce)}
+.s-form__body{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-24);align-items:stretch}
+.s-form__media{position:relative;margin:0;border-radius:var(--s-radius-img);overflow:hidden}
+.s-form__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.s-formcard{background:#fff;border-radius:var(--s-radius-panel);padding:var(--space-48);display:flex;flex-direction:column;gap:var(--space-24)}
+.s-field{display:flex;flex-direction:column;gap:var(--space-8)}
+.s-field__label{font-size:var(--type-label-size);line-height:var(--type-label-lh);font-weight:600;color:var(--spruce)}
+.s-control{height:var(--control-height);border-radius:var(--radius-full);border:1px solid var(--path-sand);background:#fff;color:var(--spruce);
+  padding:0 var(--space-24);font-family:var(--font-text);font-size:var(--type-body-size)}
+.s-control::placeholder{color:var(--stone)}
+.s-control:focus-visible{outline:2px solid var(--spruce);outline-offset:1px;border-color:transparent}
+.s-choices{display:flex;flex-wrap:wrap;gap:var(--space-8)}
+.s-choice{min-height:var(--control-h-40);padding:0 var(--space-16);border-radius:var(--radius-full);border:1px solid var(--path-sand);
+  background:#fff;color:var(--spruce);font-family:var(--font-text);font-size:var(--type-small-size);font-weight:600;cursor:pointer;
+  transition:background-color 300ms var(--s-ease),border-color 300ms var(--s-ease),color 300ms var(--s-ease)}
+.s-choice:hover:not(.is-active){background:var(--white-sand)}
+.s-choice.is-active{background:var(--spruce);border-color:var(--spruce);color:#fff}
+.s-choice:focus-visible{outline:2px solid var(--spruce);outline-offset:2px}
+.s-formcard__submit{align-self:flex-start;margin-top:var(--space-8)}
+.s-formcard__privacy{margin:0;font-size:var(--type-small-size);line-height:var(--type-small-lh);color:var(--stone)}
+
+/* ================================ Footer — ported concept structure, soft styling ================================
+   Same blocks + the mobile tap-to-expand accordion (scripts/footer-accordion.js). */
+.site-footer{position:relative;margin:var(--section-padding-y) var(--s-frame-inset) var(--s-frame-inset);padding:var(--space-12) var(--space-48) var(--space-48);background:var(--spruce);color:var(--white-sand);
+  border-radius:var(--s-frame-radius);overflow:hidden;isolation:isolate}
+.site-footer__media{aspect-ratio:21 / 9;margin-bottom:var(--space-64)}
+.site-footer__inner{position:relative;z-index:1}
+.site-footer__cta{max-width:760px}
+.site-footer__cta-lead{margin:var(--space-24) 0 var(--space-32);max-width:var(--measure-text);font-size:var(--type-lead-size);line-height:var(--type-lead-lh);color:var(--white-sand);opacity:.82}
+.site-footer__grid{margin-top:var(--space-80);display:grid;grid-template-columns:1.3fr repeat(4,1fr);gap:var(--space-40)}
+.site-footer__contact{display:flex;flex-direction:column;gap:var(--space-8)}
+.site-footer__contact-line{color:var(--white-sand);text-decoration:none;font-size:var(--type-body-size)}
+a.site-footer__contact-line:hover{opacity:1}
+.site-footer__groups{display:contents}
+.site-footer__group-title{margin:0 0 var(--space-16);display:flex;align-items:center;justify-content:space-between;gap:var(--space-16);
+  font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--white-sand)}
+.site-footer__chevron{display:none;flex:none;color:var(--white-sand)}
+.site-footer__panel{display:grid}
+.site-footer__list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:var(--space-12)}
+.site-footer__link,.site-footer__world{color:var(--white-sand);text-decoration:none;font-size:var(--type-button-size)}
+.site-footer__link:hover,.site-footer__world:hover{opacity:1}
+.site-footer__world{font-family:var(--font-display);letter-spacing:.02em}
+.site-footer__word{margin:var(--space-80) 0 0;font-family:var(--font-display);font-weight:500;font-size:clamp(72px,16vw,260px);line-height:.82;letter-spacing:-.03em;color:var(--white-sand)}
+.site-footer__bottom{margin-top:var(--space-48);padding-top:var(--space-32);border-top:1px solid rgba(242,234,216,.18);
+  display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:var(--space-24)}
+.site-footer__copy{font-size:var(--type-small-size);color:var(--white-sand)}
+.site-footer__legal{display:flex;gap:var(--space-24)}
+.site-footer__legal a{color:var(--white-sand);text-decoration:none;font-size:var(--type-small-size)}
+.site-footer__legal a:hover{text-decoration:underline;text-underline-offset:3px}
+/* Credit — "Створено з душею" + Well Done logo. */
+.site-footer__credit{display:inline-flex;align-items:center;gap:var(--space-8);color:var(--white-sand);text-decoration:none;font-size:var(--type-small-size)}
+.site-footer__credit img{height:16px;width:auto;display:block}
+/* All footer copy is pure white (#fff), not the warm white-sand cream. */
+.site-footer .s-h2--light,.site-footer__contact-line,.site-footer__group-title,.site-footer__link,.site-footer__world,.site-footer__word,.site-footer__copy,.site-footer__legal a,.site-footer__credit{color:#fff}
+
+/* ================================ Animation start-states (no-flash gate) ================================
+   Only applied when html.s-anim is set (JS, motion allowed). Reduced-motion never gets the class → all
+   content is visible and static, and Lenis is not started. GSAP animates these back to natural. */
+html.s-anim .s-split .line-in{transform:translateY(112%)}
+html.s-anim [data-fade]{opacity:0;transform:translateY(24px)}
+html.s-anim .s-card{opacity:0;transform:translateY(40px)}
+html.s-anim .s-num{opacity:0;transform:translateY(60px)}
+html.s-anim .s-reveal{clip-path:inset(42% 0 42% 0 round var(--s-radius-img))}
+html.s-anim .s-reveal__img{transform:scale(1.15)}
+
+/* ================================ Responsive ================================ */
+@media (max-width:1023px){
+  .s-season__head{grid-template-columns:1fr;gap:var(--space-24)}
+  .s-season__headtext,.s-season__lead{grid-column:1 / -1}
+  .s-nums__grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .plans__panel{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .site-footer__grid{grid-template-columns:1fr 1fr;gap:var(--space-40)}
+  .site-footer__contact{grid-column:1 / -1}
+}
+@media (max-width:767px){
+  .s-head{left:var(--s-frame-inset);right:var(--s-frame-inset);top:var(--s-frame-inset);padding:8px 8px 8px 18px}
+  .s-head__burger,.s-head__phone{display:inline-flex}
+  .s-head__cta,.s-head__nav,.s-head__lang{display:none}  /* mobile nav lives in the full-screen overlay */
+  /* Reserve space for the fixed glass header; stack the bottom row (tagline above the card). */
+  .s-hero__frame{padding:calc(var(--space-64) + var(--space-16)) var(--space-24) var(--space-24)}
+  .s-hero__brand{top:calc(var(--space-96) + var(--space-32));left:var(--page-padding);right:var(--page-padding);text-align:left;font-size:clamp(40px,13.6vw,96px)}
+  /* Stronger darkening over the lower half so the white tagline reads over the building. */
+  .s-hero__frame::after{background:linear-gradient(to bottom,rgba(12,12,12,.1) 0%,rgba(12,12,12,0) 22%,rgba(12,12,12,.16) 44%,rgba(12,12,12,.42) 64%,rgba(12,12,12,.64) 100%)}
+  .s-hero__season{left:var(--page-padding);right:auto}
+  .s-hero__bg--winter{--wx:8%}
+  .s-hero__foot{flex-direction:column-reverse;align-items:stretch;gap:var(--space-24)}
+  .s-hero__card{max-width:none}
+  .s-hero__card-sub{display:none}            /* drop subtitle → shorter plaque */
+  .s-hero__tagline{max-width:none;text-align:left}
+  .s-figures__grid{grid-template-columns:1fr}
+  .s-figcard{aspect-ratio:4/3}
+  /* Keep desktop 2:3 cards; swipe them horizontally with a snap + swipe hint. */
+  .s-nums__hint{display:inline-flex}
+  .s-nums__grid{display:flex;gap:var(--space-16);overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:var(--space-4)}
+  .s-nums__grid::-webkit-scrollbar{display:none}
+  .s-num{flex:0 0 66vw;max-width:300px;aspect-ratio:2 / 3;scroll-snap-align:start}
+  .s-form__body{grid-template-columns:1fr;gap:var(--space-24)}
+  .s-form__media{order:-1;aspect-ratio:16 / 10}   /* photo first, part of the form block */
+  .s-formcard__submit{width:100%;white-space:normal;justify-content:space-between;text-align:left}
+  .s-season{gap:var(--space-40)}
+  .s-season__media{aspect-ratio:4/3}
+  .s-season__play{inline-size:68px;block-size:68px}
+  .s-season__play svg{inline-size:26px;block-size:26px}
+  .plans__panel{grid-template-columns:1fr}
+
+  /* Tri deck — compact premium card, mirrors the main concept's mobile behaviour. */
+  .tri__content > *{max-width:none}
+  .tri__text{display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  /* Lift the content so the fixed finmodel plaque (bottom-right) doesn't cover the button. */
+  .tri__content{padding-bottom:calc(var(--space-96) + var(--space-48))}
+  .tri__intro{justify-content:flex-start;gap:var(--space-32)}
+  .tri--pinned .tri__intro{padding:calc(var(--header-h-scrolled) + var(--space-40)) var(--page-padding) var(--space-48)}
+  /* Shrink the massive intro heading so the lines + chips fit (no clipping). */
+  .tri__title{font-size:clamp(17px,4.8vw,24px);line-height:1.34}
+  .tri__chip{block-size:1em}
+
+  /* Footer — stack + tap-to-expand accordion (footer-accordion.js toggles [data-open]). */
+  .site-footer{padding:var(--space-8) var(--space-24) var(--space-24)}
+  .site-footer__media{aspect-ratio:3/2;margin-bottom:var(--space-40)}
+  .site-footer__grid{grid-template-columns:1fr;gap:0;margin-top:var(--space-48)}
+  .site-footer__contact{gap:var(--space-8);padding-bottom:var(--space-24)}
+  .site-footer__groups{display:block}
+  .site-footer__group{border-top:1px solid rgba(242,234,216,.14)}
+  .site-footer__group-title{cursor:pointer;margin:0;padding-block:var(--space-16);min-height:var(--tap-target)}
+  .site-footer__chevron{display:block;transition:transform var(--motion-accordion) var(--ease-out)}
+  .site-footer__group[data-open] .site-footer__chevron{transform:rotate(180deg)}
+  .site-footer__panel{grid-template-rows:minmax(0,0fr);transition:grid-template-rows var(--motion-accordion) var(--ease-out)}
+  .site-footer__group[data-open] .site-footer__panel{grid-template-rows:minmax(0,1fr)}
+  .site-footer__list{overflow:hidden;min-height:0}
+  .site-footer__group[data-open] .site-footer__list{padding-bottom:var(--space-16)}
+  .site-footer__word{font-size:clamp(40px,14.5vw,64px)}
+  .site-footer__legal{flex-direction:column;gap:var(--space-8)}
+}
+
+/* ================================ Reduced motion ================================ */
+@media (prefers-reduced-motion:reduce){
+  .btn-soft,.btn-soft__ic,.s-head,.s-choice,.s-control{transition:none}
+}
+
+/* ================================ Section modal (WIND/ROCK/SUN) — soft styling ================================ */
+.tri-modal{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;padding:var(--space-24);
+  visibility:hidden;transition:visibility 0s linear 400ms}
+.tri-modal.is-open{visibility:visible;transition:visibility 0s}
+.tri-modal[hidden]{display:none}
+.tri-modal__scrim{position:absolute;inset:0;background:rgba(12,12,12,.72);opacity:0;cursor:pointer;transition:opacity 220ms var(--ease-out);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
+.tri-modal.is-open .tri-modal__scrim{opacity:1}
+.tri-modal__dialog{position:relative;z-index:1;display:grid;grid-template-columns:56% 44%;
+  width:var(--container);max-width:calc(100vw - 2 * var(--space-24));height:680px;max-height:calc(100vh - 2 * var(--space-24));
+  overflow:hidden;border-radius:var(--s-radius-img);background:#fff;
+  opacity:0;transform:translateY(16px) scale(.99);transition:opacity 400ms var(--s-ease),transform 400ms var(--s-ease)}
+.tri-modal.is-open .tri-modal__dialog{opacity:1;transform:none}
+/* Left — photo (crossfade) + caption. */
+.tri-modal__media{position:relative;overflow:hidden;background:var(--night-bark)}
+.tri-modal__photos{position:absolute;inset:0}
+.tri-modal__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 300ms var(--ease-out)}
+.tri-modal__img.is-active{opacity:1}
+.tri-modal__media-grad{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(to top,rgba(12,12,12,.95) 0%,rgba(12,12,12,.82) 44%,rgba(12,12,12,.5) 68%,rgba(12,12,12,.12) 100%)}
+.tri-modal__caption{position:absolute;inset:0;z-index:2;padding:var(--space-48);display:flex;flex-direction:column;justify-content:flex-end;color:#fff;transition:opacity 200ms var(--ease-out)}
+.tri-modal__caption.is-fading{opacity:0}
+.tri-modal__name{margin:0;font-family:var(--font-display);font-size:clamp(40px,5vw,56px);line-height:1;font-weight:500;letter-spacing:-.02em;text-transform:uppercase;color:#fff}
+.tri-modal__sub{margin:var(--space-8) 0 0;font-family:var(--font-display);font-size:var(--type-h3-size);line-height:var(--type-h3-lh);font-weight:400;color:#fff}
+.tri-modal__eyebrow{margin:var(--space-32) 0 var(--space-16);font-family:var(--font-display);font-size:var(--type-small-size);line-height:1;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:#fff;opacity:.72}
+.tri-modal__desc{margin:0;font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);color:#fff;opacity:.92;text-wrap:pretty}
+.tri-modal__infra{margin:var(--space-24) 0 0}
+.tri-modal__infra-label{margin:0 0 var(--space-12);font-family:var(--font-text);font-size:var(--type-small-size);line-height:1;letter-spacing:.08em;text-transform:uppercase;color:#fff;opacity:.72}
+.tri-modal__infra-list{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:var(--space-8)}
+.tri-modal__infra-list li{padding:var(--space-4) var(--space-12);border:1px solid rgba(255,255,255,.22);border-radius:var(--radius-full);background:rgba(255,255,255,.08);font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);color:#fff}
+.tri-modal__meta{display:flex;align-items:center;gap:var(--space-8);margin:var(--space-24) 0 0;font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);color:#fff;opacity:.85}
+.tri-modal__more{display:none}
+/* Right — form on white. */
+.tri-modal__form-wrap{position:relative;background:#fff;padding:var(--space-48);overflow-y:auto}
+.tri-modal__close{position:absolute;top:var(--space-24);right:var(--space-24);z-index:3;display:inline-flex;align-items:center;justify-content:center;inline-size:40px;block-size:40px;padding:0;border:0;cursor:pointer;color:var(--spruce);background:var(--white-sand);border-radius:var(--radius-full);
+  transition:background-color var(--motion-hover) var(--ease-out),color var(--motion-hover) var(--ease-out)}
+.tri-modal__close:hover{background:var(--sea-wave)}
+.tri-modal__close:focus-visible{outline:2px solid var(--spruce);outline-offset:2px}
+.tri-modal__form-title{margin:0;padding-right:var(--space-48);font-family:var(--font-display);font-size:var(--type-h3-size);line-height:var(--type-h3-lh);font-weight:500;color:var(--spruce);text-wrap:pretty}
+.tri-modal__form-lead{margin:var(--space-12) 0 var(--space-32);font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--spruce);text-wrap:pretty}
+.tri-modal__form{display:flex;flex-direction:column;gap:var(--space-16)}
+.tri-modal__submit{width:100%;margin-top:var(--space-8);justify-content:space-between}
+@media (prefers-reduced-motion:reduce){.tri-modal__dialog,.tri-modal__img,.tri-modal__caption{transition-duration:0s}}
+/* Mobile — full-screen; photo on top, details behind «Детальніше». */
+.tri-modal__close--mob{display:none}
+@media (max-width:767px){
+  .tri-modal{padding:0;align-items:stretch}
+  /* Full-screen scroll column; the form row slides open under the details. */
+  .tri-modal__dialog{display:block;width:100vw;height:100dvh;max-width:none;max-height:none;border-radius:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  /* Media = photo on top; caption flows below it on white (all details visible, dark text). */
+  .tri-modal__media{display:flex;flex-direction:column;background:#fff}
+  .tri-modal__photos{position:relative;height:36vh;flex:none}
+  .tri-modal__media-grad{display:none}
+  .tri-modal__caption{position:static;padding:var(--space-24);justify-content:flex-start;color:var(--spruce)}
+  .tri-modal__name{color:var(--spruce)}
+  .tri-modal__sub{color:var(--accent-earth)}
+  .tri-modal__details{display:block}
+  .tri-modal__eyebrow,.tri-modal__infra-label{color:var(--spruce);opacity:.6}
+  .tri-modal__desc{color:var(--spruce);opacity:1}
+  .tri-modal__meta{color:var(--spruce);opacity:.85}
+  .tri-modal__infra-list li{border-color:var(--path-sand);background:var(--white-sand);color:var(--spruce)}
+  /* Button that reveals the form. */
+  .tri-modal__more{display:inline-flex;align-items:center;justify-content:center;margin-top:var(--space-24);padding:var(--space-12) var(--space-24);
+    background:var(--spruce);color:var(--white-sand);border:0;border-radius:var(--radius-full);cursor:pointer;
+    font-family:var(--font-text);font-size:var(--type-button-size);font-weight:600;align-self:flex-start}
+  /* Collapsible form — slides open under the button. */
+  .tri-modal__form-wrap{overflow:hidden;max-height:0;padding:0 var(--space-24);transition:max-height 560ms var(--s-ease),padding 560ms var(--s-ease)}
+  .tri-modal__dialog.is-form-open .tri-modal__form-wrap{max-height:1200px;padding:var(--space-8) var(--space-24) var(--space-32)}
+  .tri-modal__form-wrap .tri-modal__close{display:none}
+  .tri-modal__close--mob{display:inline-flex;position:absolute;top:var(--space-16);right:var(--space-16);z-index:5;
+    align-items:center;justify-content:center;inline-size:40px;block-size:40px;padding:0;border:0;cursor:pointer;color:var(--spruce);background:var(--white-sand);border-radius:var(--radius-full)}
+}
