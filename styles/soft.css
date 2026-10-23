@@ -17,6 +17,7 @@
   --s-glass-bg:rgba(255,255,255,.14);
   --s-glass-border:rgba(255,255,255,.28);
   --s-ease:cubic-bezier(.22,1,.36,1);
+  --ease-expo:cubic-bezier(.16,1,.3,1);
 }
 
 /* Lenis base styles (smooth scroll). */
@@ -38,7 +39,7 @@ html.lenis,html.lenis body{height:auto}
   border:1px solid var(--s-glass-border);border-radius:var(--s-radius-panel);color:#fff}
 
 /* ---------------------------------- Logo (always solid colour) ---------------------------------- */
-.s-logo{display:block;height:28px;width:auto;color:#fff}
+.s-logo{display:block;height:28px;width:auto;color:var(--spruce)}
 
 /* ---------------------------------- Button (pill + arrow in a circle) ---------------------------------- */
 .btn-soft{display:inline-flex;align-items:center;gap:var(--space-16);padding:8px 8px 8px 28px;border:0;
@@ -58,9 +59,9 @@ html.lenis,html.lenis body{height:auto}
 .btn-soft--light:hover{background:var(--sea-wave);color:var(--spruce)}
 .btn-soft--light:hover .btn-soft__ic{background:var(--spruce);color:var(--white-sand)}
 /* Ghost (over the hero / in the glass header). */
-.btn-soft--ghost{background:transparent;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.5);padding-left:24px}
-.btn-soft--ghost .btn-soft__ic{inline-size:34px;block-size:34px;background:#fff;color:var(--spruce)}
-.btn-soft--ghost:hover{background:#fff;color:var(--spruce);box-shadow:inset 0 0 0 1px #fff}
+.btn-soft--ghost{background:transparent;color:var(--spruce);box-shadow:inset 0 0 0 1px rgba(255,255,255,.7);padding-left:24px}
+.btn-soft--ghost .btn-soft__ic{inline-size:34px;block-size:34px;background:var(--spruce);color:#fff}
+.btn-soft--ghost:hover{background:var(--sea-wave);color:var(--spruce);box-shadow:inset 0 0 0 1px var(--sea-wave)}
 /* Header CTA — fixed compact "M" size (~40px tall), in step with the 40px lang pill. */
 .s-head__cta{padding:6px 6px 6px 18px;gap:var(--space-8)}
 .s-head__cta .btn-soft__ic{inline-size:28px;block-size:28px}
@@ -68,73 +69,156 @@ html.lenis,html.lenis body{height:auto}
 /* ---------------------------------- Header (glass over hero → solid on scroll) ---------------------------------- */
 .s-head{position:fixed;z-index:50;top:var(--s-frame-inset);
   left:calc(var(--s-frame-inset) + 16px);right:calc(var(--s-frame-inset) + 16px);
-  display:flex;align-items:center;justify-content:space-between;gap:var(--space-24);
-  padding:8px 8px 8px 24px;border-radius:var(--radius-full);color:#fff;
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:var(--space-16);
+  padding:8px;border-radius:var(--radius-full);color:var(--spruce);
   background:var(--s-glass-bg);-webkit-backdrop-filter:blur(20px) saturate(140%);backdrop-filter:blur(20px) saturate(140%);
   border:1px solid var(--s-glass-border);
   transition:background-color 400ms var(--s-ease),color 400ms var(--s-ease),box-shadow 400ms var(--s-ease),border-color 400ms var(--s-ease),transform var(--motion-menu) var(--s-ease)}
 /* Smart header: slides up out of view when scrolling down. */
 .s-head.is-hidden{transform:translateY(-150%)}
-.s-head__nav{display:flex;gap:var(--space-32)}
-.s-head__nav a{color:inherit;text-decoration:none;font-weight:600;font-size:var(--type-button-size);opacity:.92}
-.s-head__nav a:hover{opacity:1}
+/* Inline nav lives in the burger overlay now — logo takes the centre of the bar. */
+.s-head__nav{display:none}
+/* Logo centred in the middle grid column. */
+.s-head__logo{justify-self:center}
 /* Right-side actions: language switcher sits next to the CTA (with a gap). */
-.s-head__actions{display:flex;align-items:center;gap:var(--space-16)}
-/* Burger + phone — mobile only. */
-.s-head__burger,.s-head__phone{display:none;align-items:center;justify-content:center;inline-size:40px;block-size:40px;padding:0;border:0;background:none;color:inherit;cursor:pointer}
+.s-head__actions{display:flex;align-items:center;gap:var(--space-16);justify-self:end}
+/* Burger — always visible, pinned to the left column. Phone — mobile only. */
+.s-head__burger,.s-head__phone{align-items:center;justify-content:center;inline-size:40px;block-size:40px;padding:0;border:0;background:none;color:inherit;cursor:pointer}
+.s-head__burger{display:inline-flex;justify-self:start}
+.s-head__phone{display:none}
 .s-head__burger svg{width:24px;height:24px}
 .s-head__phone svg{width:22px;height:22px}
 /* Premium language switcher. */
-.s-head__lang{display:inline-flex;align-items:center;gap:2px;padding:3px;border-radius:var(--radius-full);box-shadow:inset 0 0 0 1px rgba(255,255,255,.4)}
+.s-head__lang{display:inline-flex;align-items:center;gap:2px;padding:3px;border-radius:var(--radius-full);box-shadow:inset 0 0 0 1px rgba(255,255,255,.7)}
 .s-head__lang-opt{inline-size:40px;block-size:34px;display:inline-flex;align-items:center;justify-content:center;border:0;background:none;color:inherit;cursor:pointer;border-radius:var(--radius-full);
   font-family:var(--font-text);font-size:var(--type-small-size);font-weight:700;letter-spacing:.04em;opacity:.72;transition:background-color var(--motion-hover) var(--ease-out),color var(--motion-hover) var(--ease-out),opacity var(--motion-hover) var(--ease-out)}
 .s-head__lang-opt:hover{opacity:1}
-.s-head__lang-opt.is-active{background:#fff;color:var(--spruce);opacity:1}
-.s-head__lang-opt:focus-visible{outline:2px solid #fff;outline-offset:2px}
-.s-head.is-solid .s-head__lang{box-shadow:inset 0 0 0 1px var(--path-sand)}
-.s-head.is-solid .s-head__lang-opt.is-active{background:var(--spruce);color:#fff}
-.s-head.is-solid .s-head__lang-opt:focus-visible{outline-color:var(--spruce)}
-/* Past the hero the header sits on white-sand → no glass; solid white card instead. */
-.s-head.is-solid{background:#fff;color:var(--spruce);-webkit-backdrop-filter:none;backdrop-filter:none;
+.s-head__lang-opt.is-active{background:var(--spruce);color:#fff;opacity:1}
+.s-head__lang-opt:focus-visible{outline:2px solid var(--spruce);outline-offset:2px}
+/* Past the hero the header sits on white-sand → drop the glass for a solid white card (ink stays dark).
+   White outlines would vanish on the white card, so switch them back to path-sand here. */
+.s-head.is-solid{background:#fff;-webkit-backdrop-filter:none;backdrop-filter:none;
   border-color:transparent;box-shadow:0 12px 40px rgba(24,40,32,.1)}
-.s-head.is-solid .s-logo{color:var(--spruce)}
-.s-head.is-solid .btn-soft--ghost{color:var(--spruce);box-shadow:inset 0 0 0 1px var(--path-sand)}
-.s-head.is-solid .btn-soft--ghost .btn-soft__ic{background:var(--spruce);color:#fff}
-.s-head.is-solid .btn-soft--ghost:hover{background:var(--sea-wave);color:var(--spruce);box-shadow:inset 0 0 0 1px var(--sea-wave)}
+.s-head.is-solid .s-head__lang{box-shadow:inset 0 0 0 1px var(--path-sand)}
+.s-head.is-solid .btn-soft--ghost{box-shadow:inset 0 0 0 1px var(--path-sand)}
 
-/* ---------------------------------- Full-screen mobile menu ---------------------------------- */
+/* ============================= Full-screen menu (soft) =============================
+   Three tiers — bar · middle (nav 7 + photo 5) · foot. White-sand field. Open choreography
+   in CSS (.is-open): primary links rise from a mask (stagger, expo.out, 1s), secondary fade,
+   photo reveals from a centre strip with a 1.15→1 zoom, foot last. Close = reverse, ~2× faster. */
 html.is-menu-open{overflow:hidden}
 .s-menu{position:fixed;inset:0;z-index:60;background:var(--white-sand);color:var(--spruce);
-  display:flex;flex-direction:column;justify-content:center;gap:var(--space-40);padding:var(--space-96) var(--page-padding) var(--space-40);overflow-y:auto;
-  opacity:0;visibility:hidden;transition:opacity 400ms var(--s-ease),visibility 0s linear 400ms}
+  display:grid;grid-template-rows:auto 1fr auto;gap:var(--space-16);
+  padding:var(--space-20) var(--page-padding) var(--space-24);overflow-y:auto;
+  opacity:0;visibility:hidden;transition:opacity 250ms var(--s-ease) 200ms,visibility 0s linear 450ms}
 .s-menu[hidden]{display:none}
-.s-menu.is-open{opacity:1;visibility:visible;transition:opacity 400ms var(--s-ease)}
-.s-menu__close{position:absolute;top:var(--space-24);right:var(--page-padding);inline-size:44px;block-size:44px;display:inline-flex;align-items:center;justify-content:center;padding:0;border:0;background:none;color:var(--spruce);cursor:pointer}
-.s-menu__nav{display:flex;flex-direction:column;gap:var(--space-12)}
-.s-menu__nav a{font-family:var(--font-display);font-size:clamp(34px,10vw,56px);line-height:1.08;font-weight:500;letter-spacing:-.02em;text-transform:uppercase;color:var(--spruce);text-decoration:none;
-  opacity:0;transform:translateY(18px)}
-.s-menu.is-open .s-menu__nav a{opacity:1;transform:none;transition:opacity 520ms var(--s-ease),transform 620ms var(--s-ease)}
-.s-menu.is-open .s-menu__nav a:nth-child(1){transition-delay:.06s}
-.s-menu.is-open .s-menu__nav a:nth-child(2){transition-delay:.12s}
-.s-menu.is-open .s-menu__nav a:nth-child(3){transition-delay:.18s}
-.s-menu.is-open .s-menu__nav a:nth-child(4){transition-delay:.24s}
-.s-menu.is-open .s-menu__nav a:nth-child(5){transition-delay:.30s}
-.s-menu__cards{display:flex;flex-direction:column;gap:var(--space-12)}
-.s-menu__card{display:flex;align-items:center;gap:var(--space-16);padding:var(--space-12);background:#fff;border-radius:var(--s-radius-panel);text-decoration:none;
-  opacity:0;transform:translateY(18px)}
-.s-menu.is-open .s-menu__card{opacity:1;transform:none;transition:opacity 520ms var(--s-ease),transform 620ms var(--s-ease)}
-.s-menu.is-open .s-menu__card:nth-child(1){transition-delay:.34s}
-.s-menu.is-open .s-menu__card:nth-child(2){transition-delay:.40s}
-.s-menu.is-open .s-menu__card:nth-child(3){transition-delay:.46s}
-.s-menu__card img{inline-size:56px;block-size:56px;border-radius:var(--radius-16);object-fit:cover;flex:none;display:block}
-.s-menu__card-body{display:flex;flex-direction:column;gap:2px;min-width:0}
-.s-menu__card-title{font-family:var(--font-display);font-size:var(--type-body-size);line-height:1.2;font-weight:500;color:var(--spruce)}
-.s-menu__card-sub{font-size:var(--type-small-size);line-height:var(--type-small-lh);color:var(--spruce);opacity:.7}
-.s-menu__foot{display:flex;flex-direction:column;gap:var(--space-16)}
-.s-menu__phone{font-family:var(--font-display);font-size:var(--type-h3-size);line-height:1;color:var(--spruce);text-decoration:none;letter-spacing:-.01em}
-.s-menu__msgs{display:flex;flex-wrap:wrap;gap:var(--space-24)}
-.s-menu__msgs a{color:var(--spruce);text-decoration:none;font-weight:600;font-size:var(--type-button-size)}
-@media (prefers-reduced-motion:reduce){.s-menu,.s-menu .s-menu__nav a{transition:opacity 150ms linear}.s-menu__nav a{transform:none}}
+.s-menu.is-open{opacity:1;visibility:visible;transition:opacity 300ms var(--s-ease)}
+
+/* ---- Top bar: logo left, round close right ---- */
+.s-menu__bar{display:flex;align-items:center;justify-content:space-between;width:100%;max-width:var(--container);margin-inline:auto}
+.s-menu__logo{display:inline-flex;color:var(--spruce)}
+.s-menu__logo .s-logo{height:28px}
+.s-menu__close{inline-size:48px;block-size:48px;flex:none;display:inline-flex;align-items:center;justify-content:center;
+  padding:0;border:0;border-radius:var(--radius-full);background:#fff;color:var(--spruce);cursor:pointer;
+  transition:background-color var(--motion-hover) var(--ease-out),color var(--motion-hover) var(--ease-out)}
+.s-menu__close:hover{background:var(--spruce);color:var(--white-sand)}
+.s-menu__close:focus-visible{outline:2px solid var(--spruce);outline-offset:3px}
+
+/* ---- Middle: nav (7fr) + photo (5fr) ---- */
+.s-menu__mid{width:100%;max-width:var(--container);margin-inline:auto;align-self:center;
+  display:grid;grid-template-columns:7fr 5fr;column-gap:var(--space-64);align-items:stretch}
+.s-menu__nav{display:flex;flex-direction:column;justify-content:center;gap:var(--space-24)}
+
+/* Primary — big display, sentence case; mask-rise on open, bar + 24px shift on hover. */
+.s-menu__primary{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--space-8)}
+.s-menu__link{position:relative;display:inline-flex;align-items:center;text-decoration:none;color:var(--spruce);
+  font-family:var(--font-display);font-size:clamp(32px,3.6vw,46px);line-height:1.08;font-weight:var(--type-display-weight);letter-spacing:var(--type-display-ls);
+  transition:color 400ms var(--s-ease)}
+/* Spark: same colour as the hovered item (currentColor → forest on hover). */
+.s-menu__bar-line{position:absolute;left:0;top:50%;inline-size:24px;block-size:2px;background:currentColor;
+  transform:translateY(-50%) scaleX(0);transform-origin:left;transition:transform 400ms var(--s-ease)}
+.s-menu__clip{display:inline-block;overflow:hidden;padding-block:.08em;transition:transform 400ms var(--s-ease)}
+.s-menu__rise{display:inline-block;transform:translateY(115%)}
+.s-menu.is-open .s-menu__rise{transform:translateY(0);transition:transform 1000ms var(--ease-expo)}
+.s-menu__primary li:nth-child(1) .s-menu__rise{transition-delay:.05s}
+.s-menu__primary li:nth-child(2) .s-menu__rise{transition-delay:.12s}
+.s-menu__primary li:nth-child(3) .s-menu__rise{transition-delay:.19s}
+.s-menu__primary li:nth-child(4) .s-menu__rise{transition-delay:.26s}
+.s-menu__primary li:nth-child(5) .s-menu__rise{transition-delay:.33s}
+.s-menu__primary:hover .s-menu__link{color:var(--stone)}
+.s-menu__primary .s-menu__link:hover,.s-menu__primary .s-menu__link:focus-visible{color:var(--spruce)}
+.s-menu__link:hover .s-menu__bar-line,.s-menu__link:focus-visible .s-menu__bar-line{transform:translateY(-50%) scaleX(1)}
+.s-menu__link:hover .s-menu__clip,.s-menu__link:focus-visible .s-menu__clip{transform:translateX(24px)}
+.s-menu__link:focus-visible{outline:none}
+
+/* Secondary — small Mulish, fade in. */
+.s-menu__secondary{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:var(--space-8) var(--space-24)}
+.s-menu__secondary a{font-family:var(--font-text);font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--stone);text-decoration:none;
+  opacity:0;transition:opacity 500ms var(--s-ease) .18s,color var(--motion-hover) var(--ease-out)}
+.s-menu.is-open .s-menu__secondary a{opacity:1}
+.s-menu__secondary a:hover{color:var(--spruce)}
+
+/* ---- Photo: rounded card, full height; reveals from a strip, crossfade + zoom on change ---- */
+.s-menu__media{position:relative;border-radius:var(--s-radius-img);overflow:hidden;background:var(--path-sand);min-block-size:340px;
+  clip-path:inset(0 46% 0 46% round var(--s-radius-img));transition:clip-path 900ms var(--ease-expo) .1s}
+.s-menu.is-open .s-menu__media{clip-path:inset(0 0 0 0 round var(--s-radius-img))}
+.s-menu__photo{position:absolute;inset:0;inline-size:100%;block-size:100%;object-fit:cover;opacity:0;transform:scale(1.05);
+  transition:opacity 600ms var(--s-ease),transform 600ms var(--s-ease)}
+.s-menu__photo.is-active{opacity:1;transform:scale(1)}
+.s-menu__cap{position:absolute;left:var(--space-16);right:var(--space-16);bottom:var(--space-16);
+  padding:var(--space-12) var(--space-16);color:#fff;font-family:var(--font-text);font-size:var(--type-small-size);line-height:1.3;font-weight:600;
+  opacity:0;transition:opacity 500ms var(--s-ease) .5s}
+.s-menu.is-open .s-menu__cap{opacity:1}
+
+/* ---- Foot: contacts left, CTAs right ---- */
+/* Foot — four-column contact row (left) + CTAs (right); hairline above. */
+.s-menu__foot{width:100%;max-width:var(--container);margin-inline:auto;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:var(--space-48) var(--space-64);flex-wrap:wrap;
+  padding-top:var(--space-16);border-top:1px solid var(--path-sand);
+  opacity:0;transform:translateY(12px);transition:opacity 300ms var(--s-ease),transform 300ms var(--s-ease)}
+.s-menu.is-open .s-menu__foot{opacity:1;transform:none;transition:opacity 400ms var(--s-ease) .6s,transform 400ms var(--s-ease) .6s}
+.s-menu__foot-cols{flex:1;min-width:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--space-32)}
+.s-menu__col{display:flex;flex-direction:column;min-width:0}
+.s-menu__foot-label{display:block;margin-bottom:var(--space-12);font-family:var(--font-text);font-size:var(--type-small-size);line-height:1;
+  font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--stone)}
+.s-menu__phone{font-family:var(--font-display);font-size:var(--type-h4-size);line-height:1.2;font-weight:var(--type-h4-weight);color:var(--spruce);text-decoration:none;transition:color var(--motion-hover) var(--ease-out)}
+.s-menu__phone:hover{color:var(--stone)}
+.s-menu__addr{margin:0;font-size:var(--type-body-size);line-height:var(--type-body-lh);color:var(--spruce)}
+/* Dark (spruce) messenger / social icons; grey on hover. 44px tap target, no visible chrome. */
+.s-menu__icons{display:flex;gap:var(--space-8);margin-inline-start:-10px}
+.s-menu__ic{inline-size:44px;block-size:44px;display:inline-flex;align-items:center;justify-content:center;
+  color:var(--spruce);transition:color var(--motion-hover) var(--ease-out)}
+.s-menu__ic svg{inline-size:22px;block-size:22px}
+.s-menu__ic:hover{color:var(--stone)}
+.s-menu__ic:focus-visible{outline:2px solid var(--spruce);outline-offset:2px;border-radius:var(--radius-full)}
+/* Keep the menu strictly two-tone: primary pill stays dark on hover (icon still shifts). */
+.s-menu__cta .btn-soft:not(.btn-soft--outline):hover{background:var(--spruce);color:var(--white-sand)}
+/* Outline pill (spruce border) — secondary CTA; fills dark on hover. */
+.btn-soft--outline{background:transparent;color:var(--spruce);box-shadow:inset 0 0 0 1px var(--spruce);padding:14px 28px}
+.btn-soft--outline:hover{background:var(--spruce);color:var(--white-sand);box-shadow:inset 0 0 0 1px var(--spruce)}
+
+/* ---- Mobile: photo hidden; primary 36px; secondary two columns; full-width CTAs ---- */
+@media (max-width:899px){
+  .s-menu{gap:var(--space-24)}
+  .s-menu__mid{grid-template-columns:1fr;row-gap:var(--space-32)}
+  .s-menu__media{display:none}
+  .s-menu__nav{justify-content:flex-start;gap:var(--space-24)}
+  .s-menu__link{font-size:36px}
+  .s-menu__secondary{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-12) var(--space-16)}
+  .s-menu__foot{flex-direction:column;align-items:stretch;gap:var(--space-24)}
+  .s-menu__foot-cols{grid-template-columns:1fr 1fr;gap:var(--space-24)}
+  .s-menu__cta{flex-direction:column;align-items:stretch}
+  .s-menu__cta .btn-soft{width:100%;justify-content:space-between}
+  .s-menu__cta .btn-soft--outline{justify-content:center}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .s-menu,.s-menu.is-open{transition:opacity 150ms linear}
+  .s-menu__rise,.s-menu.is-open .s-menu__rise{transform:none;transition:none}
+  .s-menu__media,.s-menu.is-open .s-menu__media{clip-path:none;transition:none}
+  .s-menu__photo{transition:opacity 150ms linear}
+  .s-menu__secondary a,.s-menu__cap,.s-menu__foot{opacity:1;transform:none;transition:opacity 150ms linear}
+}
 
 /* ---------------------------------- Shared type ---------------------------------- */
 .s-eyebrow{margin:0 0 var(--space-16);font-family:var(--font-display);font-size:var(--type-small-size);line-height:1;
@@ -240,8 +324,8 @@ html.is-menu-open{overflow:hidden}
 /* Season toggle — glass pill over the photo, vertically centred on the right edge. */
 .s-hero__season{position:absolute;z-index:2;right:var(--space-48);bottom:var(--space-48);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--space-8);text-align:center;
-  inline-size:140px;block-size:140px;padding:var(--space-16);border-radius:var(--radius-full);color:#fff;cursor:pointer;
-  font-family:var(--font-text);font-size:var(--type-small-size);line-height:1.25;font-weight:600;will-change:transform;
+  inline-size:112px;block-size:112px;padding:var(--space-12);border-radius:var(--radius-full);color:#fff;cursor:pointer;
+  font-family:var(--font-text);font-size:calc(var(--type-small-size) - 2px);line-height:1.25;font-weight:600;will-change:transform;
   animation:s-season-breathe 3.6s ease-in-out infinite;transition:background-color var(--motion-entrance) var(--s-ease)}
 /* Premium halo: a soft ring that expands and fades out of the pill on a slow loop. */
 .s-hero__season::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
@@ -262,30 +346,6 @@ html.is-menu-open{overflow:hidden}
 /* ================================ Section wrappers ================================ */
 /* Each block owns only its TOP gap (= one --section-padding-y), no bottom — so gaps between
    consecutive blocks are never doubled (design-system rhythm). */
-/* ================================ Floating finmodel card ================================
-   Appears bottom-right once the hero is scrolled past; coalesces in (blur + rise + scale). */
-.s-float{position:fixed;z-index:45;right:var(--space-24);bottom:var(--space-24);max-width:320px;
-  background:#fff;border-radius:var(--s-radius-panel);box-shadow:0 18px 50px rgba(24,40,32,.22);
-  opacity:0;transform:translateY(22px) scale(.92);filter:blur(6px);pointer-events:none;
-  transition:opacity 550ms var(--s-ease),transform 600ms var(--s-ease),filter 550ms var(--s-ease)}
-.s-float.is-visible{opacity:1;transform:none;filter:none;pointer-events:auto}
-.s-float__link{display:flex;align-items:center;gap:var(--space-12);padding:var(--space-8) var(--space-16) var(--space-8) var(--space-8);text-decoration:none;border-radius:inherit}
-.s-float__close{position:absolute;top:-8px;left:-8px;inline-size:24px;block-size:24px;border:0;border-radius:var(--radius-full);padding:0;cursor:pointer;z-index:2;
-  display:inline-flex;align-items:center;justify-content:center;background:var(--spruce);color:#fff;box-shadow:0 3px 10px rgba(12,12,12,.3);
-  transition:background-color var(--motion-hover) var(--ease-out),color var(--motion-hover) var(--ease-out)}
-.s-float__close svg{width:12px;height:12px}
-.s-float__close:hover{background:var(--sea-wave);color:var(--spruce)}
-.s-float__close:focus-visible{outline:2px solid var(--spruce);outline-offset:2px}
-.s-float__img{flex:none;inline-size:50px;block-size:50px;border-radius:var(--radius-16);object-fit:cover;display:block}
-.s-float__text{display:flex;flex-direction:column;gap:2px;min-width:0}
-.s-float__chip{font-family:var(--font-text);font-size:var(--type-small-size);line-height:1;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--stone)}
-.s-float__title{font-family:var(--font-display);font-size:var(--type-small-size);line-height:1.2;font-weight:500;color:var(--spruce)}
-.s-float__arrow{flex:none;display:inline-flex;align-items:center;justify-content:center;inline-size:34px;block-size:34px;border-radius:var(--radius-full);background:var(--spruce);color:#fff;
-  transition:background-color var(--motion-entrance) var(--s-ease),color var(--motion-entrance) var(--s-ease),transform var(--motion-entrance) var(--s-ease)}
-.s-float__arrow svg{width:16px;height:16px}
-.s-float:hover .s-float__arrow,.s-float:focus-visible .s-float__arrow{background:var(--sea-wave);color:var(--spruce);transform:translate(3px,-3px)}
-@media (prefers-reduced-motion:reduce){.s-float{transition:opacity 200ms linear;filter:none;transform:none}}
-
 .s-season,.s-figures,.s-form,.s-nums{width:min(100% - 2*var(--page-padding),var(--container));margin-inline:auto;padding-top:var(--section-padding-y)}
 
 /* ================================ FORREST у цифрах — 4 premium cards (reference3) ================================ */
@@ -342,8 +402,14 @@ html.is-menu-open{overflow:hidden}
   display:inline-flex;align-items:center;justify-content:center;color:var(--spruce);background:var(--white-sand);
   transition:transform var(--motion-entrance) var(--s-ease),background-color var(--motion-entrance) var(--s-ease)}
 .s-season__play svg{inline-size:34px;block-size:34px;margin-left:4px}
+/* Pulsing ripple ring — draws the eye to «play». Animates only transform/opacity; a separate
+   pseudo-element so it never fights the button's hover-scale. */
+.s-season__play::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;
+  background:inherit;will-change:transform,opacity;animation:s-play-pulse 2.4s var(--s-ease) infinite}
+@keyframes s-play-pulse{0%{transform:scale(1);opacity:.5}70%,100%{transform:scale(1.55);opacity:0}}
 .s-season__play:hover{transform:scale(1.06);background:var(--sea-wave)}
 .s-season__play:focus-visible{outline:2px solid #fff;outline-offset:4px}
+@media (prefers-reduced-motion:reduce){.s-season__play::before{animation:none}}
 .s-season__media.is-playing .s-season__play,.s-season__media.is-playing .s-season__badge{opacity:0;pointer-events:none;transition:opacity var(--motion-menu) var(--ease-out)}
 
 /* ---------------- Reveal image (clip-open + inner scale) ---------------- */
@@ -576,7 +642,7 @@ html.s-anim .s-reveal__img{transform:scale(1.15)}
   .site-footer__contact{grid-column:1 / -1}
 }
 @media (max-width:767px){
-  .s-head{left:var(--s-frame-inset);right:var(--s-frame-inset);top:var(--s-frame-inset);padding:8px 8px 8px 18px}
+  .s-head{left:var(--s-frame-inset);right:var(--s-frame-inset);top:var(--s-frame-inset);padding:8px}
   .s-head__burger,.s-head__phone{display:inline-flex}
   .s-head__cta,.s-head__nav,.s-head__lang{display:none}  /* mobile nav lives in the full-screen overlay */
   /* Reserve space for the fixed glass header; stack the bottom row (tagline above the card). */
@@ -584,13 +650,22 @@ html.s-anim .s-reveal__img{transform:scale(1.15)}
   .s-hero__brand{top:calc(var(--space-96) + var(--space-32));left:var(--page-padding);right:var(--page-padding);text-align:left;font-size:clamp(40px,13.6vw,96px)}
   /* Stronger darkening over the lower half so the white tagline reads over the building. */
   .s-hero__frame::after{background:linear-gradient(to bottom,rgba(12,12,12,0) 34%,rgba(12,12,12,.05) 50%,rgba(12,12,12,.14) 63%,rgba(12,12,12,.27) 74%,rgba(12,12,12,.43) 84%,rgba(12,12,12,.60) 93%,rgba(12,12,12,.72) 100%)}
-  .s-hero__season{top:42%;bottom:auto;right:var(--page-padding);left:auto;inline-size:112px;block-size:112px}
+  .s-hero__season{top:42%;bottom:auto;right:var(--page-padding);left:auto;inline-size:90px;block-size:90px}
   .s-hero__bg--winter{--wx:8%}
   .s-hero__foot{flex-direction:column-reverse;align-items:stretch;gap:var(--space-24)}
   .s-hero__card{max-width:none}
   .s-hero__card-sub{display:none}            /* drop subtitle → shorter plaque */
   .s-hero__headline{left:var(--page-padding);right:var(--page-padding);max-width:none;gap:var(--space-16)}
-  .s-hero__title{font-size:clamp(40px,12vw,64px)}   /* 80px desktop → fits 390 */
+  .s-hero__title{font-size:clamp(30px,9.4vw,46px)}   /* зменшено, щоб «один актив» став в один рядок */
+  .s-hero__title-l1,.s-hero__title-l2{white-space:nowrap}
+  .s-hero__title-l2{margin-inline-start:0}   /* «один актив» — вліво, в один рядок */
+  /* Посилене затемнення саме нижньої зони (текст + 2 кнопки) — вужче й темніше, ніж на десктопі. */
+  .s-hero__frame::after{background:linear-gradient(to bottom,
+    rgba(12,12,12,0) 34%,
+    rgba(12,12,12,.14) 52%,
+    rgba(12,12,12,.34) 68%,
+    rgba(12,12,12,.56) 84%,
+    rgba(12,12,12,.74) 100%)}
   .s-hero__lead{left:var(--page-padding);right:var(--page-padding);bottom:var(--space-24);max-width:none;gap:var(--space-16)}
   .s-hero__cta-row{flex-direction:column;align-items:flex-start}
   .s-figures__grid{grid-template-columns:1fr}

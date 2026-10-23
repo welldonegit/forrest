@@ -10,6 +10,29 @@ gsap.registerPlugin(ScrollTrigger);
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+/* ---- Menu: swap the right-hand photo + caption to the hovered/focused primary item ---- */
+(function menuMedia() {
+  const menu = document.querySelector('[data-menu]');
+  const media = menu && menu.querySelector('[data-menu-media]');
+  const cap = menu && menu.querySelector('[data-menu-cap]');
+  const links = menu ? Array.from(menu.querySelectorAll('.s-menu__link')) : [];
+  if (!media || !links.length) return;
+  const photos = Array.from(media.querySelectorAll('[data-menu-photo]'));
+  const DEFAULT = 'tri';
+  const activate = (key) => {
+    photos.forEach((p) => p.classList.toggle('is-active', p.dataset.menuPhoto === key));
+    const link = links.find((l) => l.dataset.menuItem === key);
+    if (cap && link) cap.textContent = link.dataset.cap || '';
+  };
+  links.forEach((l) => {
+    const go = () => activate(l.dataset.menuItem);
+    l.addEventListener('pointerenter', go);
+    l.addEventListener('focus', go);
+  });
+  const nav = menu.querySelector('[data-menu-nav]');
+  if (nav) nav.addEventListener('pointerleave', () => activate(DEFAULT));
+})();
+
 /* ---- Form: contact-method segmented control (always on) ---- */
 (function choices() {
   const group = document.querySelector('[data-s-choices]');
@@ -50,23 +73,6 @@ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
     btn.setAttribute('aria-pressed', winter ? 'true' : 'false');
     if (l2) l2.textContent = winter ? 'вид влітку' : 'вид взимку';
   });
-})();
-
-/* ---- Floating finmodel card: show once the hero is scrolled past ---- */
-(function floatCard() {
-  const el = document.querySelector('[data-float]');
-  const hero = document.querySelector('.s-hero');
-  if (!el || !hero) return;
-  let dismissed = false;
-  const closeBtn = el.querySelector('[data-float-close]');
-  if (closeBtn) closeBtn.addEventListener('click', (e) => {
-    e.preventDefault(); e.stopPropagation();
-    dismissed = true; el.classList.remove('is-visible');
-  });
-  const update = () => { if (!dismissed) el.classList.toggle('is-visible', window.scrollY > hero.offsetHeight * 0.72); };
-  update();
-  addEventListener('scroll', update, { passive: true });
-  addEventListener('resize', update, { passive: true });
 })();
 
 /* ---- Season video: play on click (poster → inline playback with controls) ---- */
