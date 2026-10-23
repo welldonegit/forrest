@@ -203,8 +203,6 @@ const ROUND = 40;   // on-screen corner radius (px) kept constant through the FL
   let lastFocus = null, closeTimer = 0, swapTimer = 0, current = 'wind';
 
   function write(d, world) {
-    el('[data-tri-info-name]').textContent = d.name;
-    el('[data-tri-info-sub]').textContent = d.sub;
     el('[data-tri-info-desc]').textContent = d.desc;
     el('[data-tri-info-date]').textContent = d.date;
     const list = el('[data-tri-info-infra]');
