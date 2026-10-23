@@ -41,14 +41,14 @@ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const btn = document.querySelector('[data-season-toggle]');
   const frame = document.querySelector('.s-hero__frame');
   if (!btn || !frame) return;
-  const label = btn.querySelector('.s-hero__season-label');
+  const l2 = btn.querySelector('.s-hero__season-l2');
   let winter = false;
   btn.addEventListener('click', () => {
     winter = !winter;
     frame.classList.toggle('is-winter', winter);
     btn.classList.toggle('is-winter', winter);
     btn.setAttribute('aria-pressed', winter ? 'true' : 'false');
-    if (label) label.textContent = winter ? 'Літо' : 'Зима';
+    if (l2) l2.textContent = winter ? 'вид влітку' : 'вид взимку';
   });
 })();
 

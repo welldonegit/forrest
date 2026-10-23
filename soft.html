@@ -104,28 +104,17 @@
       </picture>
       <!-- Brand name across the sky (decorative; the accessible name is in the header + aria-label). -->
       <div class="s-hero__brand" aria-hidden="true">FORREST</div>
+      <!-- Headline — big H1 title + supporting tagline, top-left (per ref). -->
+      <div class="s-hero__headline">
+        <h1 class="s-hero__title" data-fade><span class="s-hero__title-l1">Три світи —</span><span class="s-hero__title-l2">один актив</span></h1>
+      </div>
+      <p class="s-hero__tagline" data-fade>Інвестиційні апартаменти <br>у першому в Буковелі <br>курортному комплексі <br>формату Trinity Resort.</p>
       <!-- Season toggle — vertically centred on the right edge. -->
       <button class="s-hero__season s-glass" type="button" data-season-toggle aria-pressed="false" aria-label="Перемкнути фонове фото на зимове">
         <span class="s-hero__season-ic s-hero__season-ic--snow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="3" x2="12" y2="21"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="5.6" y1="5.6" x2="18.4" y2="18.4"/><line x1="18.4" y1="5.6" x2="5.6" y2="18.4"/></svg></span>
         <span class="s-hero__season-ic s-hero__season-ic--sun" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.9" y1="4.9" x2="6.3" y2="6.3"/><line x1="17.7" y1="17.7" x2="19.1" y2="19.1"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.9" y1="19.1" x2="6.3" y2="17.7"/><line x1="17.7" y1="6.3" x2="19.1" y2="4.9"/></svg></span>
-        <span class="s-hero__season-label">Зима</span>
+        <span class="s-hero__season-label"><span class="s-hero__season-l1">Подивитись</span><span class="s-hero__season-l2">вид взимку</span></span>
       </button>
-      <div class="s-hero__foot">
-        <!-- Bottom-left: solid white project card. -->
-        <a class="s-hero__card" href="#forma" data-fade>
-          <img class="s-hero__card-img" src="assets/photo.jpg" alt="Інтер'єр апартаментів FORREST Trinity Resort" loading="lazy" decoding="async">
-          <div class="s-hero__card-body">
-            <div class="s-hero__card-top">
-              <span class="s-hero__card-chip">Фінмодель</span>
-              <span class="s-hero__card-arrow" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></span>
-            </div>
-            <p class="s-hero__card-title">Розрахунок дохідності за 5 хвилин</p>
-            <p class="s-hero__card-sub">Ціни, умови оплати та строк окупності</p>
-          </div>
-        </a>
-        <!-- Bottom-right: tagline (the page H1). -->
-        <h1 class="s-hero__tagline" data-fade>Інвестиційні апартаменти <br>у першому в Буковелі <br>курортному комплексі <br>формату Trinity Resort.</h1>
-      </div>
     </div>
   </section>
 
@@ -203,7 +192,7 @@
 
         <!-- Intro: centred heading + triptych that FLIP-zooms into the first slide -->
         <div class="tri__intro" data-tri-intro>
-          <div class="tri__hero" data-tri-hero aria-hidden="true"><img src="assets/hero-desktop-new.jpg" alt=""></div>
+          <div class="tri__hero" data-tri-hero aria-hidden="true"><img src="assets/wind-section.jpg" alt=""></div>
           <div class="tri__intro-head" data-tri-introhead>
             <h2 class="tri__title">
               <span class="tri__line"><span class="tri__line-in">Три <span class="tri__chip" aria-hidden="true"><img src="assets/photo.jpg" alt=""></span> аудиторії</span></span>
@@ -212,14 +201,14 @@
             </h2>
           </div>
           <div class="tri__triptych" aria-hidden="true">
-            <figure class="tri__tri-item tri__tri-item--side" data-tri-side><img src="assets/photos/hero.jpg" alt="" loading="lazy" decoding="async"></figure>
+            <figure class="tri__tri-item tri__tri-item--side" data-tri-side><img src="assets/rock-section.jpg" alt="" loading="lazy" decoding="async"></figure>
             <div class="tri__tri-slot" data-tri-slot></div>
-            <figure class="tri__tri-item tri__tri-item--side" data-tri-side><img src="assets/hero-new.jpg" alt="" loading="lazy" decoding="async"></figure>
+            <figure class="tri__tri-item tri__tri-item--side" data-tri-side><img src="assets/sun-section.jpg" alt="" loading="lazy" decoding="async"></figure>
           </div>
         </div>
 
         <article class="tri__slide tri__slide--wind is-active" data-tri-slide style="--i:0">
-          <div class="tri__viz"><img src="assets/hero-desktop-new.jpg" alt="Секція WIND — апартаменти для тиші та відновлення" loading="lazy" decoding="async"></div>
+          <div class="tri__viz"><img src="assets/wind-section.jpg" alt="Секція WIND — апартаменти для тиші та відновлення" loading="lazy" decoding="async"></div>
           <div class="tri__content">
             <p class="tri__marker">Секція 1</p>
             <h3 class="tri__name">WIND</h3>
@@ -230,7 +219,7 @@
         </article>
 
         <article class="tri__slide tri__slide--rock" data-tri-slide style="--i:1">
-          <div class="tri__viz"><img src="assets/photos/hero.jpg" alt="Секція ROCK — апартаменти для бізнесу та масштабування" loading="lazy" decoding="async"></div>
+          <div class="tri__viz"><img src="assets/rock-section.jpg" alt="Секція ROCK — апартаменти для бізнесу та масштабування" loading="lazy" decoding="async"></div>
           <div class="tri__content">
             <p class="tri__marker">Секція 2</p>
             <h3 class="tri__name">ROCK</h3>
@@ -241,7 +230,7 @@
         </article>
 
         <article class="tri__slide tri__slide--sun" data-tri-slide style="--i:2">
-          <div class="tri__viz"><img src="assets/hero-new.jpg" alt="Секція SUN — апартаменти для родинного відпочинку" loading="lazy" decoding="async"></div>
+          <div class="tri__viz"><img src="assets/sun-section.jpg" alt="Секція SUN — апартаменти для родинного відпочинку" loading="lazy" decoding="async"></div>
           <div class="tri__content">
             <p class="tri__marker">Секція 3</p>
             <h3 class="tri__name">SUN</h3>
@@ -446,9 +435,9 @@
     </button>
     <div class="tri-modal__media">
       <div class="tri-modal__photos">
-        <img class="tri-modal__img is-active" data-tri-img="wind" src="assets/hero-desktop-new.jpg" alt="Секція WIND — апартаменти для тиші та відновлення" decoding="async">
-        <img class="tri-modal__img" data-tri-img="rock" src="assets/photos/hero.jpg" alt="Секція ROCK — апартаменти для бізнесу та масштабування" loading="lazy" decoding="async">
-        <img class="tri-modal__img" data-tri-img="sun" src="assets/hero-new.jpg" alt="Секція SUN — апартаменти для родинного відпочинку" loading="lazy" decoding="async">
+        <img class="tri-modal__img is-active" data-tri-img="wind" src="assets/wind-section.jpg" alt="Секція WIND — апартаменти для тиші та відновлення" decoding="async">
+        <img class="tri-modal__img" data-tri-img="rock" src="assets/rock-section.jpg" alt="Секція ROCK — апартаменти для бізнесу та масштабування" loading="lazy" decoding="async">
+        <img class="tri-modal__img" data-tri-img="sun" src="assets/sun-section.jpg" alt="Секція SUN — апартаменти для родинного відпочинку" loading="lazy" decoding="async">
       </div>
       <div class="tri-modal__media-grad" aria-hidden="true"></div>
       <div class="tri-modal__caption" data-tri-info>

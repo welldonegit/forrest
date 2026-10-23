@@ -192,8 +192,24 @@ html.is-menu-open{overflow:hidden}
 .s-hero__card-sub{margin:var(--space-4) 0 0;font-family:var(--font-text);font-size:var(--type-small-size);line-height:var(--type-small-lh);color:var(--stone)}
 /* Bottom-right column: season toggle above the tagline. */
 .s-hero__right{display:flex;flex-direction:column;align-items:flex-end;gap:var(--space-16)}
-/* Tagline bottom-right — h4 scale, left-aligned text (block stays in the right corner). */
-.s-hero__tagline{margin:0;max-width:none;text-align:left;color:#fff;
+/* Headline (ref): big H1 title over a supporting tagline, top-left. Replaces the sky brand below. */
+.s-hero__brand{display:none}
+.s-hero__headline{position:absolute;z-index:2;top:var(--space-96);left:var(--space-48);right:var(--space-48);
+  display:flex;flex-direction:column;align-items:flex-start;gap:var(--space-24);max-width:900px;pointer-events:none}
+/* Big H1 — white, 80px (bespoke display size per ref, in step with the brand's clamp), caps.
+   Staggered two lines (per ref): line 2 steps to the right, starting after the dash. */
+.s-hero__title{margin:0;color:#fff;font-family:var(--font-display);font-weight:var(--type-display-weight);
+  text-transform:uppercase;letter-spacing:-.02em;font-size:80px;line-height:.95}
+.s-hero__title-l1,.s-hero__title-l2{display:block}
+.s-hero__title-l1{color:var(--spruce)}   /* brand dark green (per ref); dark on bright sky = strong contrast */
+.s-hero__title-l2{margin-inline-start:2.2em}
+/* ≥1280: line 2 starts under the dash and stays on one line ("один актив" not stacked). */
+@media (min-width:1280px){
+  .s-hero__title-l1,.s-hero__title-l2{white-space:nowrap}
+  .s-hero__title-l2{margin-inline-start:537px}
+}
+/* Tagline — supporting copy, bottom-left corner (per ref). */
+.s-hero__tagline{position:absolute;z-index:2;left:var(--space-48);bottom:var(--space-48);margin:0;max-width:440px;text-align:left;color:#fff;
   font-family:var(--font-display);font-weight:var(--type-h4-weight);text-transform:none;letter-spacing:0;
   font-size:var(--type-h4-size);line-height:1.65}
 
@@ -201,18 +217,26 @@ html.is-menu-open{overflow:hidden}
 .s-hero__bg--winter{clip-path:circle(0% at var(--wx,93%) var(--wy,50%));transition:clip-path 1200ms cubic-bezier(.76,0,.24,1)}
 .s-hero__frame.is-winter .s-hero__bg--winter{clip-path:circle(150% at var(--wx,93%) var(--wy,50%))}
 /* Season toggle — glass pill over the photo, vertically centred on the right edge. */
-.s-hero__season{position:absolute;z-index:2;right:var(--space-48);top:50%;transform:translateY(-50%);
-  display:inline-flex;align-items:center;gap:var(--space-8);padding:var(--space-8) var(--space-16);border-radius:var(--radius-full);color:#fff;cursor:pointer;
-  font-family:var(--font-text);font-size:var(--type-button-size);line-height:1;font-weight:600;
-  transition:background-color var(--motion-entrance) var(--s-ease)}
+.s-hero__season{position:absolute;z-index:2;right:var(--space-48);bottom:var(--space-48);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--space-8);text-align:center;
+  inline-size:140px;block-size:140px;padding:var(--space-16);border-radius:var(--radius-full);color:#fff;cursor:pointer;
+  font-family:var(--font-text);font-size:var(--type-small-size);line-height:1.25;font-weight:600;will-change:transform;
+  animation:s-season-breathe 3.6s ease-in-out infinite;transition:background-color var(--motion-entrance) var(--s-ease)}
+/* Premium halo: a soft ring that expands and fades out of the pill on a slow loop. */
+.s-hero__season::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  border:1.5px solid rgba(255,255,255,.5);animation:s-season-ring 3.6s ease-out infinite}
+.s-hero__season-label{display:flex;flex-direction:column}
+@keyframes s-season-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+@keyframes s-season-ring{0%{transform:scale(1);opacity:.5}70%,100%{transform:scale(1.26);opacity:0}}
 .s-hero__season:hover{background:rgba(255,255,255,.26)}
 .s-hero__season:focus-visible{outline:2px solid #fff;outline-offset:3px}
 .s-hero__season-ic{display:inline-flex;align-items:center}
-.s-hero__season-ic svg{width:18px;height:18px}
+.s-hero__season-ic svg{width:22px;height:22px}
 .s-hero__season-ic--sun{display:none}
 .s-hero__season.is-winter .s-hero__season-ic--snow{display:none}
 .s-hero__season.is-winter .s-hero__season-ic--sun{display:inline-flex}
-@media (prefers-reduced-motion:reduce){.s-hero__bg--winter{transition:clip-path 1ms}}
+@media (prefers-reduced-motion:reduce){.s-hero__bg--winter{transition:clip-path 1ms}
+  .s-hero__season,.s-hero__season::before{animation:none}}
 
 /* ================================ Section wrappers ================================ */
 /* Each block owns only its TOP gap (= one --section-padding-y), no bottom — so gaps between
@@ -539,12 +563,14 @@ html.s-anim .s-reveal__img{transform:scale(1.15)}
   .s-hero__brand{top:calc(var(--space-96) + var(--space-32));left:var(--page-padding);right:var(--page-padding);text-align:left;font-size:clamp(40px,13.6vw,96px)}
   /* Stronger darkening over the lower half so the white tagline reads over the building. */
   .s-hero__frame::after{background:linear-gradient(to bottom,rgba(12,12,12,.1) 0%,rgba(12,12,12,0) 22%,rgba(12,12,12,.16) 44%,rgba(12,12,12,.42) 64%,rgba(12,12,12,.64) 100%)}
-  .s-hero__season{left:var(--page-padding);right:auto}
+  .s-hero__season{top:calc(50% + 72px);bottom:auto;right:var(--page-padding);left:auto;inline-size:120px;block-size:120px}
   .s-hero__bg--winter{--wx:8%}
   .s-hero__foot{flex-direction:column-reverse;align-items:stretch;gap:var(--space-24)}
   .s-hero__card{max-width:none}
   .s-hero__card-sub{display:none}            /* drop subtitle → shorter plaque */
-  .s-hero__tagline{max-width:none;text-align:left}
+  .s-hero__headline{left:var(--page-padding);right:var(--page-padding);max-width:none;gap:var(--space-16)}
+  .s-hero__title{font-size:clamp(40px,12vw,64px)}   /* 80px desktop → fits 390 */
+  .s-hero__tagline{left:var(--page-padding);right:var(--page-padding);bottom:var(--space-24);max-width:none;text-align:left}
   .s-figures__grid{grid-template-columns:1fr}
   .s-figcard{aspect-ratio:4/3}
   /* Keep desktop 2:3 cards; swipe them horizontally with a snap + swipe hint. */
