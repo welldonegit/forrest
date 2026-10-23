@@ -138,8 +138,8 @@ if (!reduce) {
     /* ---- Number cards — premium staggered rise (expo), long + soft ---- */
     document.querySelectorAll('[data-figures]').forEach((group) => {
       gsap.to(group.querySelectorAll('.s-num'), {
-        opacity: 1, y: 0, duration: 1.2, ease: 'expo.out', stagger: 0.14,
-        scrollTrigger: { trigger: group, start: 'top 82%' },
+        opacity: 1, y: 0, clipPath: 'inset(0 0 0% 0)', duration: 1.1, ease: 'power3.out', stagger: 0.16,
+        scrollTrigger: { trigger: group, start: 'top 70%' },
       });
     });
 
